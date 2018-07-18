@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        <h1>Expedientes</h1>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <p:growl life="5000" globalOnly="true" id="messages"/> 
+            <p:panelGrid columns="4" styleClass="ui-panelgrid-blank">
+                <p:inputText id="criterio" value="#{ExpedienteController.criterio}"/>
+                <p:commandButton value="#{bundle.BuscarBoton}" icon="fa fa-search" ajax="true" action="#{ExpedienteController.doBuscar()}" update="@form"/>
+                <p:commandButton immediate="true" value="#{bundle.NuevoBoton}" icon="fa fa-plus" ajax="false" action="#{ExpedienteController.doCrearForm()}"/>
+                <p:commandButton immediate="true" value="#{bundle.ListarBoton}" icon="fa fa-th-list" ajax="false" action="#{ExpedienteController.doRefrescar()}"/>
+            </p:panelGrid>
+            <p:watermark for="criterio" value="Buscar..."/>
+            <p:dataTable reflow="true" value="#{ExpedienteController.listaExpediente}" var="item" emptyMessage="#{bundle.SinRegistrosMensaje}">
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Acapite"/>
+                    </f:facet>
+                    <h:outputText value="#{item.acapite}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="F. Entrada"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaEntrada}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="F. Expediente"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaExpediente}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Nro Exp."/>
+                    </f:facet>
+                    <h:outputText value="#{item.nroExpediente}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Remitente"/>
+                    </f:facet>
+                    <h:outputText value="#{item.remitente}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Usuario"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idUsuario}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Observacion"/>
+                    </f:facet>
+                    <h:outputText value="#{item.observacion}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+
+    </ui:define>
+
+</ui:composition>

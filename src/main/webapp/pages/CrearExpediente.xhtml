@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        <h1>Crear/Editar Expediente</h1>
+    </ui:define>
+
+    <ui:define name="content">
+        <style>
+            .ui-fileupload-content {
+                min-height: 100px;
+            }
+        </style>
+        <h:form id="formMain">
+            <p:panel header="Datos del Expediente">
+                <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6,ui-grid-col-6">
+                    <p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+                        <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+                            <p:outputLabel value="Nro. Expediente:" for="nroExpediente" />
+                            <p:inputText id="nroExpediente" value="#{ExpedienteController.expediente.nroExpediente}" title="NroExpediente" required="true" requiredMessage="#{bundle.Requerido}" />
+                            <p:outputLabel value="Acápite:" for="acapite" />
+                            <p:inputText id="acapite" value="#{ExpedienteController.expediente.acapite}" title="Acapite" required="true" requiredMessage="#{bundle.Requerido}" />
+                            <p:outputLabel value="Fecha Expediente:" for="fechaExpediente" />
+                            <p:calendar navigator="true" locale="es"  size="12" id="fechaExpediente" value="#{ExpedienteController.expediente.fechaExpediente}" pattern="dd/MM/yyyy" title="Fecha Expediente" required="true" requiredMessage="#{bundle.Requerido}"/>
+                            <p:outputLabel value="Fecha Entrada:" for="fechaEntrada" />
+                            <p:calendar navigator="true" locale="es"  size="12" id="fechaEntrada" value="#{ExpedienteController.expediente.fechaEntrada}" pattern="dd/MM/yyyy HH:mm" title="Fecha Entrada"/>
+                            <p:outputLabel value="Remitente:" for="remitente" />
+                            <p:inputText id="remitente" value="#{ExpedienteController.expediente.remitente}" title="Remitente" />
+                            <p:outputLabel value="Observación:" for="observacion" />
+                            <p:textEditor id="observacion" height="100" value="#{ExpedienteController.expediente.observacion}" />
+                        </p:panelGrid>
+                        <p:outputPanel>
+                            <p:fileUpload id="archivo" label="#{bundle.SeleccionarBoton}" cancelLabel="#{bundle.EliminarBoton}" uploadLabel="#{bundle.AgregarBoton}" 
+                                          fileUploadListener="#{ExpedienteController.handleFileUpload}"
+                                          mode="advanced"
+                                          multiple="true"
+                                          allowTypes="/(\.|\/)(doc|docx|xls|xlsx|pdf|DOC|DOCX|XLS|XLSX|PDF)$/"
+                                          invalidFileMessage="#{bundle.MensajeTipoArchivoNoValido}"
+                                          update="dtAdjuntoExpediente"/>                
+
+                            <p:dataTable id="dtAdjuntoExpediente" value="#{ExpedienteController.adjuntoExpediente}" rowIndexVar="index" var="item" emptyMessage="#{bundle.SinRegistrosMensaje}" >
+                                <p:column headerText="Archivo">
+                                    <h:outputText value="#{index+1}. #{item.fileName}"/>
+                                </p:column>
+                                <p:column headerText="Acción">
+                                    <p:panelGrid columns="2">
+                                        <p:commandButton title="#{bundle.DescargarBoton}" value="#{bundle.DescargarBoton}" icon="fa fa-download" immediate="true" ajax="false">
+                                            <p:fileDownload value="#{CommonController.downloadAdjuntoTMP(item)}"/>
+                                        </p:commandButton>
+                                        <p:commandButton rendered="#{item.contentType.compareTo('application/pdf')==0}" icon="fa fa-file-pdf-o" ajax="true" immediate="true" value="#{bundle.VerBoton}" action="#{ExpedienteController.doPreparePreviewUpload(index)}" update="@form" />
+                                    </p:panelGrid>
+                                </p:column>
+                            </p:dataTable>
+                        </p:outputPanel>
+                    </p:panelGrid>
+                    <p:media style="border: #cccccc solid 2px" id="mediaPDF" value="#{ExpedienteController.expedientePreview()}" player="pdf" width="100%" height="100%"/>
+                </p:panelGrid>
+                <f:facet name="footer">
+                    <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6,ui-grid-col-6">
+                        <p:commandButton ajax="false" icon="fa fa-save" value="#{bundle.GuardarBoton}" action="#{ExpedienteController.doGuardar()}"/>
+                        <p:commandButton immediate="true" ajax="false" icon="fa fa-sign-out" value="#{bundle.CancelarBoton}" action="/pages/ListarExpediente"/>
+                    </p:panelGrid>
+                </f:facet>   
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

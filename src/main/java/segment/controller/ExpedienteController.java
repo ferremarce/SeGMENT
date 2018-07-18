@@ -1,0 +1,181 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package segment.controller;
+
+import java.io.IOException;
+import javax.inject.Named;
+import javax.enterprise.context.SessionScoped;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJBException;
+import javax.inject.Inject;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
+import segment.fachada.ExpedienteFacade;
+import segment.modelo.Expediente;
+import util.JSFutil;
+import util.JSFutil.PersistAction;
+
+/**
+ *
+ * @author jmferreira
+ */
+@Named(value = "ExpedienteController")
+@SessionScoped
+public class ExpedienteController implements Serializable {
+
+    private static final Logger LOG = Logger.getLogger(ExpedienteController.class.getName());
+    ResourceBundle bundle = ResourceBundle.getBundle("propiedades.bundle", JSFutil.getmyLocale());
+
+    @Inject
+    ExpedienteFacade expedienteFacade;
+    @Inject
+    CommonController commonController;
+
+    private Expediente expediente;
+    private List<Expediente> listaExpediente;
+    private String criterio;
+    private List<UploadedFile> adjuntoExpediente;
+    private Integer indexAdjunto;
+
+    public ExpedienteController() {
+    }
+
+
+    public String getCriterio() {
+        return criterio;
+    }
+
+    public void setCriterio(String criterio) {
+        this.criterio = criterio;
+    }
+
+    public List<UploadedFile> getAdjuntoExpediente() {
+        return adjuntoExpediente;
+    }
+
+    public void setAdjuntoExpediente(List<UploadedFile> adjuntoExpediente) {
+        this.adjuntoExpediente = adjuntoExpediente;
+    }
+
+    public Expediente getExpediente() {
+        return expediente;
+    }
+
+    public void setExpediente(Expediente expediente) {
+        this.expediente = expediente;
+    }
+
+    public List<Expediente> getListaExpediente() {
+        return listaExpediente;
+    }
+
+    public void setListaExpediente(List<Expediente> listaExpediente) {
+        this.listaExpediente = listaExpediente;
+    }
+
+    public String doListarForm() {
+        if (this.listaExpediente == null) {
+            this.listaExpediente = new ArrayList<>();
+        }
+        return "/pages/ListarExpediente";
+    }
+
+    public String doCrearForm() {
+        this.expediente = new Expediente();
+        this.adjuntoExpediente = new ArrayList<>();
+        this.indexAdjunto=0;
+        return "/pages/CrearExpediente";
+    }
+
+    public String doRefrescar() {
+        this.listaExpediente = expedienteFacade.findExpediente("");
+        if (this.listaExpediente.isEmpty()) {
+            JSFutil.addErrorMessage("No hay resultados...");
+        } else {
+            JSFutil.addSuccessMessage(this.listaExpediente.size() + " registros recuperados");
+        }
+        return "";
+    }
+
+    public String doBuscar() {
+        if (this.criterio.isEmpty()) {
+            JSFutil.addErrorMessage("No hay criterios para buscar...");
+            return "";
+        }
+        this.listaExpediente = expedienteFacade.findExpediente(this.criterio);
+        if (this.listaExpediente.isEmpty()) {
+            JSFutil.addErrorMessage("No hay resultados...");
+        } else {
+            JSFutil.addSuccessMessage(this.listaExpediente.size() + " registros recuperados");
+        }
+        return "";
+    }
+
+    public String doGuardar() {
+        if (this.expediente.getIdExpediente() != null) {
+            persist(PersistAction.UPDATE);
+        } else {
+            persist(PersistAction.CREATE);
+        }
+        this.listaExpediente = expedienteFacade.findExpediente(expediente.getAcapite());
+        return doListarForm();
+    }
+
+    private void persist(PersistAction persistAction) {
+        try {
+            if (persistAction.compareTo(PersistAction.CREATE) == 0) {
+                expedienteFacade.create(expediente);
+            } else if (persistAction.compareTo(PersistAction.UPDATE) == 0) {
+                expedienteFacade.edit(expediente);
+            } else if (persistAction.compareTo(PersistAction.DELETE) == 0) {
+                expedienteFacade.remove(expediente);
+            }
+            JSFutil.addSuccessMessage(this.bundle.getString("UpdateSuccess"));
+        } catch (EJBException ex) {
+            String msg = "";
+            Throwable cause = ex.getCause();
+            if (cause != null) {
+                msg = cause.getLocalizedMessage();
+            }
+            if (msg.length() > 0) {
+                JSFutil.addErrorMessage(msg);
+            } else {
+                JSFutil.addErrorMessage(ex, this.bundle.getString("UpdateError"));
+            }
+            LOG.log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void handleFileUpload(FileUploadEvent event) {
+        LOG.log(Level.INFO, "Agregado el archivo {0}", event.getFile().getFileName());
+        this.adjuntoExpediente.add(event.getFile());
+    }
+
+    public void doPreparePreviewUpload(Integer ind) {
+        this.indexAdjunto = ind;
+    }
+
+    public StreamedContent expedientePreview() {
+        //System.out.println("Indice... "+indexAdjunto);
+        try {
+            if (this.getAdjuntoExpediente().size() > 0) {
+                return commonController.downloadAdjuntoTMP(this.getAdjuntoExpediente().get(indexAdjunto));
+            } else {
+                return null;
+            }
+        } catch (IOException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+}

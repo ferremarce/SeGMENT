@@ -1,0 +1,17 @@
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces" 
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+               xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
+                      http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+    <url-mapping>
+        <pattern value="/" />
+        <view-id value="/" />
+    </url-mapping>
+    <url-mapping id="EXPEDIENTE">
+        <pattern value="/expedientes" />
+        <view-id value="/pages/ListarExpediente.xhtml" />
+    </url-mapping>
+    <url-mapping id="DESCARGAR">
+        <pattern value="/descarga/#{file}" />
+        <view-id value="/pages/Descarga.xhtml" />
+    </url-mapping>
+</pretty-config>

@@ -1,0 +1,17 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template.xhtml">
+    <ui:define name="title">
+        <h1>Descarga de Archivos</h1>
+    </ui:define>
+    <ui:define name="content">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{DownloadFile.init()}"/>
+        </f:metadata>
+        <p:graphicImage rendered="#{DownloadFile.mensaje.length()>0}" value="/iconos/question.png"/> 
+        <h:outputText styleClass="itemResaltado3D-1" value="#{DownloadFile.mensaje}"/>
+    </ui:define>
+</ui:composition>
