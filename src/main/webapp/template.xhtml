@@ -18,15 +18,17 @@
             <p:graphicImage value="/img/loading2.gif" height="50"/>
         </p:panel>
         <div class="ui-fluid">
-            <p:link href="/">
-                <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
-                    <p:graphicImage width="100" value="/img/logo.fw.png"/>
-                    <p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
-                        <h:outputText style="font-size: 1.8em; color: black" styleClass="tresD" value="#{bundle.TituloSistema}"/>
-                        <h:outputText value="#{bundle.SubTituloSistema}"/>
+            <p:outputPanel style="background-color: #003333">
+                <p:link href="/">
+                    <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+                        <p:graphicImage width="100" value="/img/logo.fw.png"/>
+                        <p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+                            <h:outputText style="font-size: 1.8em; color: white" value="#{bundle.TituloSistema}"/>
+                            <h:outputText style="color: white" value="#{bundle.SubTituloSistema}"/>
+                        </p:panelGrid>
                     </p:panelGrid>
-                </p:panelGrid>
-            </p:link>
+                </p:link>
+            </p:outputPanel>
             <h:form>
                 <p:menubar>
                     <p:submenu label="&nbsp;Mantenimiento" icon="fa fa-book">

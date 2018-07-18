@@ -40,15 +40,8 @@ import segment.modelo.Usuario;
  */
 public class JSFutil implements Serializable {
 
-    private Integer tiempoDespacho = 15;
-
-    public Integer getTiempoDespacho() {
-        return tiempoDespacho;
-    }
-
-    public void setTiempoDespacho(Integer tiempoDespacho) {
-        this.tiempoDespacho = tiempoDespacho;
-    }
+    public static final String folderRoot  = "/segment/";
+    public static String folderExpediente = folderRoot+"expediente/";
 
     /**
      * Estructurar un SelectItems a partir de un conjunto de registros
@@ -393,7 +386,7 @@ public class JSFutil implements Serializable {
     public static Integer fileToDisk(InputStream is2, String nombreArchivo) {
         File file;
         InputStream is = is2;
-        file = new File("/upload/images/" + nombreArchivo);
+        file = new File(nombreArchivo);
         //is = new ByteArrayInputStream(d.getArchivo());
         try {
             OutputStream out = new FileOutputStream(file);
@@ -510,5 +503,9 @@ public class JSFutil implements Serializable {
     public static String getCurrentPrettyFaceView() {
         String viewId = PrettyContext.getCurrentInstance().getRequestURL().toURL();
         return viewId;
+    }
+
+    public static String sanitizeFilename(String inputName) {
+        return inputName.replaceAll("[^a-zA-Z0-9-_\\.]", "_");
     }
 }

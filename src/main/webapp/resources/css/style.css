@@ -18,6 +18,9 @@
     background-size: 32px 32px;
 }
 */
+body{
+    margin: 0;
+}
 h1 { 
     background: inherit;
     font-weight: bold;

@@ -5,10 +5,12 @@
  */
 package segment.controller;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -19,8 +21,10 @@ import javax.inject.Inject;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
+import segment.fachada.ExpedienteAdjuntoFacade;
 import segment.fachada.ExpedienteFacade;
 import segment.modelo.Expediente;
+import segment.modelo.ExpedienteAdjunto;
 import util.JSFutil;
 import util.JSFutil.PersistAction;
 
@@ -39,6 +43,8 @@ public class ExpedienteController implements Serializable {
     ExpedienteFacade expedienteFacade;
     @Inject
     CommonController commonController;
+    @Inject
+    ExpedienteAdjuntoFacade expedienteAdjuntoFacade;
 
     private Expediente expediente;
     private List<Expediente> listaExpediente;
@@ -48,7 +54,6 @@ public class ExpedienteController implements Serializable {
 
     public ExpedienteController() {
     }
-
 
     public String getCriterio() {
         return criterio;
@@ -92,8 +97,21 @@ public class ExpedienteController implements Serializable {
     public String doCrearForm() {
         this.expediente = new Expediente();
         this.adjuntoExpediente = new ArrayList<>();
-        this.indexAdjunto=0;
+        this.indexAdjunto = 0;
         return "/pages/CrearExpediente";
+    }
+
+    public String doEditarForm(Integer id) {
+        this.expediente = expedienteFacade.find(id);
+        this.adjuntoExpediente = new ArrayList<>();
+        this.indexAdjunto = 0;
+        return "/pages/CrearExpediente";
+    }
+
+    public String doBorrar(Integer id) {
+        this.expediente = expedienteFacade.find(id);
+        persist(PersistAction.DELETE);
+        return doListarForm();
     }
 
     public String doRefrescar() {
@@ -134,8 +152,46 @@ public class ExpedienteController implements Serializable {
         try {
             if (persistAction.compareTo(PersistAction.CREATE) == 0) {
                 expedienteFacade.create(expediente);
+                if (this.adjuntoExpediente.size() > 0) {
+                    ExpedienteAdjunto ap;
+                    for (UploadedFile uf : this.adjuntoExpediente) {
+                        ap = new ExpedienteAdjunto();
+                        //ap.setArchivo(uf.getContents());
+                        ap.setTipoArchivoMime(uf.getContentType());
+                        ap.setTamanhoArchivo(BigInteger.valueOf(uf.getSize()));
+                        ap.setNombreArchivo(JSFutil.sanitizeFilename(uf.getFileName()));
+                        ap.setIdExpediente(expediente);
+                        //ap.setTipoAdjunto("PROYECTO");
+                        ap.setFechaRegistro(JSFutil.getFechaHoraActual());
+                        expedienteAdjuntoFacade.create(ap);
+                        int resultado = JSFutil.fileToDisk(new ByteArrayInputStream(uf.getContents()), JSFutil.folderExpediente + ap.getIdExpedienteAdjunto() + "-" + JSFutil.sanitizeFilename(uf.getFileName()));
+                        if (resultado != 0) {
+                            JSFutil.addErrorMessage("No se ha podido guardar el adjunto debido a un error interno en el procesamiento del archivo. Se deshace el guardado del archivo.");
+                            expedienteAdjuntoFacade.remove(ap);
+                        }
+                    }
+                }
             } else if (persistAction.compareTo(PersistAction.UPDATE) == 0) {
                 expedienteFacade.edit(expediente);
+                if (this.adjuntoExpediente.size() > 0) {
+                    ExpedienteAdjunto ap;
+                    for (UploadedFile uf : this.adjuntoExpediente) {
+                        ap = new ExpedienteAdjunto();
+                        //ap.setArchivo(uf.getContents());
+                        ap.setTipoArchivoMime(uf.getContentType());
+                        ap.setTamanhoArchivo(BigInteger.valueOf(uf.getSize()));
+                        ap.setNombreArchivo(JSFutil.sanitizeFilename(uf.getFileName()));
+                        ap.setIdExpediente(expediente);
+                        //ap.setTipoAdjunto("PROYECTO");
+                        ap.setFechaRegistro(JSFutil.getFechaHoraActual());
+                        expedienteAdjuntoFacade.create(ap);
+                        int resultado = JSFutil.fileToDisk(new ByteArrayInputStream(uf.getContents()), JSFutil.folderExpediente + ap.getIdExpedienteAdjunto() + "-" + JSFutil.sanitizeFilename(uf.getFileName()));
+                        if (resultado != 0) {
+                            JSFutil.addErrorMessage("No se ha podido guardar el adjunto debido a un error interno en el procesamiento del archivo. Se deshace el guardado del archivo.");
+                            expedienteAdjuntoFacade.remove(ap);
+                        }
+                    }
+                }
             } else if (persistAction.compareTo(PersistAction.DELETE) == 0) {
                 expedienteFacade.remove(expediente);
             }

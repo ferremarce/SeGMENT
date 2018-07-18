@@ -33,7 +33,7 @@
                         <h:outputText value="F. Entrada"/>
                     </f:facet>
                     <h:outputText value="#{item.fechaEntrada}">
-                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                        <f:convertDateTime timeZone="#{CommonController.myTimeZone}" pattern="dd/MM/yyyy HH:mm" />
                     </h:outputText>
                 </p:column>
                 <p:column>
@@ -66,7 +66,16 @@
                     <f:facet name="header">
                         <h:outputText value="Observacion"/>
                     </f:facet>
-                    <h:outputText value="#{item.observacion}"/>
+                    <h:outputText escape="false" value="#{item.observacion}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Acción"/>
+                    </f:facet>
+                    <p:menuButton value="Opciones">
+                        <p:menuitem ajax="false" value="#{bundle.EditarBoton}" action="#{ExpedienteController.doEditarForm(item.idExpediente)}" icon="ui-icon-arrowrefresh-1-w"/>
+                        <p:menuitem ajax="false" onclick="if(!confirm('#{bundle.ConfirmacionMensaje}')){return false;}" value="#{bundle.EliminarBoton}" action="#{ExpedienteController.doBorrar(item.idExpediente)}" icon="ui-icon-close"/>
+                    </p:menuButton>
                 </p:column>
             </p:dataTable>
         </h:form>

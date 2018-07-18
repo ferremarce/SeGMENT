@@ -1,0 +1,1 @@
+INSERT INTO usuario (apellidos,contrasenha,cuenta,activo,id_set_preferences,login_externo,nombres,id_rol) VALUES ('Ferreira','$2a$12$P2qlCklJ/A.lxWMBXwVBsOc8Jh81xDMHJPMmsAFIqjPtgSLyKTIg6','jm',1,NULL,1,'Juan',NULL);
