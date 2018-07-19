@@ -40,8 +40,12 @@ import segment.modelo.Usuario;
  */
 public class JSFutil implements Serializable {
 
-    public static final String folderRoot  = "/segment/";
-    public static String folderExpediente = folderRoot+"expediente/";
+    public static final String folderRoot = "/segment/";
+    public static String folderExpediente = folderRoot + "expediente/";
+
+    public static enum StatusMessage {
+        INFORMATION, WARNING, ERROR, FATAL
+    }
 
     /**
      * Estructurar un SelectItems a partir de un conjunto de registros
@@ -64,49 +68,24 @@ public class JSFutil implements Serializable {
         return items;
     }
 
-    /**
-     * Agregar un mensaje de error en al FaceMessage
-     *
-     * @param ex
-     * @param defaultMsg
-     */
-    public static void addErrorMessage(Exception ex, String defaultMsg) {
-        String msg = ex.getLocalizedMessage();
-        if (msg != null && msg.length() > 0) {
-            addErrorMessage("ERROR: " + msg);
-        } else {
-            addErrorMessage("ERROR: " + defaultMsg);
+    public static void addMessage(String msg, StatusMessage estado) {
+        FacesMessage facesMsg;
+        switch (estado) {
+            case INFORMATION:
+                facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Información", msg);
+                break;
+            case ERROR:
+                facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Información", msg);
+                break;
+            case FATAL:
+                facesMsg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Información", msg);
+                break;
+            case WARNING:
+                facesMsg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Información", msg);
+                break;
+            default:
+                facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Información", msg);
         }
-    }
-
-    /**
-     * Agregar una lista de mensajes de error en al FaceMessage
-     *
-     * @param messages
-     */
-    public static void addErrorMessages(List<String> messages) {
-        for (String message : messages) {
-            addErrorMessage(message);
-        }
-    }
-
-    /**
-     * setter mensajeError
-     *
-     * @param msg
-     */
-    public static void addErrorMessage(String msg) {
-        FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, msg);
-        FacesContext.getCurrentInstance().addMessage(null, facesMsg);
-    }
-
-    /**
-     * Agregar un mensaje de exito en al FaceMessage
-     *
-     * @param msg
-     */
-    public static void addSuccessMessage(String msg) {
-        FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, msg);
         FacesContext.getCurrentInstance().addMessage(null, facesMsg);
     }
 
@@ -507,5 +486,17 @@ public class JSFutil implements Serializable {
 
     public static String sanitizeFilename(String inputName) {
         return inputName.replaceAll("[^a-zA-Z0-9-_\\.]", "_");
+    }
+
+    public static Boolean deleteFileFromDisk(String nombreArchivo) {
+        File file;
+        file = new File(nombreArchivo);
+        //is = new ByteArrayInputStream(d.getArchivo());
+        try {
+            return file.delete();
+        } catch (Exception ex) {
+            Logger.getLogger(JSFutil.class.getName()).log(Level.SEVERE, null, ex);
+            return Boolean.FALSE;
+        }
     }
 }

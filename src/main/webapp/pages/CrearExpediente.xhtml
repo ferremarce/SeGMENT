@@ -35,14 +35,15 @@
                             <p:outputLabel value="Observación:" for="observacion" />
                             <p:textEditor id="observacion" height="100" value="#{ExpedienteController.expediente.observacion}" />
                         </p:panelGrid>
-                        <p:outputPanel>
+                        <p:panel header="Haga click en #{bundle.SeleccionarBoton} o Arrastre hasta aquí los archivos">
                             <p:fileUpload id="archivo" label="#{bundle.SeleccionarBoton}" cancelLabel="#{bundle.EliminarBoton}" uploadLabel="#{bundle.AgregarBoton}" 
                                           fileUploadListener="#{ExpedienteController.handleFileUpload}"
                                           mode="advanced"
                                           multiple="true"
                                           allowTypes="/(\.|\/)(doc|docx|xls|xlsx|pdf|DOC|DOCX|XLS|XLSX|PDF)$/"
                                           invalidFileMessage="#{bundle.MensajeTipoArchivoNoValido}"
-                                          update="dtAdjuntoExpediente"/>                
+                                          update="dtAdjuntoExpediente">
+                            </p:fileUpload>
 
                             <p:dataTable id="dtAdjuntoExpediente" value="#{ExpedienteController.adjuntoExpediente}" rowIndexVar="index" var="item" emptyMessage="#{bundle.SinRegistrosMensaje}" >
                                 <p:column headerText="Archivo">
@@ -57,14 +58,34 @@
                                     </p:panelGrid>
                                 </p:column>
                             </p:dataTable>
-                        </p:outputPanel>
+                        </p:panel>
                     </p:panelGrid>
                     <p:media style="border: #cccccc solid 2px" id="mediaPDF" value="#{ExpedienteController.expedientePreview()}" player="pdf" width="100%" height="100%"/>
                 </p:panelGrid>
+                <p:dataTable id="dataTableAdjunto" var="expeAdj" value="#{ExpedienteController.expediente.expedienteAdjuntoList}" reflow="true" emptyMessage="#{bundle.SinRegistrosMensaje}">
+                    <f:facet name="header">
+                        <h:outputText styleClass="Purple" value="Archivos del Expediente"/>
+                    </f:facet>
+                    <p:column headerText="Archivos" >
+                        <h:outputText value="#{expeAdj.toNameDownload()}"/>
+                        [<h:outputText value="#{expeAdj.tamanhoArchivo/(1024*1024)}">
+                            <f:convertNumber pattern="###,###,###.##"/>
+                        </h:outputText> MB]
+                    </p:column>
+                    <p:column headerText="Acción" >
+                        <p:menuButton value="Opciones">
+                            <p:menuitem target="_blank" ajax="false" icon="fa fa-fw fa-download" value="#{bundle.DescargarBoton}" url="#{CommonController.serverURLDownload}/#{expeAdj.toURLDownload()}"/>
+                            <p:menuitem ajax="false" onclick="if (!confirm('#{bundle.ConfirmacionMensaje}')) {
+                                        return false;
+                                    }" value="#{bundle.EliminarBoton}" action="#{ExpedienteController.doBorrarAdjunto(expeAdj.idExpedienteAdjunto)}" icon="fa fa-minus-square"/>
+                        </p:menuButton>
+                    </p:column>
+                </p:dataTable> 
+
                 <f:facet name="footer">
                     <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6,ui-grid-col-6">
                         <p:commandButton ajax="false" icon="fa fa-save" value="#{bundle.GuardarBoton}" action="#{ExpedienteController.doGuardar()}"/>
-                        <p:commandButton immediate="true" ajax="false" icon="fa fa-sign-out" value="#{bundle.CancelarBoton}" action="/pages/ListarExpediente"/>
+                        <p:commandButton immediate="true" ajax="false" icon="fa fa-sign-out" value="#{bundle.RegresarBoton}" action="/pages/ListarExpediente"/>
                     </p:panelGrid>
                 </f:facet>   
             </p:panel>

@@ -114,26 +114,55 @@ public class ExpedienteController implements Serializable {
         return doListarForm();
     }
 
+    public String doBorrarAdjunto(Integer id) {
+        try {
+            ExpedienteAdjunto ea = expedienteAdjuntoFacade.find(id);
+            String name = ea.getNombreArchivo();
+            Boolean resultado = JSFutil.deleteFileFromDisk(JSFutil.folderExpediente + ea.getIdExpedienteAdjunto() + "-" + ea.getNombreArchivo());
+            if (!resultado) {
+                JSFutil.addMessage("Pero no se ha podido procesar el adjunto debido a un error interno en el procesamiento", JSFutil.StatusMessage.WARNING);
+            } else {
+                //Solo se borra el registro si el archivo existe fisicamente en el servidor
+                expedienteAdjuntoFacade.remove(ea);
+                JSFutil.addMessage("El Adjunto #" + name + "# ha sido eliminado.", JSFutil.StatusMessage.INFORMATION);
+            }
+            this.expediente = expedienteFacade.find(this.expediente.getIdExpediente());
+        } catch (EJBException ex) {
+            String msg = "";
+            Throwable cause = ex.getCause();
+            if (cause != null) {
+                msg = cause.getLocalizedMessage();
+            }
+            if (msg.length() > 0) {
+                JSFutil.addMessage(msg, JSFutil.StatusMessage.ERROR);
+            } else {
+                JSFutil.addMessage(this.bundle.getString("UpdateError"), JSFutil.StatusMessage.ERROR);
+            }
+            LOG.log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
+
     public String doRefrescar() {
         this.listaExpediente = expedienteFacade.findExpediente("");
         if (this.listaExpediente.isEmpty()) {
-            JSFutil.addErrorMessage("No hay resultados...");
+            JSFutil.addMessage("No hay resultados...", JSFutil.StatusMessage.WARNING);
         } else {
-            JSFutil.addSuccessMessage(this.listaExpediente.size() + " registros recuperados");
+            JSFutil.addMessage(this.listaExpediente.size() + " registros recuperados", JSFutil.StatusMessage.INFORMATION);
         }
         return "";
     }
 
     public String doBuscar() {
         if (this.criterio.isEmpty()) {
-            JSFutil.addErrorMessage("No hay criterios para buscar...");
+            JSFutil.addMessage("No hay criterios para buscar...", JSFutil.StatusMessage.WARNING);
             return "";
         }
         this.listaExpediente = expedienteFacade.findExpediente(this.criterio);
         if (this.listaExpediente.isEmpty()) {
-            JSFutil.addErrorMessage("No hay resultados...");
+            JSFutil.addMessage("No hay resultados...", JSFutil.StatusMessage.WARNING);
         } else {
-            JSFutil.addSuccessMessage(this.listaExpediente.size() + " registros recuperados");
+            JSFutil.addMessage(this.listaExpediente.size() + " registros recuperados", JSFutil.StatusMessage.INFORMATION);
         }
         return "";
     }
@@ -166,7 +195,7 @@ public class ExpedienteController implements Serializable {
                         expedienteAdjuntoFacade.create(ap);
                         int resultado = JSFutil.fileToDisk(new ByteArrayInputStream(uf.getContents()), JSFutil.folderExpediente + ap.getIdExpedienteAdjunto() + "-" + JSFutil.sanitizeFilename(uf.getFileName()));
                         if (resultado != 0) {
-                            JSFutil.addErrorMessage("No se ha podido guardar el adjunto debido a un error interno en el procesamiento del archivo. Se deshace el guardado del archivo.");
+                            JSFutil.addMessage("No se ha podido guardar el adjunto debido a un error interno en el procesamiento del archivo. Se deshace el guardado del archivo.", JSFutil.StatusMessage.ERROR);
                             expedienteAdjuntoFacade.remove(ap);
                         }
                     }
@@ -187,7 +216,7 @@ public class ExpedienteController implements Serializable {
                         expedienteAdjuntoFacade.create(ap);
                         int resultado = JSFutil.fileToDisk(new ByteArrayInputStream(uf.getContents()), JSFutil.folderExpediente + ap.getIdExpedienteAdjunto() + "-" + JSFutil.sanitizeFilename(uf.getFileName()));
                         if (resultado != 0) {
-                            JSFutil.addErrorMessage("No se ha podido guardar el adjunto debido a un error interno en el procesamiento del archivo. Se deshace el guardado del archivo.");
+                            JSFutil.addMessage("No se ha podido guardar el adjunto debido a un error interno en el procesamiento del archivo. Se deshace el guardado del archivo.", JSFutil.StatusMessage.ERROR);
                             expedienteAdjuntoFacade.remove(ap);
                         }
                     }
@@ -195,7 +224,7 @@ public class ExpedienteController implements Serializable {
             } else if (persistAction.compareTo(PersistAction.DELETE) == 0) {
                 expedienteFacade.remove(expediente);
             }
-            JSFutil.addSuccessMessage(this.bundle.getString("UpdateSuccess"));
+            JSFutil.addMessage(this.bundle.getString("UpdateSuccess"), JSFutil.StatusMessage.INFORMATION);
         } catch (EJBException ex) {
             String msg = "";
             Throwable cause = ex.getCause();
@@ -203,16 +232,16 @@ public class ExpedienteController implements Serializable {
                 msg = cause.getLocalizedMessage();
             }
             if (msg.length() > 0) {
-                JSFutil.addErrorMessage(msg);
+                JSFutil.addMessage(msg, JSFutil.StatusMessage.ERROR);
             } else {
-                JSFutil.addErrorMessage(ex, this.bundle.getString("UpdateError"));
+                JSFutil.addMessage(this.bundle.getString("UpdateError"), JSFutil.StatusMessage.ERROR);
             }
             LOG.log(Level.SEVERE, null, ex);
         }
     }
 
     public void handleFileUpload(FileUploadEvent event) {
-        LOG.log(Level.INFO, "Agregado el archivo {0}", event.getFile().getFileName());
+        //LOG.log(Level.INFO, "Agregado el archivo {0}", event.getFile().getFileName());
         this.adjuntoExpediente.add(event.getFile());
     }
 

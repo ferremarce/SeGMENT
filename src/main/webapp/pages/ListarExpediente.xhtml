@@ -73,8 +73,8 @@
                         <h:outputText value="Acción"/>
                     </f:facet>
                     <p:menuButton value="Opciones">
-                        <p:menuitem ajax="false" value="#{bundle.EditarBoton}" action="#{ExpedienteController.doEditarForm(item.idExpediente)}" icon="ui-icon-arrowrefresh-1-w"/>
-                        <p:menuitem ajax="false" onclick="if(!confirm('#{bundle.ConfirmacionMensaje}')){return false;}" value="#{bundle.EliminarBoton}" action="#{ExpedienteController.doBorrar(item.idExpediente)}" icon="ui-icon-close"/>
+                        <p:menuitem ajax="false" value="#{bundle.EditarBoton}" action="#{ExpedienteController.doEditarForm(item.idExpediente)}" icon="fa fa-pencil-square"/>
+                        <p:menuitem ajax="false" onclick="if(!confirm('#{bundle.ConfirmacionMensaje}')){return false;}" value="#{bundle.EliminarBoton}" action="#{ExpedienteController.doBorrar(item.idExpediente)}" icon="fa fa-minus-square"/>
                     </p:menuButton>
                 </p:column>
             </p:dataTable>

@@ -23,8 +23,8 @@
                     <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
                         <p:graphicImage width="100" value="/img/logo.fw.png"/>
                         <p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
-                            <h:outputText style="font-size: 1.8em; color: white" value="#{bundle.TituloSistema}"/>
-                            <h:outputText style="color: white" value="#{bundle.SubTituloSistema}"/>
+                            <h:outputText style="font-size: 1.8em; color: white; font-weight: bold" value="#{bundle.TituloSistema}"/>
+                            <h:outputText style="color: white;font-weight: bold" value="#{bundle.SubTituloSistema}"/>
                         </p:panelGrid>
                     </p:panelGrid>
                 </p:link>
@@ -35,19 +35,22 @@
                         <p:menuitem ajax="false" icon="fa fa-sticky-note-o" value="Expedientes" action="#{ExpedienteController.doListarForm()}"/>
                     </p:submenu>
                     <p:submenu label="&nbsp;Procesos" icon="fa fa-cogs">
-                        <p:menuitem ajax="false" value="Calendario de Capillas" action="#{DetalleCapillaController.doCrearForm()}"/>
-                        <p:menuitem ajax="false" value="Inscripciones" action="#{FichaController.doProcesarForm()}"/>
+                        <p:menuitem ajax="false" value="Seguimiento de Expediente" url="#"/>
+                        <p:menuitem ajax="false" value="Bloqueo de Expedientes" url="#"/>
+                    </p:submenu>
+                    <p:submenu label="&nbsp;Reportes" icon="fa fa-cogs">
+                        <p:menuitem disabled="false" ajax="false" value="Expedientes" action="#{DetalleCapillaController.doCrearForm()}"/>
                     </p:submenu>
                     <p:submenu label="&nbsp;Configuración" icon="ui-icon-document">
-                        <p:menuitem ajax="false" value="SubTipos" action="#{SubTipoController.doListaForm()}"/>
-                        <p:menuitem ajax="false" value="Parámetros" action="#{ParametrosController.doListaForm()}"/>
-                        <p:menuitem ajax="false" value="Jerarquías" action="#{TipoTreeController.doTipoTreeForm()}"/>
+                        <p:menuitem disabled="true" ajax="false" value="SubTipos" action="#{SubTipoController.doListaForm()}"/>
+                        <p:menuitem disabled="true" ajax="false" value="Parámetros" action="#{ParametrosController.doListaForm()}"/>
+                        <p:menuitem disabled="true" ajax="false" value="Jerarquías" action="#{TipoTreeController.doTipoTreeForm()}"/>
                     </p:submenu>
                     <f:facet name="options">
                         <p:panelGrid columns="3" styleClass="ui-panelgrid-blank">
                             <h:outputText value="#{LoginManager.usuarioLogeado.nombres} #{LoginManager.usuarioLogeado.apellidos}"/>
-                            <p:commandButton ajax="false" value="#{bundle.CambiarContrasenhaBoton}" icon="fa fa-lock" action="#{LoginManager.doCambiarContrasenhaForm()}" />
-                            <p:commandButton ajax="false" value="#{bundle.SalirBoton}" icon="ui-icon-extlink" action="#{LoginManager.doLogout()}" />
+                            <p:commandButton disabled="true" ajax="false" value="#{bundle.CambiarContrasenhaBoton}" icon="fa fa-lock" action="#{LoginManager.doCambiarContrasenhaForm()}" />
+                            <p:commandButton disabled="true" ajax="false" value="#{bundle.SalirBoton}" icon="ui-icon-extlink" action="#{LoginManager.doLogout()}" />
                         </p:panelGrid>
                     </f:facet>
                 </p:menubar>
