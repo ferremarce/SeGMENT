@@ -13,14 +13,13 @@
 
     <ui:define name="content">
         <h:form>
-            <p:growl life="5000" globalOnly="true" id="messages"/> 
+            <p:growl life="5000" globalOnly="true" showDetail="true" id="messages"/> 
             <p:panelGrid columns="4" styleClass="ui-panelgrid-blank">
-                <p:inputText id="criterio" value="#{ExpedienteController.criterio}"/>
+                <p:inputText id="criterio" value="#{ExpedienteController.criterio}" placeholder="Buscar..."/>
                 <p:commandButton value="#{bundle.BuscarBoton}" icon="fa fa-search" ajax="true" action="#{ExpedienteController.doBuscar()}" update="@form"/>
                 <p:commandButton immediate="true" value="#{bundle.NuevoBoton}" icon="fa fa-plus" ajax="false" action="#{ExpedienteController.doCrearForm()}"/>
                 <p:commandButton immediate="true" value="#{bundle.ListarBoton}" icon="fa fa-th-list" ajax="false" action="#{ExpedienteController.doRefrescar()}"/>
             </p:panelGrid>
-            <p:watermark for="criterio" value="Buscar..."/>
             <p:dataTable reflow="true" value="#{ExpedienteController.listaExpediente}" var="item" emptyMessage="#{bundle.SinRegistrosMensaje}">
                 <p:column>
                     <f:facet name="header">

@@ -57,6 +57,8 @@ public class Usuario implements Serializable {
     private String nombres;
     @OneToMany(mappedBy = "idUsuario")
     private List<Expediente> expedienteList;
+    @OneToMany(mappedBy = "idUsuario")
+    private List<Tramitacion> tramitacionList;
     @JoinColumn(name = "id_rol", referencedColumnName = "id_rol")
     @ManyToOne
     private Rol idRol;
@@ -138,6 +140,14 @@ public class Usuario implements Serializable {
 
     public void setExpedienteList(List<Expediente> expedienteList) {
         this.expedienteList = expedienteList;
+    }
+
+    public List<Tramitacion> getTramitacionList() {
+        return tramitacionList;
+    }
+
+    public void setTramitacionList(List<Tramitacion> tramitacionList) {
+        this.tramitacionList = tramitacionList;
     }
 
     public Rol getIdRol() {

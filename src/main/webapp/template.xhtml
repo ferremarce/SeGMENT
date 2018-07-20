@@ -10,6 +10,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet library="css" name="style.css"  />
         <h:outputScript library="js" name="primefaces.js" />
+        <link rel="icon" type="image/x-icon" href="#{request.contextPath}/favicon.ico"/>
         <title>#{bundle.TituloSistema}</title>
     </h:head>
 
@@ -25,7 +26,7 @@
                         <p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
                             <h:outputText style="font-size: 1.8em; color: white; font-weight: bold" value="#{bundle.TituloSistema}"/>
                             <h:outputText style="color: white;font-weight: bold" value="#{bundle.SubTituloSistema}"/>
-                        </p:panelGrid>
+                        </p:panelGrid><link rel="icon" type="image/x-icon" href="#{request.contextPath}/favicon.ico"/>
                     </p:panelGrid>
                 </p:link>
             </p:outputPanel>
@@ -33,6 +34,7 @@
                 <p:menubar>
                     <p:submenu label="&nbsp;Mantenimiento" icon="fa fa-book">
                         <p:menuitem ajax="false" icon="fa fa-sticky-note-o" value="Expedientes" action="#{ExpedienteController.doListarForm()}"/>
+                        <p:menuitem ajax="false" icon="fa fa-cubes" value="Dependencias" action="#{DependenciaController.doListarForm()}"/>
                     </p:submenu>
                     <p:submenu label="&nbsp;Procesos" icon="fa fa-cogs">
                         <p:menuitem ajax="false" value="Seguimiento de Expediente" url="#"/>

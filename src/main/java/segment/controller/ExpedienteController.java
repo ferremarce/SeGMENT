@@ -121,11 +121,11 @@ public class ExpedienteController implements Serializable {
             Boolean resultado = JSFutil.deleteFileFromDisk(JSFutil.folderExpediente + ea.getIdExpedienteAdjunto() + "-" + ea.getNombreArchivo());
             if (!resultado) {
                 JSFutil.addMessage("Pero no se ha podido procesar el adjunto debido a un error interno en el procesamiento", JSFutil.StatusMessage.WARNING);
-            } else {
-                //Solo se borra el registro si el archivo existe fisicamente en el servidor
-                expedienteAdjuntoFacade.remove(ea);
-                JSFutil.addMessage("El Adjunto #" + name + "# ha sido eliminado.", JSFutil.StatusMessage.INFORMATION);
             }
+            //Solo se borra el registro si el archivo existe fisicamente en el servidor
+            expedienteAdjuntoFacade.remove(ea);
+            JSFutil.addMessage("El Adjunto #" + name + "# ha sido eliminado.", JSFutil.StatusMessage.INFORMATION);
+
             this.expediente = expedienteFacade.find(this.expediente.getIdExpediente());
         } catch (EJBException ex) {
             String msg = "";

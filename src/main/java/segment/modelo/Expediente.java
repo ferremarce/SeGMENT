@@ -70,6 +70,8 @@ public class Expediente implements Serializable {
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
     @ManyToOne
     private Usuario idUsuario;
+    @OneToMany(mappedBy = "idExpediente")
+    private List<Tramitacion> tramitacionList;
 
     public Expediente() {
     }
@@ -166,6 +168,14 @@ public class Expediente implements Serializable {
         this.idUsuario = idUsuario;
     }
 
+    public List<Tramitacion> getTramitacionList() {
+        return tramitacionList;
+    }
+
+    public void setTramitacionList(List<Tramitacion> tramitacionList) {
+        this.tramitacionList = tramitacionList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -190,5 +200,5 @@ public class Expediente implements Serializable {
     public String toString() {
         return "segment.modelo.Expediente[ idExpediente=" + idExpediente + " ]";
     }
-
+    
 }

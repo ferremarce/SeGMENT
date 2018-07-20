@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">
+        <h1>Crear/Editar Dependencia</h1>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:growl life="5000" globalOnly="true" showDetail="true" id="messages"/> 
+            <p:panel header="Datos del Dependencia" >
+                <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+                    <p:outputLabel value="Descripción:" for="descripcionDependencia" />
+                    <p:inputText id="descripcionDependencia" value="#{DependenciaController.dependencia.descripcionDependencia}" title="Descripción Dependencia"  required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:outputLabel value="¿Está Activo?:" for="activo" />
+                    <p:selectBooleanCheckbox id="activo" value="#{DependenciaController.dependencia.activo}" title="Activo" />
+                </p:panelGrid>
+                <f:facet name="footer">
+                    <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6,ui-grid-col-6">
+                        <p:commandButton ajax="false" icon="fa fa-save" value="#{bundle.GuardarBoton}" action="#{DependenciaController.doGuardar()}"/>
+                        <p:commandButton immediate="true" ajax="false" icon="fa fa-sign-out" value="#{bundle.RegresarBoton}" action="/pages/ListarDependencia"/>
+                    </p:panelGrid>
+                </f:facet>   
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
