@@ -11,22 +11,32 @@
         <h1>Mantenimiento de las Jerarquías</h1>
     </ui:define>
     <ui:define name="content">
-        <h:form>
+        <h:form id="formMain">
             <p:growl life="5000" globalOnly="true" id="messages"/>
             <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" layout="grid" columnClasses="ui-grid-col-6,ui-grid-col-6" >
                 <p:tree id="tree1" value="#{TreeController.root1}" var="node"  selectionMode="single" selection="#{TreeController.selectedNode1}">
-                    <p:treeNode expandedIcon="ui-icon ui-icon-folder-open" collapsedIcon="ui-icon ui-icon-folder-collapsed">
+                    <p:ajax event="select" update=":formMain:panelContentTree" listener="#{TreeController.onNodeSelectTree}" />
+                    <p:treeNode expandedIcon="fa fa-folder-open-o" collapsedIcon="fa fa-folder-o">
                         <h:outputText value="#{node.descripcion}"/>
                     </p:treeNode>
                 </p:tree>
-                <p:panel header="Panel">
-
-                </p:panel>
+                <p:panelGrid  id="panelContentTree" columns="1" layout="grid">
+                    <h:outputText value="#{TreeController.doRuta()}"/>
+                    <p:commandLink rendered="#{TreeController.nodoSeleccionado.idPadre!=null}" action="#{TreeController.doUpNode()}" update="@form">
+                        <i class="fa fa-level-up" style="font-weight: bold"></i>&nbsp;<h:outputText value="..."/>
+                    </p:commandLink>
+                    <p:repeat var="nodoHijo" value="#{TreeController.listaHijos}">
+                        <p:commandLink action="#{TreeController.doDownNode(nodoHijo)}" update="@form">
+                            <i class="fa fa-folder-o"></i>&nbsp;<h:outputText value="#{nodoHijo.descripcion}"/>
+                        </p:commandLink>
+                        <br/>
+                    </p:repeat>
+                </p:panelGrid>
             </p:panelGrid>
-            <p:contextMenu for="tree1">
-                <p:menuitem value="View" update="@form" icon="ui-icon-search" />
+            <!--p:contextMenu for="tree1">
+                <p:menuitem value="Renombrar" update="@form" icon="ui-icon-search" />
                 <p:menuitem value="Delete" update="@form" icon="ui-icon-close"/>
-            </p:contextMenu>
+            </p:contextMenu-->
 
         </h:form>
     </ui:define>

@@ -8,6 +8,8 @@ package segment.controller;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Inject;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
@@ -29,11 +31,20 @@ public class TreeController implements Serializable {
     private TreeNode root1;
     private TreeNode selectedNode1;
     private Tree nodoSeleccionado;
+    private List<Tree> listaHijos;
 
     /**
      * Creates a new instance of TreeController
      */
     public TreeController() {
+    }
+
+    public List<Tree> getListaHijos() {
+        return listaHijos;
+    }
+
+    public void setListaHijos(List<Tree> listaHijos) {
+        this.listaHijos = listaHijos;
     }
 
     public TreeFacade getTreeFacade() {
@@ -58,7 +69,7 @@ public class TreeController implements Serializable {
         root1.setExpanded(true);
         for (TreeNode n : root1.getChildren()) {
             n.setExpanded(true);
-            for (TreeNode n1: n.getChildren()){
+            for (TreeNode n1 : n.getChildren()) {
                 n1.setExpanded(true);
             }
         }
@@ -93,9 +104,39 @@ public class TreeController implements Serializable {
         return "/pages/TreeCRUD";
     }
 
-    public void onNodeSelect(NodeSelectEvent event) {
+    public void onNodeSelectTree(NodeSelectEvent event) {
         this.nodoSeleccionado = (Tree) selectedNode1.getData();
+        if (!this.nodoSeleccionado.getTreeList().isEmpty()) {
+            this.listaHijos = this.nodoSeleccionado.getTreeList();
+        } else {
+            this.listaHijos = new ArrayList<>();
+        }
+        //System.out.println("click en " + this.nodoSeleccionado.getIdTree() + "-" + this.nodoSeleccionado.getDescripcion());
+    }
+
+    public void doDownNode(Tree nodoClick) {
+        this.nodoSeleccionado = nodoClick;
+        if (!this.nodoSeleccionado.getTreeList().isEmpty()) {
+            this.listaHijos = this.nodoSeleccionado.getTreeList();
+        } else {
+            this.listaHijos = new ArrayList<>();
+        }
         System.out.println("click en " + this.nodoSeleccionado.getIdTree() + "-" + this.nodoSeleccionado.getDescripcion());
+    }
+
+    public void doUpNode() {
+        this.nodoSeleccionado = this.nodoSeleccionado.getIdPadre();
+        if (!this.nodoSeleccionado.getTreeList().isEmpty()) {
+            this.listaHijos = this.nodoSeleccionado.getTreeList();
+        } else {
+            this.listaHijos = new ArrayList<>();
+        }
+        System.out.println("click en " + this.nodoSeleccionado.getIdTree() + "-" + this.nodoSeleccionado.getDescripcion());
+    }
+
+    public String doRuta() {
+        MyTree t = new MyTree();
+        return t.getRuta(nodoSeleccionado);
     }
 
 }

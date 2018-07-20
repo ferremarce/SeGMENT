@@ -34,7 +34,7 @@ public class MyTree {
         return root;
     }
 
-    public void recursive(List<Tree> listaClasif, Integer id, TreeNode node) {
+    private void recursive(List<Tree> listaClasif, Integer id, TreeNode node) {
         subList2 = new ArrayList<>();
         subList2 = getRegistroByPadre(id);
 
@@ -52,7 +52,7 @@ public class MyTree {
                 if (i == 0 && k.getIdPadre() == null) {
                     listaPadres.add(k);
                 } else {
-                    if (k.getIdPadre()!=null && k.getIdPadre().getIdTree().compareTo(i) == 0) {
+                    if (k.getIdPadre() != null && k.getIdPadre().getIdTree().compareTo(i) == 0) {
                         listaPadres.add(k);
                     }
                 }
@@ -61,5 +61,23 @@ public class MyTree {
             System.out.println(e.getMessage());
         }
         return listaPadres;
+    }
+
+    public String getRuta(Tree nodo) {
+        if (nodo != null) {
+            return calcularRuta("/" + nodo.getDescripcion(), nodo);
+        } else {
+            return "/";
+        }
+    }
+
+    private String calcularRuta(String ruta, Tree nodo) {
+        if (nodo.getIdPadre() != null) {
+            ruta = ruta + "/" + nodo.getIdPadre().getDescripcion();
+            return calcularRuta(ruta, nodo.getIdPadre());
+        } else {
+            return ruta;
+        }
+
     }
 }
