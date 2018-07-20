@@ -8,14 +8,14 @@ package segment.fachada;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import segment.modelo.TipoTree;
+import segment.modelo.Tree;
 
 /**
  *
  * @author jmferreira
  */
 @Stateless
-public class TipoTreeFacade extends AbstractFacade<TipoTree> {
+public class TreeFacade extends AbstractFacade<Tree> {
 
     @PersistenceContext(unitName = "segment.org_SEGMENT_war_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -25,8 +25,8 @@ public class TipoTreeFacade extends AbstractFacade<TipoTree> {
         return em;
     }
 
-    public TipoTreeFacade() {
-        super(TipoTree.class);
+    public TreeFacade() {
+        super(Tree.class);
     }
     
 }
