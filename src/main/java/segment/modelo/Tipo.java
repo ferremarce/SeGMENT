@@ -104,7 +104,7 @@ public class Tipo implements Serializable {
 
     @Override
     public String toString() {
-        return "segment.modelo.Tipo[ idTipo=" + idTipo + " ]";
+        return this.descripcionTipo;
     }
     
 }

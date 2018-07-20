@@ -105,7 +105,7 @@ public class SubTipo implements Serializable {
 
     @Override
     public String toString() {
-        return "segment.modelo.SubTipo[ idSubTipo=" + idSubTipo + " ]";
+        return this.getDescripcionSubTipo();
     }
     
 }
