@@ -13,25 +13,28 @@
     <ui:define name="content">
         <h:form id="formMain">
             <p:growl life="5000" globalOnly="true" id="messages"/>
-            <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" layout="grid" columnClasses="ui-grid-col-6,ui-grid-col-6" >
+            <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-8" >
                 <p:tree id="tree1" value="#{TreeController.root1}" var="node"  selectionMode="single" selection="#{TreeController.selectedNode1}">
                     <p:ajax event="select" update=":formMain:panelContentTree" listener="#{TreeController.onNodeSelectTree}" />
-                    <p:treeNode expandedIcon="fa fa-folder-open-o" collapsedIcon="fa fa-folder-o">
+                    <p:treeNode expandedIcon="fa fa-folder-open" collapsedIcon="fa fa-folder">
                         <h:outputText value="#{node.descripcion}"/>
                     </p:treeNode>
                 </p:tree>
-                <p:panelGrid  id="panelContentTree" columns="1" layout="grid">
-                    <h:outputText value="#{TreeController.doRuta()}"/>
-                    <p:commandLink rendered="#{TreeController.nodoSeleccionado.idPadre!=null}" action="#{TreeController.doUpNode()}" update="@form">
-                        <i class="fa fa-level-up" style="font-weight: bold"></i>&nbsp;<h:outputText value="..."/>
-                    </p:commandLink>
-                    <p:repeat var="nodoHijo" value="#{TreeController.listaHijos}">
-                        <p:commandLink action="#{TreeController.doDownNode(nodoHijo)}" update="@form">
-                            <i class="fa fa-folder-o"></i>&nbsp;<h:outputText value="#{nodoHijo.descripcion}"/>
+                <p:panel style="min-height: 300px">
+                    <p:panelGrid  id="panelContentTree" columns="1" layout="grid">
+                        <h:outputText value="#{TreeController.doRuta()}"/>
+                        <p:separator/>
+                        <p:commandLink rendered="#{TreeController.nodoSeleccionado.idPadre!=null}" action="#{TreeController.doUpNode()}" update="@form">
+                            <i class="fa fa-level-up" style="font-weight: bold"></i>&nbsp;<h:outputText value="..."/>
                         </p:commandLink>
-                        <br/>
-                    </p:repeat>
-                </p:panelGrid>
+                        <p:repeat var="nodoHijo" value="#{TreeController.listaHijos}">
+                            <p:commandLink action="#{TreeController.doDownNode(nodoHijo)}" update="@form">
+                                <i class="fa fa-folder"></i>&nbsp;<h:outputText value="#{nodoHijo.descripcion}"/>
+                            </p:commandLink>
+                            <br/>
+                        </p:repeat>
+                    </p:panelGrid>
+                </p:panel>
             </p:panelGrid>
             <!--p:contextMenu for="tree1">
                 <p:menuitem value="Renombrar" update="@form" icon="ui-icon-search" />

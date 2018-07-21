@@ -6,6 +6,7 @@ package segment.clases;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 import segment.modelo.Tree;
@@ -15,7 +16,7 @@ import segment.modelo.Tree;
  * @author jmferreira
  */
 public class MyTree {
-
+private static final Logger LOG = Logger.getLogger(MyTree.class.getName());
     private List<Tree> subList2;
     private List<Tree> listaPadres;
     private List<Tree> listaCompleta;
@@ -65,17 +66,18 @@ public class MyTree {
 
     public String getRuta(Tree nodo) {
         if (nodo != null) {
-            return calcularRuta("/" + nodo.getDescripcion(), nodo);
+            return calcularRuta("", nodo);
         } else {
             return "/";
         }
     }
 
     private String calcularRuta(String ruta, Tree nodo) {
-        if (nodo.getIdPadre() != null) {
-            ruta = ruta + "/" + nodo.getIdPadre().getDescripcion();
-            return calcularRuta(ruta, nodo.getIdPadre());
+        if (nodo.getIdPadre() == null) {
+            return nodo.getDescripcion();
         } else {
+            System.out.println(ruta);
+            ruta = calcularRuta(ruta, nodo.getIdPadre())+"/"+nodo.getDescripcion();
             return ruta;
         }
 
