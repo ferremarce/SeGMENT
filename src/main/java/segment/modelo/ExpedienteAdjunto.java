@@ -156,5 +156,21 @@ public class ExpedienteAdjunto implements Serializable {
     public String toString() {
         return "segment.modelo.ExpedienteAdjunto[ idExpedienteAdjunto=" + idExpedienteAdjunto + " ]";
     }
+    public String toNameDownload() {
+        String extension = "";
+        int i = this.getNombreArchivo().lastIndexOf('.');
+        if (i > 0) {
+            extension = this.getNombreArchivo().substring(i + 1);
+        }
+        if (extension.length() <= 0) {
+            extension = "doc";
+        }
+        //return this.getTipoAdjunto() + "-" + this.idProyecto.getExpedienteCamara() + "." + extension;
+        return this.getNombreArchivo();
+    }
+
+    public String toURLDownload() {
+        return "expediente-" + this.idExpedienteAdjunto;
+    }
     
 }
