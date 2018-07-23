@@ -39,7 +39,7 @@ public class Tramitacion implements Serializable {
     @Column(name = "id_tramitacion")
     private Integer idTramitacion;
     @Column(name = "fecha_tramite")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fechaTramite;
     @Column(name = "fecha_registro")
     @Temporal(TemporalType.TIMESTAMP)
@@ -59,6 +59,12 @@ public class Tramitacion implements Serializable {
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
     @ManyToOne
     private Usuario idUsuario;
+    @Size(max = 500)
+    @Column(name = "descripcion_tramite")
+    private String descripcionTramite;
+    @JoinColumn(name = "id_estado_tramite", referencedColumnName = "id_sub_tipo")
+    @ManyToOne
+    private SubTipo idEstadoTramite;
 
     public Tramitacion() {
     }
@@ -155,5 +161,21 @@ public class Tramitacion implements Serializable {
     public String toString() {
         return "segment.modelo.Tramitacion[ idTramitacion=" + idTramitacion + " ]";
     }
-    
+
+    public String getDescripcionTramite() {
+        return descripcionTramite;
+    }
+
+    public void setDescripcionTramite(String descripcionTramite) {
+        this.descripcionTramite = descripcionTramite;
+    }
+
+    public SubTipo getIdEstadoTramite() {
+        return idEstadoTramite;
+    }
+
+    public void setIdEstadoTramite(SubTipo idEstadoTramite) {
+        this.idEstadoTramite = idEstadoTramite;
+    }
+
 }

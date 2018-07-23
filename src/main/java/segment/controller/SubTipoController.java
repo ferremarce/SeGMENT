@@ -69,7 +69,7 @@ public class SubTipoController implements Serializable {
     }
 
     public SelectItem[] getSubTipoExpedienteSet() {
-        return JSFutil.getSelectItems(subTipoFacade.findAllbyTipo(1, Boolean.TRUE), Boolean.FALSE);
+        return JSFutil.getSelectItems(subTipoFacade.findAllbyTipo(1, Boolean.TRUE), Boolean.TRUE);
     }
 
 

@@ -20,7 +20,13 @@
                 <p:commandButton immediate="true" value="#{bundle.NuevoBoton}" icon="fa fa-plus" ajax="false" action="#{ExpedienteController.doCrearForm()}"/>
                 <p:commandButton immediate="true" value="#{bundle.ListarBoton}" icon="fa fa-th-list" ajax="false" action="#{ExpedienteController.doRefrescar()}"/>
             </p:panelGrid>
-            <p:dataTable reflow="true" value="#{ExpedienteController.listaExpediente}" var="item" emptyMessage="#{bundle.SinRegistrosMensaje}">
+            <p:dataTable reflow="true" value="#{ExpedienteController.listaExpediente}" var="item" emptyMessage="#{bundle.SinRegistrosMensaje}"
+                         rows="50"
+                         paginator="true"
+                         filterEvent="enter"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,25,50,100"
+                         >
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="Acapite"/>
@@ -73,7 +79,9 @@
                     </f:facet>
                     <p:menuButton value="Opciones">
                         <p:menuitem ajax="false" value="#{bundle.EditarBoton}" action="#{ExpedienteController.doEditarForm(item.idExpediente)}" icon="fa fa-pencil-square"/>
-                        <p:menuitem ajax="false" onclick="if(!confirm('#{bundle.ConfirmacionMensaje}')){return false;}" value="#{bundle.EliminarBoton}" action="#{ExpedienteController.doBorrar(item.idExpediente)}" icon="fa fa-minus-square"/>
+                        <p:menuitem ajax="false" onclick="if (!confirm('#{bundle.ConfirmacionMensaje}')) {
+                                    return false;
+                                }" value="#{bundle.EliminarBoton}" action="#{ExpedienteController.doBorrar(item.idExpediente)}" icon="fa fa-minus-square"/>
                     </p:menuButton>
                 </p:column>
             </p:dataTable>

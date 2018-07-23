@@ -24,11 +24,11 @@
                     <p:panelGrid  id="panelContentTree" columns="1" layout="grid">
                         <h:outputText value="#{ClasificadorController.doRuta()}"/>
                         <p:separator/>
-                        <p:commandLink rendered="#{ClasificadorController.nodoSeleccionado.idPadre!=null}" action="#{ClasificadorController.doUpNode()}" update="@form">
+                        <p:commandLink rendered="#{ClasificadorController.nodoSeleccionado.idPadre!=null}" action="#{ClasificadorController.doUpNode()}" update=":formMain:panelContentTree">
                             <i class="fa fa-level-up" style="font-weight: bold"></i>&nbsp;<h:outputText value="..."/>
                         </p:commandLink>
                         <p:repeat var="nodoHijo" value="#{ClasificadorController.listaHijos}">
-                            <p:commandLink action="#{ClasificadorController.doDownNode(nodoHijo)}" update="@form">
+                            <p:commandLink action="#{ClasificadorController.doDownNode(nodoHijo)}" update=":formMain:panelContentTree">
                                 <i class="fa fa-folder"></i>&nbsp;<h:outputText value="#{nodoHijo.descripcion}"/>
                             </p:commandLink>
                             <br/>

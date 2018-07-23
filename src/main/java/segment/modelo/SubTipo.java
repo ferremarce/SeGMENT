@@ -52,6 +52,9 @@ public class SubTipo implements Serializable {
     @JoinColumn(name = "id_padre", referencedColumnName = "id_sub_tipo")
     @ManyToOne
     private SubTipo idPadre;
+    @OneToMany(mappedBy = "idEstadoTramite")
+    private List<Tramitacion> tramitacionList;
+
 
     public SubTipo() {
     }
@@ -139,6 +142,14 @@ public class SubTipo implements Serializable {
 
     public void setIdPadre(SubTipo idPadre) {
         this.idPadre = idPadre;
+    }
+
+    public List<Tramitacion> getTramitacionList() {
+        return tramitacionList;
+    }
+
+    public void setTramitacionList(List<Tramitacion> tramitacionList) {
+        this.tramitacionList = tramitacionList;
     }
 
 }

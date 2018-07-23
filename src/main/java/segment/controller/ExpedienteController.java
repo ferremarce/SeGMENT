@@ -23,8 +23,11 @@ import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import segment.fachada.ExpedienteAdjuntoFacade;
 import segment.fachada.ExpedienteFacade;
+import segment.fachada.TramitacionFacade;
 import segment.modelo.Expediente;
 import segment.modelo.ExpedienteAdjunto;
+import segment.modelo.SubTipo;
+import segment.modelo.Tramitacion;
 import util.JSFutil;
 import util.JSFutil.PersistAction;
 
@@ -45,6 +48,8 @@ public class ExpedienteController implements Serializable {
     CommonController commonController;
     @Inject
     ExpedienteAdjuntoFacade expedienteAdjuntoFacade;
+    @Inject
+    TramitacionFacade tramitacionFacade;
 
     private Expediente expediente;
     private List<Expediente> listaExpediente;
@@ -97,6 +102,8 @@ public class ExpedienteController implements Serializable {
     public String doCrearForm() {
         this.expediente = new Expediente();
         this.adjuntoExpediente = new ArrayList<>();
+        this.expediente.setFechaEntrada(JSFutil.getFechaHoraActual());
+        this.expediente.setFechaExpediente(JSFutil.getFechaHoraActual());
         this.indexAdjunto = 0;
         return "/pages/CrearExpediente";
     }
@@ -200,6 +207,15 @@ public class ExpedienteController implements Serializable {
                         }
                     }
                 }
+                Tramitacion t = new Tramitacion();
+                t.setFechaRegistro(JSFutil.getFechaHoraActual());
+                t.setFechaTramite(expediente.getFechaEntrada());
+                t.setIdEstadoTramite(new SubTipo(7));
+                //t.setIdDependencia(JSFutil.getUsuarioConectado());
+                //t.setIdUsuario(JSFutil.getUsuarioConectado());
+                t.setDescripcionTramite("Entrada de Expediente");
+                t.setIdExpediente(expediente);
+                tramitacionFacade.create(t);
             } else if (persistAction.compareTo(PersistAction.UPDATE) == 0) {
                 expedienteFacade.edit(expediente);
                 if (this.adjuntoExpediente.size() > 0) {
@@ -220,6 +236,17 @@ public class ExpedienteController implements Serializable {
                             expedienteAdjuntoFacade.remove(ap);
                         }
                     }
+                }
+                if (expediente.getTramitacionList().isEmpty()) {
+                    Tramitacion t = new Tramitacion();
+                    t.setFechaRegistro(JSFutil.getFechaHoraActual());
+                    t.setFechaTramite(expediente.getFechaEntrada());
+                    t.setIdEstadoTramite(new SubTipo(7));
+                    //t.setIdDependencia(JSFutil.getUsuarioConectado());
+                    //t.setIdUsuario(JSFutil.getUsuarioConectado());
+                    t.setDescripcionTramite("Entrada de Expediente");
+                    t.setIdExpediente(expediente);
+                    tramitacionFacade.create(t);
                 }
             } else if (persistAction.compareTo(PersistAction.DELETE) == 0) {
                 expedienteFacade.remove(expediente);
