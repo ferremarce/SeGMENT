@@ -34,15 +34,16 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ExpedienteAdjunto.findAll", query = "SELECT e FROM ExpedienteAdjunto e")})
 public class ExpedienteAdjunto implements Serializable {
 
+    @Lob
+    @Column(name = "ARCHIVO")
+    private byte[] archivo;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_expediente_adjunto")
     private Integer idExpedienteAdjunto;
-    @Lob
-    @Column(name = "ARCHIVO")
-    private byte[] archivo;
     @Column(name = "FECHA_REGISTRO")
     @Temporal(TemporalType.DATE)
     private Date fechaRegistro;
@@ -76,13 +77,6 @@ public class ExpedienteAdjunto implements Serializable {
         this.idExpedienteAdjunto = idExpedienteAdjunto;
     }
 
-    public byte[] getArchivo() {
-        return archivo;
-    }
-
-    public void setArchivo(byte[] archivo) {
-        this.archivo = archivo;
-    }
 
     public Date getFechaRegistro() {
         return fechaRegistro;
@@ -171,6 +165,14 @@ public class ExpedienteAdjunto implements Serializable {
 
     public String toURLDownload() {
         return "expediente-" + this.idExpedienteAdjunto;
+    }
+
+    public byte[] getArchivo() {
+        return archivo;
+    }
+
+    public void setArchivo(byte[] archivo) {
+        this.archivo = archivo;
     }
     
 }

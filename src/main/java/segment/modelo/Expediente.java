@@ -72,6 +72,13 @@ public class Expediente implements Serializable {
     private Usuario idUsuario;
     @OneToMany(mappedBy = "idExpediente")
     private List<Tramitacion> tramitacionList;
+    @JoinColumn(name = "id_tipo_expediente", referencedColumnName = "id_sub_tipo")
+    @ManyToOne
+    private SubTipo idTipoExpediente;
+    @JoinColumn(name = "id_clasificador", referencedColumnName = "id_clasificador")
+    @ManyToOne
+    private Clasificador idClasificador;
+
 
     public Expediente() {
     }
@@ -199,6 +206,22 @@ public class Expediente implements Serializable {
     @Override
     public String toString() {
         return "segment.modelo.Expediente[ idExpediente=" + idExpediente + " ]";
+    }
+
+    public SubTipo getIdTipoExpediente() {
+        return idTipoExpediente;
+    }
+
+    public void setIdTipoExpediente(SubTipo idTipoExpediente) {
+        this.idTipoExpediente = idTipoExpediente;
+    }
+
+    public Clasificador getIdClasificador() {
+        return idClasificador;
+    }
+
+    public void setIdClasificador(Clasificador idClasificador) {
+        this.idClasificador = idClasificador;
     }
     
 }

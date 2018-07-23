@@ -69,12 +69,12 @@ public class ClasificadorController implements Serializable {
         MyTree t = new MyTree();
         root1 = t.crearArbol(clasificadorFacade.findAll());
         root1.setExpanded(true);
-        for (TreeNode n : root1.getChildren()) {
-            n.setExpanded(true);
-            for (TreeNode n1 : n.getChildren()) {
-                n1.setExpanded(true);
-            }
-        }
+//        for (TreeNode n : root1.getChildren()) {
+//            n.setExpanded(true);
+//            for (TreeNode n1 : n.getChildren()) {
+//                n1.setExpanded(true);
+//            }
+//        }
     }
 
     public TreeNode getRoot1() {
@@ -105,7 +105,7 @@ public class ClasificadorController implements Serializable {
 
     public String doClasificadorForm() {
         this.init();
-        return "/pages/TreeCRUD";
+        return "/pages/Clasificador";
     }
 
     public void onNodeSelectTree(NodeSelectEvent event) {

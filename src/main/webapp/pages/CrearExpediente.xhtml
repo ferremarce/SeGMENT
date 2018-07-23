@@ -23,6 +23,10 @@
                 <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6,ui-grid-col-6">
                     <p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
                         <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+                            <p:outputLabel value="Tipo:" for="idTipoExpediente" />
+                            <p:selectOneMenu id="idTipoExpediente" value="#{ExpedienteController.expediente.idTipoExpediente}" required="true" requiredMessage="#{bundle.Requerido}">  
+                                <f:selectItems value="#{SubTipoController.subTipoExpedienteSet}"/>
+                            </p:selectOneMenu>
                             <p:outputLabel value="Nro. Expediente:" for="nroExpediente" />
                             <p:inputText id="nroExpediente" value="#{ExpedienteController.expediente.nroExpediente}" title="NroExpediente" required="true" requiredMessage="#{bundle.Requerido}" />
                             <p:outputLabel value="Acápite:" for="acapite" />

@@ -6,6 +6,7 @@
 package segment.modelo;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -43,6 +45,13 @@ public class SubTipo implements Serializable {
     @JoinColumn(name = "id_tipo", referencedColumnName = "id_tipo")
     @ManyToOne
     private Tipo idTipo;
+    @OneToMany(mappedBy = "idTipoExpediente")
+    private List<Expediente> expedienteList;
+    @OneToMany(mappedBy = "idPadre")
+    private List<SubTipo> subTipoList;
+    @JoinColumn(name = "id_padre", referencedColumnName = "id_sub_tipo")
+    @ManyToOne
+    private SubTipo idPadre;
 
     public SubTipo() {
     }
@@ -107,5 +116,29 @@ public class SubTipo implements Serializable {
     public String toString() {
         return this.getDescripcionSubTipo();
     }
-    
+
+    public List<Expediente> getExpedienteList() {
+        return expedienteList;
+    }
+
+    public void setExpedienteList(List<Expediente> expedienteList) {
+        this.expedienteList = expedienteList;
+    }
+
+    public List<SubTipo> getSubTipoList() {
+        return subTipoList;
+    }
+
+    public void setSubTipoList(List<SubTipo> subTipoList) {
+        this.subTipoList = subTipoList;
+    }
+
+    public SubTipo getIdPadre() {
+        return idPadre;
+    }
+
+    public void setIdPadre(SubTipo idPadre) {
+        this.idPadre = idPadre;
+    }
+
 }

@@ -44,6 +44,9 @@ public class Clasificador implements Serializable {
     @JoinColumn(name = "id_padre", referencedColumnName = "id_Clasificador")
     @ManyToOne
     private Clasificador idPadre;
+    @OneToMany(mappedBy = "idClasificador")
+    private List<Expediente> expedienteList;
+
 
     public Clasificador() {
     }
@@ -116,6 +119,14 @@ public class Clasificador implements Serializable {
     @Override
     public String toString() {
         return "segment.modelo.Clasificador[ Clasificador=" + idClasificador + " ]";
+    }
+
+    public List<Expediente> getExpedienteList() {
+        return expedienteList;
+    }
+
+    public void setExpedienteList(List<Expediente> expedienteList) {
+        this.expedienteList = expedienteList;
     }
 
 }
