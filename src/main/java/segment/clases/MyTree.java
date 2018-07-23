@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
-import segment.modelo.Tree;
+import segment.modelo.Clasificador;
 
 /**
  *
@@ -17,16 +17,16 @@ import segment.modelo.Tree;
  */
 public class MyTree {
 private static final Logger LOG = Logger.getLogger(MyTree.class.getName());
-    private List<Tree> subList2;
-    private List<Tree> listaPadres;
-    private List<Tree> listaCompleta;
+    private List<Clasificador> subList2;
+    private List<Clasificador> listaPadres;
+    private List<Clasificador> listaCompleta;
     private TreeNode root;
     private TreeNode hijos;
 
     public MyTree() {
     }
 
-    public TreeNode crearArbol(List<Tree> listaClasif) {
+    public TreeNode crearArbol(List<Clasificador> listaClasif) {
         this.listaCompleta = listaClasif;
         root = new DefaultTreeNode("Raiz", null);
         //hijos = new DefaultTreeNode("Inicio", root);
@@ -35,25 +35,25 @@ private static final Logger LOG = Logger.getLogger(MyTree.class.getName());
         return root;
     }
 
-    private void recursive(List<Tree> listaClasif, Integer id, TreeNode node) {
+    private void recursive(List<Clasificador> listaClasif, Integer id, TreeNode node) {
         subList2 = new ArrayList<>();
         subList2 = getRegistroByPadre(id);
 
-        for (Tree k : subList2) {
+        for (Clasificador k : subList2) {
             TreeNode childNode = new DefaultTreeNode(k, node);
 
-            recursive(subList2, k.getIdTree(), childNode);
+            recursive(subList2, k.getIdClasificador(), childNode);
         }
     }
 
-    public List<Tree> getRegistroByPadre(Integer i) {
+    public List<Clasificador> getRegistroByPadre(Integer i) {
         listaPadres = new ArrayList<>();
         try {
-            for (Tree k : this.listaCompleta) {
+            for (Clasificador k : this.listaCompleta) {
                 if (i == 0 && k.getIdPadre() == null) {
                     listaPadres.add(k);
                 } else {
-                    if (k.getIdPadre() != null && k.getIdPadre().getIdTree().compareTo(i) == 0) {
+                    if (k.getIdPadre() != null && k.getIdPadre().getIdClasificador().compareTo(i) == 0) {
                         listaPadres.add(k);
                     }
                 }
@@ -64,7 +64,7 @@ private static final Logger LOG = Logger.getLogger(MyTree.class.getName());
         return listaPadres;
     }
 
-    public String getRuta(Tree nodo) {
+    public String getRuta(Clasificador nodo) {
         if (nodo != null) {
             return calcularRuta("", nodo);
         } else {
@@ -72,7 +72,7 @@ private static final Logger LOG = Logger.getLogger(MyTree.class.getName());
         }
     }
 
-    private String calcularRuta(String ruta, Tree nodo) {
+    private String calcularRuta(String ruta, Clasificador nodo) {
         if (nodo.getIdPadre() == null) {
             return nodo.getDescripcion();
         } else {

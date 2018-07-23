@@ -14,58 +14,60 @@ import javax.inject.Inject;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
 import segment.clases.MyTree;
-import segment.fachada.TreeFacade;
-import segment.modelo.Tree;
+import segment.fachada.ClasificadorFacade;
+import segment.modelo.Clasificador;
 
 /**
  *
  * @author jmferreira
  */
-@Named(value = "TreeController")
+@Named(value = "ClasificadorController")
 @SessionScoped
-public class TreeController implements Serializable {
+public class ClasificadorController implements Serializable {
 
     @Inject
-    TreeFacade treeFacade;
-    private Tree tree;
+    ClasificadorFacade clasificadorFacade;
+    private Clasificador clasificador;
     private TreeNode root1;
     private TreeNode selectedNode1;
-    private Tree nodoSeleccionado;
-    private List<Tree> listaHijos;
+    private Clasificador nodoSeleccionado;
+    private List<Clasificador> listaHijos;
 
     /**
      * Creates a new instance of TreeController
      */
-    public TreeController() {
+    public ClasificadorController() {
     }
 
-    public List<Tree> getListaHijos() {
+    public List<Clasificador> getListaHijos() {
         return listaHijos;
     }
 
-    public void setListaHijos(List<Tree> listaHijos) {
+    public void setListaHijos(List<Clasificador> listaHijos) {
         this.listaHijos = listaHijos;
     }
 
-    public TreeFacade getTreeFacade() {
-        return treeFacade;
+    public ClasificadorFacade getClasificadorFacade() {
+        return clasificadorFacade;
     }
 
-    public void setTreeFacade(TreeFacade treeFacade) {
-        this.treeFacade = treeFacade;
+    public void setClasificadorFacade(ClasificadorFacade clasificadorFacade) {
+        this.clasificadorFacade = clasificadorFacade;
     }
 
-    public Tree getNodoSeleccionado() {
+    
+
+    public Clasificador getNodoSeleccionado() {
         return nodoSeleccionado;
     }
 
-    public void setNodoSeleccionado(Tree nodoSeleccionado) {
+    public void setNodoSeleccionado(Clasificador nodoSeleccionado) {
         this.nodoSeleccionado = nodoSeleccionado;
     }
 
     public void init() {
         MyTree t = new MyTree();
-        root1 = t.crearArbol(treeFacade.findAll());
+        root1 = t.crearArbol(clasificadorFacade.findAll());
         root1.setExpanded(true);
         for (TreeNode n : root1.getChildren()) {
             n.setExpanded(true);
@@ -91,47 +93,49 @@ public class TreeController implements Serializable {
         this.selectedNode1 = selectedNode1;
     }
 
-    public Tree getTree() {
-        return tree;
+    public Clasificador getClasificador() {
+        return clasificador;
     }
 
-    public void setTree(Tree tree) {
-        this.tree = tree;
+    public void setClasificador(Clasificador clasificador) {
+        this.clasificador = clasificador;
     }
 
-    public String doTreeForm() {
+    
+
+    public String doClasificadorForm() {
         this.init();
         return "/pages/TreeCRUD";
     }
 
     public void onNodeSelectTree(NodeSelectEvent event) {
-        this.nodoSeleccionado = (Tree) selectedNode1.getData();
-        if (!this.nodoSeleccionado.getTreeList().isEmpty()) {
-            this.listaHijos = this.nodoSeleccionado.getTreeList();
+        this.nodoSeleccionado = (Clasificador) selectedNode1.getData();
+        if (!this.nodoSeleccionado.getClasificadorList().isEmpty()) {
+            this.listaHijos = this.nodoSeleccionado.getClasificadorList();
         } else {
             this.listaHijos = new ArrayList<>();
         }
         //System.out.println("click en " + this.nodoSeleccionado.getIdTree() + "-" + this.nodoSeleccionado.getDescripcion());
     }
 
-    public void doDownNode(Tree nodoClick) {
+    public void doDownNode(Clasificador nodoClick) {
         this.nodoSeleccionado = nodoClick;
-        if (!this.nodoSeleccionado.getTreeList().isEmpty()) {
-            this.listaHijos = this.nodoSeleccionado.getTreeList();
+        if (!this.nodoSeleccionado.getClasificadorList().isEmpty()) {
+            this.listaHijos = this.nodoSeleccionado.getClasificadorList();
         } else {
             this.listaHijos = new ArrayList<>();
         }
-        System.out.println("click en " + this.nodoSeleccionado.getIdTree() + "-" + this.nodoSeleccionado.getDescripcion());
+        System.out.println("click en " + this.nodoSeleccionado.getIdClasificador() + "-" + this.nodoSeleccionado.getDescripcion());
     }
 
     public void doUpNode() {
         this.nodoSeleccionado = this.nodoSeleccionado.getIdPadre();
-        if (!this.nodoSeleccionado.getTreeList().isEmpty()) {
-            this.listaHijos = this.nodoSeleccionado.getTreeList();
+        if (!this.nodoSeleccionado.getClasificadorList().isEmpty()) {
+            this.listaHijos = this.nodoSeleccionado.getClasificadorList();
         } else {
             this.listaHijos = new ArrayList<>();
         }
-        System.out.println("click en " + this.nodoSeleccionado.getIdTree() + "-" + this.nodoSeleccionado.getDescripcion());
+        System.out.println("click en " + this.nodoSeleccionado.getIdClasificador() + "-" + this.nodoSeleccionado.getDescripcion());
     }
 
     public String doRuta() {

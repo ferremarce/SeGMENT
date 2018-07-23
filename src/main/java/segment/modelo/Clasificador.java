@@ -15,8 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -26,17 +24,15 @@ import javax.validation.constraints.Size;
  * @author jmferreira
  */
 @Entity
-@Table(name = "tree")
-@NamedQueries({
-    @NamedQuery(name = "Tree.findAll", query = "SELECT t FROM Tree t")})
-public class Tree implements Serializable {
+@Table(name = "clasificador")
+public class Clasificador implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_tree")
-    private Integer idTree;
+    @Column(name = "id_clasificador")
+    private Integer idClasificador;
     @Size(max = 255)
     @Column(name = "descripcion")
     private String descripcion;
@@ -44,24 +40,24 @@ public class Tree implements Serializable {
     @Column(name = "mapeo_numerico")
     private String mapeoNumerico;
     @OneToMany(mappedBy = "idPadre")
-    private List<Tree> treeList;
-    @JoinColumn(name = "id_padre", referencedColumnName = "id_tree")
+    private List<Clasificador> ClasificadorList;
+    @JoinColumn(name = "id_padre", referencedColumnName = "id_Clasificador")
     @ManyToOne
-    private Tree idPadre;
+    private Clasificador idPadre;
 
-    public Tree() {
+    public Clasificador() {
     }
 
-    public Tree(Integer idTree) {
-        this.idTree = idTree;
+    public Clasificador(Integer idClasificador) {
+        this.idClasificador = idClasificador;
     }
 
-    public Integer getIdTree() {
-        return idTree;
+    public Integer getIdClasificador() {
+        return idClasificador;
     }
 
-    public void setIdTree(Integer idTree) {
-        this.idTree = idTree;
+    public void setIdClasificador(Integer idClasificador) {
+        this.idClasificador = idClasificador;
     }
 
     public String getDescripcion() {
@@ -80,37 +76,38 @@ public class Tree implements Serializable {
         this.mapeoNumerico = mapeoNumerico;
     }
 
-    public List<Tree> getTreeList() {
-        return treeList;
+    public List<Clasificador> getClasificadorList() {
+        return ClasificadorList;
     }
 
-    public void setTreeList(List<Tree> treeList) {
-        this.treeList = treeList;
+    public void setClasificadorList(List<Clasificador> ClasificadorList) {
+        this.ClasificadorList = ClasificadorList;
     }
 
-    public Tree getIdPadre() {
+   
+    public Clasificador getIdPadre() {
         return idPadre;
     }
 
-    public void setIdPadre(Tree idPadre) {
+    public void setIdPadre(Clasificador idPadre) {
         this.idPadre = idPadre;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idTree != null ? idTree.hashCode() : 0);
+        hash += (idClasificador != null ? idClasificador.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Tree)) {
+        if (!(object instanceof Clasificador)) {
             return false;
         }
-        Tree other = (Tree) object;
-        if ((this.idTree == null && other.idTree != null) || (this.idTree != null && !this.idTree.equals(other.idTree))) {
+        Clasificador other = (Clasificador) object;
+        if ((this.idClasificador == null && other.idClasificador != null) || (this.idClasificador != null && !this.idClasificador.equals(other.idClasificador))) {
             return false;
         }
         return true;
@@ -118,7 +115,7 @@ public class Tree implements Serializable {
 
     @Override
     public String toString() {
-        return "segment.modelo.Tree[ idTree=" + idTree + " ]";
+        return "segment.modelo.Clasificador[ Clasificador=" + idClasificador + " ]";
     }
-    
+
 }

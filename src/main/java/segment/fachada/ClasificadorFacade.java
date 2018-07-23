@@ -8,14 +8,14 @@ package segment.fachada;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import segment.modelo.Tree;
+import segment.modelo.Clasificador;
 
 /**
  *
  * @author jmferreira
  */
 @Stateless
-public class TreeFacade extends AbstractFacade<Tree> {
+public class ClasificadorFacade extends AbstractFacade<Clasificador> {
 
     @PersistenceContext(unitName = "segment.org_SEGMENT_war_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -25,8 +25,8 @@ public class TreeFacade extends AbstractFacade<Tree> {
         return em;
     }
 
-    public TreeFacade() {
-        super(Tree.class);
+    public ClasificadorFacade() {
+        super(Clasificador.class);
     }
     
 }
