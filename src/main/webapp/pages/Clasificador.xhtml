@@ -12,7 +12,6 @@
     </ui:define>
     <ui:define name="content">
         <h:form id="formMain">
-            <p:growl life="5000" globalOnly="true" id="messages"/>
             <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-8" >
                 <p:tree id="tree1" value="#{ClasificadorController.root1}" var="node"  selectionMode="single" selection="#{ClasificadorController.selectedNode1}">
                     <p:ajax event="select" update=":formMain:panelContentTree" listener="#{ClasificadorController.onNodeSelectTree}" />

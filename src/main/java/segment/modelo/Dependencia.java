@@ -107,7 +107,7 @@ public class Dependencia implements Serializable {
 
     @Override
     public String toString() {
-        return "segment.modelo.Dependencia[ idDependencia=" + idDependencia + " ]";
+        return this.getDescripcionDependencia();
     }
 
     public List<Usuario> getUsuarioList() {

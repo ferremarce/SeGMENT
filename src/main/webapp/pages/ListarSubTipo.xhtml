@@ -11,7 +11,6 @@
     </ui:define>
     <ui:define name="content">
         <h:form>
-            <p:growl life="5000" globalOnly="true" showDetail="true" id="messages"/> 
             <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
                 <p:commandButton value="#{bundle.NuevoBoton}" icon="fa fa-plus" ajax="false" action="#{SubTipoController.doCrearForm()}"/>
                 <p:commandButton value="#{bundle.ListarBoton}" icon="fa fa-th-list" ajax="false" action="#{SubTipoController.doRefrescar()}"/>

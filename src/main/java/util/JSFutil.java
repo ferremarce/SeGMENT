@@ -75,10 +75,10 @@ public class JSFutil implements Serializable {
                 facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Información", msg);
                 break;
             case ERROR:
-                facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Información", msg);
+                facesMsg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msg);
                 break;
             case FATAL:
-                facesMsg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Información", msg);
+                facesMsg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fatal", msg);
                 break;
             case WARNING:
                 facesMsg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Información", msg);

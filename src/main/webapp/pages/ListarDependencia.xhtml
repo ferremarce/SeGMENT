@@ -19,7 +19,6 @@
             }
         </style>
         <h:form>
-            <p:growl life="5000" globalOnly="true" showDetail="true" id="messages"/> 
             <p:panelGrid columns="4" styleClass="ui-panelgrid-blank">
                 <p:inputText id="criterio" value="#{DependenciaController.criterio}" placeholder="Buscar..."/>
                 <p:commandButton value="#{bundle.BuscarBoton}" icon="fa fa-search" ajax="true" action="#{DependenciaController.doBuscar()}" update="@form"/>

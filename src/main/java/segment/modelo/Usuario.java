@@ -184,7 +184,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "segment.modelo.Usuario[ idUsuario=" + idUsuario + " ]";
+        return this.getCuenta();
     }
 
     public Dependencia getIdDependencia() {

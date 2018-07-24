@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
 import javax.inject.Inject;
+import org.eclipse.persistence.exceptions.DatabaseException;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
@@ -151,7 +152,7 @@ public class ExpedienteController implements Serializable {
     }
 
     public String doRefrescar() {
-        this.listaExpediente = expedienteFacade.findExpediente("");
+        this.listaExpediente = expedienteFacade.findExpediente("", JSFutil.getUsuarioConectado());
         if (this.listaExpediente.isEmpty()) {
             JSFutil.addMessage("No hay resultados...", JSFutil.StatusMessage.WARNING);
         } else {
@@ -165,7 +166,7 @@ public class ExpedienteController implements Serializable {
             JSFutil.addMessage("No hay criterios para buscar...", JSFutil.StatusMessage.WARNING);
             return "";
         }
-        this.listaExpediente = expedienteFacade.findExpediente(this.criterio);
+        this.listaExpediente = expedienteFacade.findExpediente(this.criterio, JSFutil.getUsuarioConectado());
         if (this.listaExpediente.isEmpty()) {
             JSFutil.addMessage("No hay resultados...", JSFutil.StatusMessage.WARNING);
         } else {
@@ -178,9 +179,11 @@ public class ExpedienteController implements Serializable {
         if (this.expediente.getIdExpediente() != null) {
             persist(PersistAction.UPDATE);
         } else {
+            this.expediente.setCerrado(Boolean.FALSE);
+            this.expediente.setIdUsuario(JSFutil.getUsuarioConectado());
             persist(PersistAction.CREATE);
         }
-        this.listaExpediente = expedienteFacade.findExpediente(expediente.getAcapite());
+        this.listaExpediente = expedienteFacade.findExpediente(expediente.getAcapite(), JSFutil.getUsuarioConectado());
         return doListarForm();
     }
 
@@ -211,8 +214,8 @@ public class ExpedienteController implements Serializable {
                 t.setFechaRegistro(JSFutil.getFechaHoraActual());
                 t.setFechaTramite(expediente.getFechaEntrada());
                 t.setIdEstadoTramite(new SubTipo(7));
-                //t.setIdDependencia(JSFutil.getUsuarioConectado());
-                //t.setIdUsuario(JSFutil.getUsuarioConectado());
+                t.setIdDependencia(JSFutil.getUsuarioConectado().getIdDependencia());
+                t.setIdUsuario(JSFutil.getUsuarioConectado());
                 t.setDescripcionTramite("Entrada de Expediente");
                 t.setIdExpediente(expediente);
                 tramitacionFacade.create(t);
@@ -242,8 +245,8 @@ public class ExpedienteController implements Serializable {
                     t.setFechaRegistro(JSFutil.getFechaHoraActual());
                     t.setFechaTramite(expediente.getFechaEntrada());
                     t.setIdEstadoTramite(new SubTipo(7));
-                    //t.setIdDependencia(JSFutil.getUsuarioConectado());
-                    //t.setIdUsuario(JSFutil.getUsuarioConectado());
+                    t.setIdDependencia(JSFutil.getUsuarioConectado().getIdDependencia());
+                    t.setIdUsuario(JSFutil.getUsuarioConectado());
                     t.setDescripcionTramite("Entrada de Expediente");
                     t.setIdExpediente(expediente);
                     tramitacionFacade.create(t);
@@ -254,11 +257,15 @@ public class ExpedienteController implements Serializable {
             JSFutil.addMessage(this.bundle.getString("UpdateSuccess"), JSFutil.StatusMessage.INFORMATION);
         } catch (EJBException ex) {
             String msg = "";
-            Throwable cause = ex.getCause();
-            if (cause != null) {
-                msg = cause.getLocalizedMessage();
+            Throwable t = ex.getCause();
+            while ((t != null) && !(t instanceof DatabaseException)) {
+                t = t.getCause();
             }
-            if (msg.length() > 0) {
+            if (t != null) {
+                msg = t.getMessage();
+            }
+            if (t instanceof DatabaseException) {
+                msg = "Es posible que el expediente \n" + msg;
                 JSFutil.addMessage(msg, JSFutil.StatusMessage.ERROR);
             } else {
                 JSFutil.addMessage(this.bundle.getString("UpdateError"), JSFutil.StatusMessage.ERROR);

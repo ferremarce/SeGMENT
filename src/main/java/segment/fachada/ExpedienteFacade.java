@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import segment.modelo.Expediente;
+import segment.modelo.Usuario;
 
 /**
  *
@@ -31,9 +32,20 @@ public class ExpedienteFacade extends AbstractFacade<Expediente> {
         super(Expediente.class);
     }
 
-    public List<Expediente> findExpediente(String criterio) {
-        Query q = em.createQuery("SELECT a FROM Expediente a WHERE UPPER(a.acapite) LIKE :xCriterio ORDER BY a.fechaExpediente");
-        q.setParameter("xCriterio", "%" + criterio.toUpperCase() + "%");
+    public List<Expediente> findExpediente(String criterio, Usuario usuario) {
+        String sql;
+        Query q;
+        //Administrador
+        if (usuario.getIdRol().getIdRol() == 1) {
+            sql = "SELECT a FROM Expediente a WHERE UPPER(a.acapite) LIKE :xCriterio ORDER BY a.fechaExpediente";
+            q = em.createQuery(sql);
+            q.setParameter("xCriterio", "%" + criterio.toUpperCase() + "%");
+        } else {
+            sql = "SELECT a FROM Expediente a WHERE UPPER(a.acapite) LIKE :xCriterio AND a.idUsuario.idDependencia.idDependencia=:xIdDependencia ORDER BY a.fechaExpediente";
+            q = em.createQuery(sql);
+            q.setParameter("xIdDependencia", usuario.getIdDependencia().getIdDependencia());
+            q.setParameter("xCriterio", "%" + criterio.toUpperCase() + "%");
+        }
         List<Expediente> tr = q.getResultList();
         return tr;
 

@@ -6,11 +6,9 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
-
     <ui:define name="title">
         <h1>Crear/Editar Expediente</h1>
     </ui:define>
-
     <ui:define name="content">
         <style>
             .ui-fileupload-content {
@@ -18,13 +16,13 @@
             }
         </style>
         <h:form id="formMain">
-            <p:growl life="5000" globalOnly="true" showDetail="true" id="messages"/> 
             <p:panel header="Datos del Expediente">
+                <p:messages/>
                 <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6,ui-grid-col-6">
                     <p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
-                        <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+                        <p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
                             <p:outputLabel value="Tipo:" for="idTipoExpediente" />
-                            <p:selectOneMenu id="idTipoExpediente" value="#{ExpedienteController.expediente.idTipoExpediente}" required="true" requiredMessage="#{bundle.Requerido}">  
+                            <p:selectOneMenu id="idTipoExpediente" value="#{ExpedienteController.expediente.idTipoExpediente}" required="true">  
                                 <f:selectItems value="#{SubTipoController.subTipoExpedienteSet}"/>
                             </p:selectOneMenu>
                             <p:outputLabel value="Nro. Expediente:" for="nroExpediente" />

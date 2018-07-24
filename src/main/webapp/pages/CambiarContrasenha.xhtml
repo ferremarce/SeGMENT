@@ -12,7 +12,6 @@
     <ui:define name="content">
         <h:form id="formMain">
             <p:panel header="Datos del Usuario">
-                <p:growl life="3000" globalOnly="true" id="messages"/> 
                 <p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
                     <h:outputText value="#{LoginManager.usuarioLogeado.apellidos}, #{LoginManager.usuarioLogeado.nombres} [#{LoginManager.usuarioLogeado.idRol}]"/> 
                     <h:outputText styleClass="Orange" style="font-weight: bold" value="Combine LETRAS y NUMEROS para obtener una buena seguridad. Por ejemplo: amartinez5631, 5631martinez, etc"/>

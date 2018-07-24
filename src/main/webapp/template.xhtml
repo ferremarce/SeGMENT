@@ -67,6 +67,10 @@
             <ui:insert name="dialogConfirm">
                 <ui:include src="/dialogConfirm.xhtml"/>
             </ui:insert>
+            <p:growl life="5000" globalOnly="true" showDetail="true" severity="info, warn" id="messages"/> 
+            <p:messages closable="true" showDetail="true" globalOnly="true" severity="error" >
+                <p:autoUpdate/>
+            </p:messages>
             <ui:insert name="content">
             </ui:insert>
             <footer>
