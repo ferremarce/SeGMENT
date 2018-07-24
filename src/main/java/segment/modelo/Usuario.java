@@ -62,6 +62,10 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "id_rol", referencedColumnName = "id_rol")
     @ManyToOne
     private Rol idRol;
+    @JoinColumn(name = "id_dependencia", referencedColumnName = "id_dependencia")
+    @ManyToOne
+    private Dependencia idDependencia;
+
 
     public Usuario() {
     }
@@ -181,6 +185,14 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "segment.modelo.Usuario[ idUsuario=" + idUsuario + " ]";
+    }
+
+    public Dependencia getIdDependencia() {
+        return idDependencia;
+    }
+
+    public void setIdDependencia(Dependencia idDependencia) {
+        this.idDependencia = idDependencia;
     }
     
 }

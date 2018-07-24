@@ -6,6 +6,7 @@
 package segment.fachada;
 
 import java.util.List;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 
 /**
@@ -14,6 +15,7 @@ import javax.persistence.EntityManager;
  */
 public abstract class AbstractFacade<T> {
 
+    static final Logger LOG = Logger.getLogger(AbstractFacade.class.getName());
     private Class<T> entityClass;
 
     public AbstractFacade(Class<T> entityClass) {
@@ -60,5 +62,5 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-    
+
 }

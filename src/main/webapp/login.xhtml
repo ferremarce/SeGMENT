@@ -12,11 +12,11 @@
             <p:growl life="3000" globalOnly="true" id="messages"/>
             <p/>
             <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
-                <p:graphicImage width="100" value="/img/logo.jpg"/>
+                <p:graphicImage width="100" value="/img/logo.fw.png"/>
                 <p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
-                    <h:outputText style="font-size: 1.8em; color: black" styleClass="tresD" value="Sistema de Gestión Documental de Catequesis"/>
-                    <h:outputText value="#{config.propietario_sistema}"/>
-                </p:panelGrid>
+                    <h:outputText style="font-size: 1.8em; color: white; font-weight: bold" value="#{bundle.TituloSistema}"/>
+                    <h:outputText style="color: white;font-weight: bold" value="#{bundle.SubTituloSistema}"/>
+                </p:panelGrid><link rel="icon" type="image/x-icon" href="#{request.contextPath}/favicon.ico"/>
             </p:panelGrid>
 
             <p:panel style="width: 600px" header="Credenciales de Acceso">
@@ -27,9 +27,9 @@
                     <p:outputLabel for="passwd" value="Clave"/>
                     <p:password id="passwd" value="#{LoginManager.contrasenha}" required="true" requiredMessage="#{bundle.Requerido}"/>
                     <p:message for="passwd"/>
-                    <p:outputLabel rendered="#{LoginManager.intento>3}" for="captcha" value="Validar"/>
+                    <!--p:outputLabel rendered="#{LoginManager.intento>3}" for="captcha" value="Validar"/>
                     <p:captcha rendered="#{LoginManager.intento>3}" id="captcha" label="captcha" language="es" validatorMessage="No coincide el código de validación"/>
-                    <p:message rendered="#{LoginManager.intento>3}" for="captcha"/>
+                    <p:message rendered="#{LoginManager.intento>3}" for="captcha"/-->
                 </p:panelGrid>
                 <p:separator/>
                 <p:commandButton ajax="false" value="#{bundle.AccederBoton}" action="#{LoginManager.doLogin()}" icon="ui-icon-disk"/>

@@ -8,83 +8,10 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="title">
-        <h1>Pendientes</h1>
+        <h1>Bienvenido</h1>
     </ui:define>
     <ui:define name="content">
-        <h:form id="formMain">
-            <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid" styleClass="ui-panelgrid-blank">
-                <p:menu>
-                    <p:submenu label="Bandeja">
-                        <p:menuitem value="Entrada (#{TramitacionController.doCantidadEntrada()})"  icon="fa fa-sign-in" action="#{TramitacionController.doListarTramitacionEntrada()}" update=":formMain:dtTramitacionPendiente" />
-                        <p:menuitem value="Salida (#{TramitacionController.doCantidadSalida()})" icon="fa fa-sign-out" action="#{TramitacionController.doListarTramitacionSalida()}" update=":formMain:dtTramitacionPendiente"/>
-                    </p:submenu>
-                </p:menu>
-                <p:panel>
-                    <p:dataTable id="dtTramitacionPendiente" value="#{TramitacionController.listaTramitacion}" var="item" emptyMessage="#{bundle.SinRegistrosMensaje}"
-                                 rows="50"
-                                 paginator="true"
-                                 filterEvent="enter"
-                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="5,10,25,50,100"
-                                 sortMode="multiple"
-                                 >
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Expediente"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idExpediente.acapite}"/>
-                        </p:column>
-                        <p:column sortBy="#{item.fechaTramite}" sortable="true">
-                            <f:facet name="header">
-                                <h:outputText value="F. Tramite"/>
-                            </f:facet>
-                            <h:outputText value="#{item.fechaTramite}">
-                                <f:convertDateTime timeZone="#{CommonController.myTimeZone}" pattern="dd/MM/yyyy hh:mm" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Descripción"/>
-                            </f:facet>
-                            <h:outputText value="#{item.descripcionTramite}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="RemitidoA"/>
-                            </f:facet>
-                            <h:outputText value="#{item.remitidoA}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="IdDependencia"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idDependencia}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="IdUsuario"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idUsuario}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Observacion"/>
-                            </f:facet>
-                            <h:outputText value="#{item.observacion}"/>
-                        </p:column>
-                        <p:column style="width: 120px">
-                            <f:facet name="header">
-                                <h:outputText value="Acción"/>
-                            </f:facet>
-                            <p:menuButton value="Opciones">
-                                <p:menuitem ajax="false" value="#{bundle.DerivarBoton}" icon="fa fa-mail-forward"/>
-                                <p:menuitem ajax="false" value="#{bundle.ArchivarBoton}" icon="fa fa-lock"/>
-                            </p:menuButton>
-                        </p:column>
-                    </p:dataTable>
-                </p:panel>
-            </p:panelGrid>
-        </h:form>
+        <p:spacer width="0" height="100"/>
     </ui:define>
 
 </ui:composition>

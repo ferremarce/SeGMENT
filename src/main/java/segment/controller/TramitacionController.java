@@ -8,6 +8,7 @@ package segment.controller;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -63,5 +64,10 @@ public class TramitacionController implements Serializable {
 
     public Integer doCantidadSalida() {
         return tramitacionFacade.findAllTramitacion(7).size();
+    }
+
+    public String doMisTareasForm() {
+        this.listaTramitacion = new ArrayList<>();
+        return "/pages/MisTareas";
     }
 }

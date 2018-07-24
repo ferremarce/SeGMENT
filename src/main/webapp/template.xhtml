@@ -33,6 +33,7 @@
             </p:outputPanel>
             <h:form>
                 <p:menubar>
+                    <p:menuitem ajax="false" icon="fa fa-bars" value="#{bundle.MisTareas}" action="#{TramitacionController.doMisTareasForm()}"/>
                     <p:submenu label="&nbsp;Mantenimiento" icon="fa fa-book">
                         <p:menuitem ajax="false" icon="fa fa-sticky-note-o" value="Expedientes" action="#{ExpedienteController.doListarForm()}"/>
                         <p:menuitem ajax="false" icon="fa fa-cubes" value="Dependencias" action="#{DependenciaController.doListarForm()}"/>

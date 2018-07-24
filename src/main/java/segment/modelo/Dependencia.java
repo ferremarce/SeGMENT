@@ -29,6 +29,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Dependencia.findAll", query = "SELECT d FROM Dependencia d")})
 public class Dependencia implements Serializable {
 
+    @OneToMany(mappedBy = "idDependencia")
+    private List<Usuario> usuarioList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -105,6 +108,14 @@ public class Dependencia implements Serializable {
     @Override
     public String toString() {
         return "segment.modelo.Dependencia[ idDependencia=" + idDependencia + " ]";
+    }
+
+    public List<Usuario> getUsuarioList() {
+        return usuarioList;
+    }
+
+    public void setUsuarioList(List<Usuario> usuarioList) {
+        this.usuarioList = usuarioList;
     }
     
 }

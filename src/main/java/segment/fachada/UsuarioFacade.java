@@ -5,9 +5,11 @@
  */
 package segment.fachada;
 
+import java.util.logging.Level;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import segment.modelo.Usuario;
 
 /**
@@ -28,5 +30,17 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     public UsuarioFacade() {
         super(Usuario.class);
     }
-    
+
+    public Usuario findUsuarioByCuenta(String cuenta) {
+        Query q = em.createQuery("SELECT a FROM Usuario a WHERE a.cuenta=:xCuenta");
+        q.setParameter("xCuenta", cuenta);
+        try {
+            Usuario tr = (Usuario) q.getSingleResult();
+            return tr;
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE, "Error al recuperar el usuario de la cuenta [" + cuenta + "]", e);
+            return null;
+        }
+    }
+
 }
