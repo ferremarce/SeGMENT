@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/template.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="title">
+        <h1>Cambiar Contraseña</h1>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:panel header="Datos del Usuario">
+                <p:growl life="3000" globalOnly="true" id="messages"/> 
+                <p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+                    <h:outputText value="#{LoginManager.usuarioLogeado.apellidos}, #{LoginManager.usuarioLogeado.nombres} [#{LoginManager.usuarioLogeado.idRol}]"/> 
+                    <h:outputText styleClass="Orange" style="font-weight: bold" value="Combine LETRAS y NUMEROS para obtener una buena seguridad. Por ejemplo: amartinez5631, 5631martinez, etc"/>
+                </p:panelGrid>
+                <p:panelGrid columns="3" styleClass="ui-panelgrid-blank">
+                    <p:outputLabel for="nuevacontra" value="Nueva Contraseña:"/>
+                    <p:password goodLabel="Bueno" promptLabel="Ingrese Password" feedback="true" weakLabel="Débil" strongLabel="Excelente" size="20" id="nuevacontra" value="#{LoginManager.contrasenha}" required="true" requiredMessage="#{bundle.Requerido}"/> 
+                    <p:message for="nuevacontra" />  
+                    <p:outputLabel for="repetircontra" value="Repertir Contraseña:"/>
+                    <p:password goodLabel="Bueno" promptLabel="Ingrese Password" feedback="true" weakLabel="Débil" strongLabel="Excelente" size="20" id="repetircontra" value="#{LoginManager.contrasenha2}" required="true" requiredMessage="#{bundle.Requerido}"/> 
+                    <p:message for="repetircontra" />  
+                </p:panelGrid>
+                <f:facet name="footer">
+                    <p:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+                        <p:commandButton icon="fa fa-save" action="#{LoginManager.doCambiarContrasenha()}" ajax="false"  value="#{bundle.CambiarBoton}"/>  
+                    </p:panelGrid>
+                </f:facet>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -104,7 +104,7 @@ public class Rol implements Serializable {
 
     @Override
     public String toString() {
-        return "segment.modelo.Rol[ idRol=" + idRol + " ]";
+        return this.descripcionRol;
     }
     
 }

@@ -17,6 +17,6 @@
         </locale-config>
     </application>
     <lifecycle>
-        <phase-listener>catequesis.login.AuthorizationListener</phase-listener>
+        <phase-listener>segment.login.AuthorizationListener</phase-listener>
     </lifecycle>
 </faces-config>

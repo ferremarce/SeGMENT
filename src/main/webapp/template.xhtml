@@ -53,8 +53,8 @@
                     <f:facet name="options">
                         <p:panelGrid columns="3" styleClass="ui-panelgrid-blank">
                             <h:outputText value="#{LoginManager.usuarioLogeado.nombres} #{LoginManager.usuarioLogeado.apellidos}"/>
-                            <p:commandButton disabled="true" ajax="false" value="#{bundle.CambiarContrasenhaBoton}" icon="fa fa-lock" action="#{LoginManager.doCambiarContrasenhaForm()}" />
-                            <p:commandButton disabled="true" ajax="false" value="#{bundle.SalirBoton}" icon="ui-icon-extlink" action="#{LoginManager.doLogout()}" />
+                            <p:commandButton ajax="false" value="#{bundle.CambiarContrasenhaBoton}" icon="fa fa-lock" action="#{LoginManager.doCambiarContrasenhaForm()}" />
+                            <p:commandButton ajax="false" value="#{bundle.SalirBoton}" icon="fa fa-sign-out" action="#{LoginManager.doLogout()}" />
                         </p:panelGrid>
                     </f:facet>
                 </p:menubar>
