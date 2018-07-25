@@ -29,6 +29,7 @@ import segment.modelo.Expediente;
 import segment.modelo.ExpedienteAdjunto;
 import segment.modelo.SubTipo;
 import segment.modelo.Tramitacion;
+import util.ExcepcionManager;
 import util.JSFutil;
 import util.JSFutil.PersistAction;
 
@@ -214,8 +215,9 @@ public class ExpedienteController implements Serializable {
                 t.setFechaRegistro(JSFutil.getFechaHoraActual());
                 t.setFechaTramite(expediente.getFechaEntrada());
                 t.setIdEstadoTramite(new SubTipo(7));
-                t.setIdDependencia(JSFutil.getUsuarioConectado().getIdDependencia());
-                t.setIdUsuario(JSFutil.getUsuarioConectado());
+                t.setIdDestino(JSFutil.getUsuarioConectado().getIdDependencia());
+                t.setIdOrigen(JSFutil.getUsuarioConectado().getIdDependencia());
+                t.setIdUsuarioOrigen(JSFutil.getUsuarioConectado());
                 t.setDescripcionTramite("Entrada de Expediente");
                 t.setIdExpediente(expediente);
                 tramitacionFacade.create(t);
@@ -245,8 +247,9 @@ public class ExpedienteController implements Serializable {
                     t.setFechaRegistro(JSFutil.getFechaHoraActual());
                     t.setFechaTramite(expediente.getFechaEntrada());
                     t.setIdEstadoTramite(new SubTipo(7));
-                    t.setIdDependencia(JSFutil.getUsuarioConectado().getIdDependencia());
-                    t.setIdUsuario(JSFutil.getUsuarioConectado());
+                    t.setIdOrigen(JSFutil.getUsuarioConectado().getIdDependencia());
+                    t.setIdDestino(JSFutil.getUsuarioConectado().getIdDependencia());
+                    t.setIdUsuarioOrigen(JSFutil.getUsuarioConectado());
                     t.setDescripcionTramite("Entrada de Expediente");
                     t.setIdExpediente(expediente);
                     tramitacionFacade.create(t);
@@ -262,13 +265,13 @@ public class ExpedienteController implements Serializable {
                 t = t.getCause();
             }
             if (t != null) {
-                msg = t.getMessage();
+                msg = t.getLocalizedMessage();
             }
             if (t instanceof DatabaseException) {
-                msg = "Es posible que el expediente \n" + msg;
+                msg = this.bundle.getString("UpdateError") + " Es posible que el expediente tenga registros relacionados (tramites o adjuntos). Por favor verifique y vuelva a intentar.";
                 JSFutil.addMessage(msg, JSFutil.StatusMessage.ERROR);
             } else {
-                JSFutil.addMessage(this.bundle.getString("UpdateError"), JSFutil.StatusMessage.ERROR);
+                JSFutil.addMessage(this.bundle.getString("UpdateError") + " " + msg, JSFutil.StatusMessage.ERROR);
             }
             LOG.log(Level.SEVERE, null, ex);
         }

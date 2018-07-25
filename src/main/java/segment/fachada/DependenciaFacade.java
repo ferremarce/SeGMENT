@@ -39,4 +39,11 @@ public class DependenciaFacade extends AbstractFacade<Dependencia> {
 
     }
 
+    public List<Dependencia> findAllDependencia() {
+        Query q = em.createQuery("SELECT a FROM Dependencia a WHERE a.activo=1");
+        List<Dependencia> tr = q.getResultList();
+        return tr;
+
+    }
+
 }

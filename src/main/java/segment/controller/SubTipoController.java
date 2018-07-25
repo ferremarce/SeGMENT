@@ -72,7 +72,6 @@ public class SubTipoController implements Serializable {
         return JSFutil.getSelectItems(subTipoFacade.findAllbyTipo(1, Boolean.TRUE), Boolean.TRUE);
     }
 
-
     public String doListarForm() {
         if (this.listaSubTipo == null) {
             this.listaSubTipo = new ArrayList<>();

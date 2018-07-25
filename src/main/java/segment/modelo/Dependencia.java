@@ -29,6 +29,11 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Dependencia.findAll", query = "SELECT d FROM Dependencia d")})
 public class Dependencia implements Serializable {
 
+    @OneToMany(mappedBy = "idOrigen")
+    private List<Tramitacion> tramitacionList;
+    @OneToMany(mappedBy = "idDestino")
+    private List<Tramitacion> tramitacionList1;
+
     @OneToMany(mappedBy = "idDependencia")
     private List<Usuario> usuarioList;
 
@@ -43,8 +48,6 @@ public class Dependencia implements Serializable {
     @Size(max = 255)
     @Column(name = "descripcion_dependencia")
     private String descripcionDependencia;
-    @OneToMany(mappedBy = "idDependencia")
-    private List<Tramitacion> tramitacionList;
 
     public Dependencia() {
     }
@@ -75,14 +78,6 @@ public class Dependencia implements Serializable {
 
     public void setDescripcionDependencia(String descripcionDependencia) {
         this.descripcionDependencia = descripcionDependencia;
-    }
-
-    public List<Tramitacion> getTramitacionList() {
-        return tramitacionList;
-    }
-
-    public void setTramitacionList(List<Tramitacion> tramitacionList) {
-        this.tramitacionList = tramitacionList;
     }
 
     @Override
@@ -117,5 +112,21 @@ public class Dependencia implements Serializable {
     public void setUsuarioList(List<Usuario> usuarioList) {
         this.usuarioList = usuarioList;
     }
-    
+
+    public List<Tramitacion> getTramitacionList() {
+        return tramitacionList;
+    }
+
+    public void setTramitacionList(List<Tramitacion> tramitacionList) {
+        this.tramitacionList = tramitacionList;
+    }
+
+    public List<Tramitacion> getTramitacionList1() {
+        return tramitacionList1;
+    }
+
+    public void setTramitacionList1(List<Tramitacion> tramitacionList1) {
+        this.tramitacionList1 = tramitacionList1;
+    }
+
 }

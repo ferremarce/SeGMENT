@@ -12,6 +12,9 @@
     </ui:define>
 
     <ui:define name="content">
+        <p:panel header="Mensaje">
+            <h:outputText value="#{ExceptionController.doStackTrace()}"/>
+        </p:panel>
         <h:form>
             <p:panelGrid columns="4" styleClass="ui-panelgrid-blank">
                 <p:inputText id="criterio" value="#{ExpedienteController.criterio}" placeholder="Buscar..." />

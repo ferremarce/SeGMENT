@@ -21,7 +21,8 @@ INSERT INTO `dependencia` (`id_dependencia`,`activo`,`descripcion_dependencia`) 
 INSERT INTO `dependencia` (`id_dependencia`,`activo`,`descripcion_dependencia`) VALUES (17,1,'DG SEGURIDAD Y CONTROL');
 INSERT INTO `dependencia` (`id_dependencia`,`activo`,`descripcion_dependencia`) VALUES (18,1,'DG DIGITALIZACION LEGISLATIVA (SILpy)');
 
-INSERT INTO `usuario` (`id_usuario`,`activo`,`apellidos`,`contrasenha`,`cuenta`,`id_set_preferences`,`login_externo`,`nombres`,`id_rol`,`id_dependencia`) VALUES (1,1,'Ferreira','$2a$12$P2qlCklJ/A.lxWMBXwVBsOc8Jh81xDMHJPMmsAFIqjPtgSLyKTIg6','jm',NULL,1,'Juan',2,1);
+INSERT INTO `usuario` (`id_usuario`,`activo`,`apellidos`,`contrasenha`,`cuenta`,`id_set_preferences`,`login_externo`,`nombres`,`id_rol`,`id_dependencia`) VALUES (1,1,'Ferreira','$2a$12$P2qlCklJ/A.lxWMBXwVBsOc8Jh81xDMHJPMmsAFIqjPtgSLyKTIg6','jm',NULL,1,'Juan',1,1);
+INSERT INTO `usuario` (`id_usuario`,`activo`,`apellidos`,`contrasenha`,`cuenta`,`id_set_preferences`,`login_externo`,`nombres`,`id_rol`,`id_dependencia`) VALUES (2,1,'Gestor','$2a$12$P2qlCklJ/A.lxWMBXwVBsOc8Jh81xDMHJPMmsAFIqjPtgSLyKTIg6','gestor',NULL,1,'Usuario',2,1); 
 
 INSERT INTO `tipo` (`id_tipo`,`descripcion_tipo`,`orden`) VALUES (1,'TIPO EXPEDIENTE',NULL);
 INSERT INTO `tipo` (`id_tipo`,`descripcion_tipo`,`orden`) VALUES (2,'TIPO ESTADO EXPEDIENTE',NULL);
@@ -36,6 +37,7 @@ INSERT INTO `sub_tipo` (`id_sub_tipo`,`descripcion_sub_tipo`,`orden`,`id_tipo`) 
 INSERT INTO `sub_tipo` (`id_sub_tipo`,`descripcion_sub_tipo`,`orden`,`id_tipo`) VALUES (5,'EN TRAMITE',NULL,2);
 INSERT INTO `sub_tipo` (`id_sub_tipo`,`descripcion_sub_tipo`,`orden`,`id_tipo`) VALUES (6,'PENDIENTE',NULL,3);
 INSERT INTO `sub_tipo` (`id_sub_tipo`,`descripcion_sub_tipo`,`orden`,`id_tipo`) VALUES (7,'CONFIRMADO',NULL,3);
+INSERT INTO `sub_tipo` (`id_sub_tipo`,`descripcion_sub_tipo`,`orden`,`id_tipo`) VALUES (8,'DEVUELTO',NULL,3);
 
 INSERT INTO `clasificador` (`id_clasificador`,`descripcion`,`mapeo_numerico`,`id_padre`) VALUES (1,'Computadoras',NULL,NULL);
 INSERT INTO `clasificador` (`id_clasificador`,`descripcion`,`mapeo_numerico`,`id_padre`) VALUES (2,'Impresoras',NULL,NULL);

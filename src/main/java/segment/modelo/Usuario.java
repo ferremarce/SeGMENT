@@ -31,6 +31,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")})
 public class Usuario implements Serializable {
 
+    @OneToMany(mappedBy = "idUsuarioOrigen")
+    private List<Tramitacion> tramitacionList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,8 +60,6 @@ public class Usuario implements Serializable {
     private String nombres;
     @OneToMany(mappedBy = "idUsuario")
     private List<Expediente> expedienteList;
-    @OneToMany(mappedBy = "idUsuario")
-    private List<Tramitacion> tramitacionList;
     @JoinColumn(name = "id_rol", referencedColumnName = "id_rol")
     @ManyToOne
     private Rol idRol;
@@ -146,13 +147,7 @@ public class Usuario implements Serializable {
         this.expedienteList = expedienteList;
     }
 
-    public List<Tramitacion> getTramitacionList() {
-        return tramitacionList;
-    }
-
-    public void setTramitacionList(List<Tramitacion> tramitacionList) {
-        this.tramitacionList = tramitacionList;
-    }
+   
 
     public Rol getIdRol() {
         return idRol;
@@ -184,7 +179,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return this.getCuenta();
+        return this.nombres+" "+this.apellidos+" ["+this.getIdDependencia().getDescripcionDependencia()+"]";
     }
 
     public Dependencia getIdDependencia() {
@@ -193,6 +188,14 @@ public class Usuario implements Serializable {
 
     public void setIdDependencia(Dependencia idDependencia) {
         this.idDependencia = idDependencia;
+    }
+
+    public List<Tramitacion> getTramitacionList() {
+        return tramitacionList;
+    }
+
+    public void setTramitacionList(List<Tramitacion> tramitacionList) {
+        this.tramitacionList = tramitacionList;
     }
     
 }

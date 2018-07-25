@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">
+        <h1>Tramitar Expediente</h1>
+    </ui:define>
+    <ui:define name="content">
+        <h:form>
+            <p:panel header="Datos del Expediente">
+                <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+                    <p:outputLabel value="Tipo:" for="idTipoExpediente" />
+                    <h:outputText id="idTipoExpediente" value="#{TramitacionController.tramitacion.idExpediente.idTipoExpediente}"/>  
+                    <p:outputLabel value="Nro. Expediente:" for="nroExpediente" />
+                    <h:outputText id="nroExpediente" value="#{TramitacionController.tramitacion.idExpediente.nroExpediente}" title="NroExpediente"/>
+                    <p:outputLabel value="Acápite:" for="acapite" />
+                    <h:outputText id="acapite" value="#{TramitacionController.tramitacion.idExpediente.acapite}" title="Acapite"/>
+                    <p:outputLabel value="Fecha Expediente:" for="fechaExpediente" />
+                    <h:outputText id="fechaExpediente" value="#{TramitacionController.tramitacion.idExpediente.fechaExpediente}" title="Fecha Expediente">
+                        <f:convertDateTime timeZone="#{CommonController.myTimeZone}"  pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                    <p:outputLabel value="Fecha Entrada:" for="fechaEntrada" />
+                    <h:outputText id="fechaEntrada" value="#{TramitacionController.tramitacion.idExpediente.fechaEntrada}" title="Fecha Entrada">
+                        <f:convertDateTime timeZone="#{CommonController.myTimeZone}" pattern="dd/MM/yyyy HH:mm" />
+                    </h:outputText>
+                    <p:outputLabel value="Remitente:" for="remitente" />
+                    <h:outputText id="remitente" value="#{TramitacionController.tramitacion.idExpediente.remitente}" title="Remitente" />
+                </p:panelGrid>
+            </p:panel>
+            <p:panelGrid columns="2">
+                <p:outputLabel value="Descripción:" for="descripcionTramite" />
+                <p:inputText id="descripcionTramite" value="#{TramitacionController.tramitacion.descripcionTramite}" title="DescripcionTramite" required="true" />
+                <p:outputLabel value="FechaTramite:" for="fechaTramite" />
+                <p:calendar navigator="true" locale="es"  size="12" id="fechaTramite" value="#{ExpedienteController.expediente.fechaEntrada}" pattern="dd/MM/yyyy HH:mm" title="Fecha Trámite" required="true"/>
+                <p:outputLabel value="RemitidoA:" for="remitidoA" />
+                <p:inputText id="remitidoA" value="#{TramitacionController.tramitacion.remitidoA}" title="RemitidoA" />
+                <p:outputLabel value="Origen:" for="idOrigen" />
+                <p:selectOneMenu id="idOrigen" value="#{TramitacionController.tramitacion.idOrigen}" required="true" >
+                    <f:selectItems value="#{DependenciaController.dependenciaSet}"/>
+                </p:selectOneMenu>
+                <p:outputLabel value="Destino:" for="idDestino" />
+                <p:selectOneMenu id="idDestino" value="#{TramitacionController.tramitacion.idDestino}" required="true" >
+                    <f:selectItems value="#{DependenciaController.dependenciaSet}"/>
+                </p:selectOneMenu>
+                <p:outputLabel value="Observacion:" for="observacion" />
+                <p:textEditor id="observacion" height="100" value="#{TramitacionController.tramitacion.observacion}" />
+            </p:panelGrid>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -7,6 +7,7 @@ package segment.modelo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,39 +34,51 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Tramitacion.findAll", query = "SELECT t FROM Tramitacion t")})
 public class Tramitacion implements Serializable {
 
+    @OneToMany(mappedBy = "idTramitacionAnterior")
+    private List<Tramitacion> tramitacionList;
+    @JoinColumn(name = "id_tramitacion_anterior", referencedColumnName = "id_tramitacion")
+    @ManyToOne
+    private Tramitacion idTramitacionAnterior;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_tramitacion")
     private Integer idTramitacion;
-    @Column(name = "fecha_tramite")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaTramite;
+    @Size(max = 255)
+    @Column(name = "descripcion_tramite")
+    private String descripcionTramite;
     @Column(name = "fecha_registro")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaRegistro;
+    @Column(name = "fecha_tramite")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaTramite;
     @Size(max = 255)
     @Column(name = "observacion")
     private String observacion;
     @Size(max = 255)
     @Column(name = "remitido_a")
     private String remitidoA;
-    @JoinColumn(name = "id_dependencia", referencedColumnName = "id_dependencia")
-    @ManyToOne
-    private Dependencia idDependencia;
-    @JoinColumn(name = "id_expediente", referencedColumnName = "id_expediente")
-    @ManyToOne
-    private Expediente idExpediente;
-    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
-    @ManyToOne
-    private Usuario idUsuario;
-    @Size(max = 500)
-    @Column(name = "descripcion_tramite")
-    private String descripcionTramite;
+    @Size(max = 45)
+    @Column(name = "fecha_confirmado")
+    private String fechaConfirmado;
     @JoinColumn(name = "id_estado_tramite", referencedColumnName = "id_sub_tipo")
     @ManyToOne
     private SubTipo idEstadoTramite;
+    @JoinColumn(name = "id_expediente", referencedColumnName = "id_expediente")
+    @ManyToOne
+    private Expediente idExpediente;
+    @JoinColumn(name = "id_usuario_origen", referencedColumnName = "id_usuario")
+    @ManyToOne
+    private Usuario idUsuarioOrigen;
+    @JoinColumn(name = "id_origen", referencedColumnName = "id_dependencia")
+    @ManyToOne
+    private Dependencia idOrigen;
+    @JoinColumn(name = "id_destino", referencedColumnName = "id_dependencia")
+    @ManyToOne
+    private Dependencia idDestino;
 
     public Tramitacion() {
     }
@@ -81,12 +95,12 @@ public class Tramitacion implements Serializable {
         this.idTramitacion = idTramitacion;
     }
 
-    public Date getFechaTramite() {
-        return fechaTramite;
+    public String getDescripcionTramite() {
+        return descripcionTramite;
     }
 
-    public void setFechaTramite(Date fechaTramite) {
-        this.fechaTramite = fechaTramite;
+    public void setDescripcionTramite(String descripcionTramite) {
+        this.descripcionTramite = descripcionTramite;
     }
 
     public Date getFechaRegistro() {
@@ -95,6 +109,14 @@ public class Tramitacion implements Serializable {
 
     public void setFechaRegistro(Date fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
+    }
+
+    public Date getFechaTramite() {
+        return fechaTramite;
+    }
+
+    public void setFechaTramite(Date fechaTramite) {
+        this.fechaTramite = fechaTramite;
     }
 
     public String getObservacion() {
@@ -113,12 +135,20 @@ public class Tramitacion implements Serializable {
         this.remitidoA = remitidoA;
     }
 
-    public Dependencia getIdDependencia() {
-        return idDependencia;
+    public String getFechaConfirmado() {
+        return fechaConfirmado;
     }
 
-    public void setIdDependencia(Dependencia idDependencia) {
-        this.idDependencia = idDependencia;
+    public void setFechaConfirmado(String fechaConfirmado) {
+        this.fechaConfirmado = fechaConfirmado;
+    }
+
+    public SubTipo getIdEstadoTramite() {
+        return idEstadoTramite;
+    }
+
+    public void setIdEstadoTramite(SubTipo idEstadoTramite) {
+        this.idEstadoTramite = idEstadoTramite;
     }
 
     public Expediente getIdExpediente() {
@@ -129,12 +159,28 @@ public class Tramitacion implements Serializable {
         this.idExpediente = idExpediente;
     }
 
-    public Usuario getIdUsuario() {
-        return idUsuario;
+    public Usuario getIdUsuarioOrigen() {
+        return idUsuarioOrigen;
     }
 
-    public void setIdUsuario(Usuario idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setIdUsuarioOrigen(Usuario idUsuarioOrigen) {
+        this.idUsuarioOrigen = idUsuarioOrigen;
+    }
+
+    public Dependencia getIdOrigen() {
+        return idOrigen;
+    }
+
+    public void setIdOrigen(Dependencia idOrigen) {
+        this.idOrigen = idOrigen;
+    }
+
+    public Dependencia getIdDestino() {
+        return idDestino;
+    }
+
+    public void setIdDestino(Dependencia idDestino) {
+        this.idDestino = idDestino;
     }
 
     @Override
@@ -162,20 +208,20 @@ public class Tramitacion implements Serializable {
         return "segment.modelo.Tramitacion[ idTramitacion=" + idTramitacion + " ]";
     }
 
-    public String getDescripcionTramite() {
-        return descripcionTramite;
+    public List<Tramitacion> getTramitacionList() {
+        return tramitacionList;
     }
 
-    public void setDescripcionTramite(String descripcionTramite) {
-        this.descripcionTramite = descripcionTramite;
+    public void setTramitacionList(List<Tramitacion> tramitacionList) {
+        this.tramitacionList = tramitacionList;
     }
 
-    public SubTipo getIdEstadoTramite() {
-        return idEstadoTramite;
+    public Tramitacion getIdTramitacionAnterior() {
+        return idTramitacionAnterior;
     }
 
-    public void setIdEstadoTramite(SubTipo idEstadoTramite) {
-        this.idEstadoTramite = idEstadoTramite;
+    public void setIdTramitacionAnterior(Tramitacion idTramitacionAnterior) {
+        this.idTramitacionAnterior = idTramitacionAnterior;
     }
-
+    
 }

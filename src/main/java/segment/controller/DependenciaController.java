@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import segment.fachada.DependenciaFacade;
 import segment.modelo.Dependencia;
@@ -41,6 +42,14 @@ public class DependenciaController implements Serializable {
     private String criterio;
 
     public DependenciaController() {
+    }
+
+    public DependenciaFacade getDependenciaFacade() {
+        return dependenciaFacade;
+    }
+
+    public void setDependenciaFacade(DependenciaFacade dependenciaFacade) {
+        this.dependenciaFacade = dependenciaFacade;
     }
 
     public String getCriterio() {
@@ -147,5 +156,9 @@ public class DependenciaController implements Serializable {
             }
             LOG.log(Level.SEVERE, null, ex);
         }
+    }
+
+    public SelectItem[] getDependenciaSet() {
+        return JSFutil.getSelectItems(dependenciaFacade.findAllDependencia(), Boolean.TRUE);
     }
 }

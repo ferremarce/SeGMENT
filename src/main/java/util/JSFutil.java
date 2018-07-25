@@ -28,6 +28,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.eclipse.persistence.exceptions.DatabaseException;
 import org.jsoup.Jsoup;
 import org.mindrot.jbcrypt.BCrypt;
 import segment.modelo.Usuario;

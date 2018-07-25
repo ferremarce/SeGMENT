@@ -28,13 +28,16 @@
                                  rowsPerPageTemplate="5,10,25,50,100"
                                  sortMode="multiple"
                                  >
-                        <p:column>
+                        <p:column >
                             <f:facet name="header">
                                 <h:outputText value="Expediente"/>
                             </f:facet>
-                            <h:outputText value="#{item.idExpediente.acapite}"/>
+                            <h:outputText value="#{item.idExpediente.idTipoExpediente.descripcionSubTipo}:&nbsp;"/>
+                            <h:outputText styleClass="Blue fontBold" value="#{item.idExpediente.acapite}"/><br/>
+                            <h:outputText value="Remitente: #{item.idExpediente.remitente}"/><br/>
+                            <h:outputText value="#{item.descripcionTramite}"/>
                         </p:column>
-                        <p:column sortBy="#{item.fechaTramite}" sortable="true">
+                        <p:column width="130" sortBy="#{item.fechaTramite}" sortable="true">
                             <f:facet name="header">
                                 <h:outputText value="F. Tramite"/>
                             </f:facet>
@@ -42,42 +45,28 @@
                                 <f:convertDateTime timeZone="#{CommonController.myTimeZone}" pattern="dd/MM/yyyy hh:mm" />
                             </h:outputText>
                         </p:column>
-                        <p:column>
+                        <p:column >
                             <f:facet name="header">
-                                <h:outputText value="Descripción"/>
+                                <h:outputText value="De"/>
                             </f:facet>
-                            <h:outputText value="#{item.descripcionTramite}"/>
+                            <h:outputText value="#{item.idUsuarioOrigen}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="RemitidoA"/>
+                                <h:outputText value="Origen"/><i class="fa fa-arrow-right"/><h:outputText value="Destino"/>
                             </f:facet>
-                            <h:outputText value="#{item.remitidoA}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="IdDependencia"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idDependencia}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="IdUsuario"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idUsuario}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Observacion"/>
-                            </f:facet>
-                            <h:outputText value="#{item.observacion}"/>
-                        </p:column>
+                            <h:outputText styleClass="DarkGreen" value="#{item.idOrigen.descripcionDependencia}"/><i class="fa fa-arrow-right"/><h:outputText styleClass="fontBold" value="#{item.idDestino.descripcionDependencia}"/>
+                        </p:column>                        
                         <p:column style="width: 120px">
                             <f:facet name="header">
                                 <h:outputText value="Acción"/>
                             </f:facet>
-                            <p:menuButton value="Opciones">
-                                <p:menuitem ajax="false" value="#{bundle.DerivarBoton}" icon="fa fa-mail-forward"/>
+                            <p:menuButton rendered="#{item.idEstadoTramite.idSubTipo==6}" value="Opciones">
+                                <p:menuitem ajax="false" title="Aceptar y Confirmar" value="#{bundle.AceptarBoton}" icon="fa fa-check-circle" action="#{TramitacionController.doAceptarTramite(item.idTramitacion)}"/>
+                                <p:menuitem ajax="false" title="Rechazar y Devolver" value="#{bundle.RechazarBoton}" icon="fa fa-minus-circle"/>
+                            </p:menuButton>
+                            <p:menuButton rendered="#{item.idEstadoTramite.idSubTipo==7}" value="Opciones">
+                                <p:menuitem ajax="false" value="#{bundle.DerivarBoton}" icon="fa fa-mail-forward" action="#{TramitacionController.doTramitarForm(item.idTramitacion)}"/>
                                 <p:menuitem ajax="false" value="#{bundle.ArchivarBoton}" icon="fa fa-lock"/>
                             </p:menuButton>
                         </p:column>
