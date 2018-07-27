@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -65,12 +67,13 @@ public class Expediente implements Serializable {
     @Size(max = 255)
     @Column(name = "remitente")
     private String remitente;
-    @OneToMany(mappedBy = "idExpediente")
+    @OneToMany(mappedBy = "idExpediente", cascade = CascadeType.REMOVE)
     private List<ExpedienteAdjunto> expedienteAdjuntoList;
     @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
     @ManyToOne
     private Usuario idUsuario;
     @OneToMany(mappedBy = "idExpediente")
+    @OrderBy("fechaRegistro ASC")
     private List<Tramitacion> tramitacionList;
     @JoinColumn(name = "id_tipo_expediente", referencedColumnName = "id_sub_tipo")
     @ManyToOne
@@ -78,6 +81,9 @@ public class Expediente implements Serializable {
     @JoinColumn(name = "id_clasificador", referencedColumnName = "id_clasificador")
     @ManyToOne
     private Clasificador idClasificador;
+    @JoinColumn(name = "id_estado_expediente", referencedColumnName = "id_sub_tipo")
+    @ManyToOne
+    private SubTipo idEstadoExpediente;
 
 
     public Expediente() {
@@ -222,6 +228,14 @@ public class Expediente implements Serializable {
 
     public void setIdClasificador(Clasificador idClasificador) {
         this.idClasificador = idClasificador;
+    }
+
+    public SubTipo getIdEstadoExpediente() {
+        return idEstadoExpediente;
+    }
+
+    public void setIdEstadoExpediente(SubTipo idEstadoExpediente) {
+        this.idEstadoExpediente = idEstadoExpediente;
     }
     
 }

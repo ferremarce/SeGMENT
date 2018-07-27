@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,12 +34,6 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Tramitacion.findAll", query = "SELECT t FROM Tramitacion t")})
 public class Tramitacion implements Serializable {
-
-    @OneToMany(mappedBy = "idTramitacionAnterior")
-    private List<Tramitacion> tramitacionList;
-    @JoinColumn(name = "id_tramitacion_anterior", referencedColumnName = "id_tramitacion")
-    @ManyToOne
-    private Tramitacion idTramitacionAnterior;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -79,6 +74,13 @@ public class Tramitacion implements Serializable {
     @JoinColumn(name = "id_destino", referencedColumnName = "id_dependencia")
     @ManyToOne
     private Dependencia idDestino;
+    @OneToMany(mappedBy = "idTramitacion", cascade = CascadeType.REMOVE)
+    private List<TramitacionAdjunto> tramitacionAdjuntoList;
+    @OneToMany(mappedBy = "idTramitacionAnterior")
+    private List<Tramitacion> tramitacionList;
+    @JoinColumn(name = "id_tramitacion_anterior", referencedColumnName = "id_tramitacion")
+    @ManyToOne
+    private Tramitacion idTramitacionAnterior;
 
     public Tramitacion() {
     }
@@ -223,5 +225,13 @@ public class Tramitacion implements Serializable {
     public void setIdTramitacionAnterior(Tramitacion idTramitacionAnterior) {
         this.idTramitacionAnterior = idTramitacionAnterior;
     }
-    
+
+    public List<TramitacionAdjunto> getTramitacionAdjuntoList() {
+        return tramitacionAdjuntoList;
+    }
+
+    public void setTramitacionAdjuntoList(List<TramitacionAdjunto> tramitacionAdjuntoList) {
+        this.tramitacionAdjuntoList = tramitacionAdjuntoList;
+    }
+
 }

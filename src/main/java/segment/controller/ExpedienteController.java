@@ -29,7 +29,6 @@ import segment.modelo.Expediente;
 import segment.modelo.ExpedienteAdjunto;
 import segment.modelo.SubTipo;
 import segment.modelo.Tramitacion;
-import util.ExcepcionManager;
 import util.JSFutil;
 import util.JSFutil.PersistAction;
 
@@ -101,6 +100,11 @@ public class ExpedienteController implements Serializable {
         return "/pages/ListarExpediente";
     }
 
+    public String doVerForm(Integer idExpediente) {
+        this.expediente = expedienteFacade.find(idExpediente);
+        return "/pages/VerExpediente";
+    }
+
     public String doCrearForm() {
         this.expediente = new Expediente();
         this.adjuntoExpediente = new ArrayList<>();
@@ -120,6 +124,7 @@ public class ExpedienteController implements Serializable {
     public String doBorrar(Integer id) {
         this.expediente = expedienteFacade.find(id);
         persist(PersistAction.DELETE);
+        this.doRefrescar();
         return doListarForm();
     }
 
@@ -182,6 +187,9 @@ public class ExpedienteController implements Serializable {
         } else {
             this.expediente.setCerrado(Boolean.FALSE);
             this.expediente.setIdUsuario(JSFutil.getUsuarioConectado());
+            //Estado en Tramite
+            this.expediente.setIdEstadoExpediente(new SubTipo(5));
+            this.expediente.setFechaRegistro(JSFutil.getFechaHoraActual());
             persist(PersistAction.CREATE);
         }
         this.listaExpediente = expedienteFacade.findExpediente(expediente.getAcapite(), JSFutil.getUsuarioConectado());

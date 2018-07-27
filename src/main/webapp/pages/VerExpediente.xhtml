@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">
+        <h1>Ver Expediente</h1>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:panel header="Datos del Expediente">
+                <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" layout="grid" columnClasses="ui-grid-col-7,ui-grid-col-5">
+                    <p:panelGrid columns="2" >
+                        <p:outputLabel value="Tipo:" for="idTipoExpediente" />
+                        <h:outputText id="idTipoExpediente" value="#{ExpedienteController.expediente.idTipoExpediente.descripcionSubTipo}" />  
+                        <p:outputLabel value="Nro. Expediente:" for="nroExpediente" />
+                        <h:outputText id="nroExpediente" value="#{ExpedienteController.expediente.nroExpediente}" title="NroExpediente"/>
+                        <p:outputLabel value="Acápite:" for="acapite" />
+                        <h:outputText id="acapite" value="#{ExpedienteController.expediente.acapite}" title="Acapite"/>
+                        <p:outputLabel value="Fecha Expediente:" for="fechaExpediente" />
+                        <h:outputText id="fechaExpediente" value="#{ExpedienteController.expediente.fechaExpediente}" title="Fecha Expediente">
+                            <f:convertDateTime timeZone="#{CommonController.myTimeZone}" pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                        <p:outputLabel value="Fecha Entrada:" for="fechaEntrada" />
+                        <h:outputText id="fechaEntrada" value="#{ExpedienteController.expediente.fechaEntrada}" title="Fecha Entrada">
+                            <f:convertDateTime timeZone="#{CommonController.myTimeZone}" pattern="dd/MM/yyyy hh:mm" />
+                        </h:outputText>
+                        <p:outputLabel value="Remitente:" for="remitente" />
+                        <h:outputText id="remitente" value="#{ExpedienteController.expediente.remitente}" title="Remitente" />
+                        <p:outputLabel value="Observación:" for="observacion" />
+                        <h:outputText escape="false" id="observacion" value="#{ExpedienteController.expediente.observacion}" />
+                    </p:panelGrid>
+                    <p:dataTable id="dataTableAdjunto" var="expeAdj" value="#{ExpedienteController.expediente.expedienteAdjuntoList}" reflow="true" emptyMessage="#{bundle.SinRegistrosMensaje}">
+                        <f:facet name="header">
+                            <h:outputText styleClass="Purple" value="Archivos del Expediente"/>
+                        </f:facet>
+                        <p:column headerText="Archivos" >
+                            <h:outputText value="#{expeAdj.toNameDownload()}"/>
+                            [<h:outputText value="#{expeAdj.tamanhoArchivo/(1024*1024)}">
+                                <f:convertNumber pattern="###,###,###.##"/>
+                            </h:outputText> MB]
+                        </p:column>
+                        <p:column style="width: 100px" headerText="Acción" >
+                            <p:button target="_blank" href="#{CommonController.serverURLDownload}/#{expeAdj.toURLDownload()}" title="#{bundle.DescargarBoton}" icon="fa fa-fw fa-download"/>
+                        </p:column>
+                    </p:dataTable> 
+                </p:panelGrid>
+            </p:panel>
+            <p:panel header="Flujo de Trabajo">
+                <p:dataTable id="dtTramitacionPendiente" value="#{ExpedienteController.expediente.tramitacionList}" var="item" emptyMessage="#{bundle.SinRegistrosMensaje}"
+                             rows="50"
+                             paginator="true"
+                             filterEvent="enter"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,25,50,100"
+                             sortMode="multiple"
+                             >
+                    <p:column width="130" sortBy="#{item.fechaTramite}" sortable="true">
+                        <f:facet name="header">
+                            <h:outputText value="F. Tramite"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaTramite}">
+                            <f:convertDateTime timeZone="#{CommonController.myTimeZone}" pattern="dd/MM/yyyy hh:mm" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Descripción"/>
+                        </f:facet>
+                        <h:outputText value="#{item.descripcionTramite}"/>
+                    </p:column>
+                    <p:column >
+                        <f:facet name="header">
+                            <h:outputText value="De"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idUsuarioOrigen}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Origen"/><i class="fa fa-arrow-right"/><h:outputText value="Destino"/>
+                        </f:facet>
+                        <h:outputText styleClass="DarkGreen" value="#{item.idOrigen.descripcionDependencia}"/><i class="fa fa-arrow-right"/><h:outputText styleClass="fontBold" value="#{item.idDestino.descripcionDependencia}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Estado"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idEstadoTramite.descripcionSubTipo}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

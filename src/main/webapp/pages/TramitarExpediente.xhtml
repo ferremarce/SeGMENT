@@ -38,9 +38,9 @@
                         <p:outputLabel value="Descripción:" for="descripcionTramite" />
                         <p:inputText id="descripcionTramite" value="#{TramitacionController.tramitacion.descripcionTramite}" title="DescripcionTramite" required="true" requiredMessage="#{bundle.Requerido}" />
                         <p:outputLabel value="Fecha Trámite:" for="fechaTramite" />
-                        <p:calendar navigator="true" locale="es"  size="12" id="fechaTramite" value="#{TramitacionController.tramitacion.idExpediente.fechaEntrada}" pattern="dd/MM/yyyy HH:mm" title="Fecha Trámite" required="true"/>
+                        <p:calendar navigator="true" locale="es"  size="12" id="fechaTramite" value="#{TramitacionController.tramitacion.fechaTramite}" pattern="dd/MM/yyyy HH:mm" title="Fecha Trámite" required="true"/>
                         <p:outputLabel value="Remitido a:" for="remitidoA" />
-                        <p:inputText id="remitidoA" value="#{TramitacionController.tramitacion.remitidoA}" title="RemitidoA" />
+                        <p:inputText id="remitidoA" value="#{TramitacionController.tramitacion.remitidoA}" title="Remitido A" />
                         <p:outputLabel value="Origen:" for="idOrigen" />
                         <h:outputText id="idOrigen" value="#{TramitacionController.tramitacion.idOrigen.descripcionDependencia}" title="Origen"/>
                         <p:outputLabel value="Observación:" for="observacion" />

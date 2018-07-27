@@ -29,17 +29,17 @@ import javax.validation.constraints.Size;
  * @author jmferreira
  */
 @Entity
-@Table(name = "expediente_adjunto")
+@Table(name = "tramitacion_adjunto")
 @NamedQueries({
-    @NamedQuery(name = "ExpedienteAdjunto.findAll", query = "SELECT e FROM ExpedienteAdjunto e")})
-public class ExpedienteAdjunto implements Serializable {
+    @NamedQuery(name = "TramitacionAdjunto.findAll", query = "SELECT t FROM TramitacionAdjunto t")})
+public class TramitacionAdjunto implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id_expediente_adjunto")
-    private Integer idExpedienteAdjunto;
+    @Column(name = "id_tramitacion_adjunto")
+    private Integer idTramitacionAdjunto;
     @Lob
     @Column(name = "archivo")
     private byte[] archivo;
@@ -57,23 +57,23 @@ public class ExpedienteAdjunto implements Serializable {
     @Size(max = 255)
     @Column(name = "tipo_archivo_mime")
     private String tipoArchivoMime;
-    @JoinColumn(name = "id_expediente", referencedColumnName = "id_expediente")
+    @JoinColumn(name = "id_tramitacion", referencedColumnName = "id_tramitacion")
     @ManyToOne
-    private Expediente idExpediente;
+    private Tramitacion idTramitacion;
 
-    public ExpedienteAdjunto() {
+    public TramitacionAdjunto() {
     }
 
-    public ExpedienteAdjunto(Integer idExpedienteAdjunto) {
-        this.idExpedienteAdjunto = idExpedienteAdjunto;
+    public TramitacionAdjunto(Integer idTramitacionAdjunto) {
+        this.idTramitacionAdjunto = idTramitacionAdjunto;
     }
 
-    public Integer getIdExpedienteAdjunto() {
-        return idExpedienteAdjunto;
+    public Integer getIdTramitacionAdjunto() {
+        return idTramitacionAdjunto;
     }
 
-    public void setIdExpedienteAdjunto(Integer idExpedienteAdjunto) {
-        this.idExpedienteAdjunto = idExpedienteAdjunto;
+    public void setIdTramitacionAdjunto(Integer idTramitacionAdjunto) {
+        this.idTramitacionAdjunto = idTramitacionAdjunto;
     }
 
     public byte[] getArchivo() {
@@ -124,29 +124,29 @@ public class ExpedienteAdjunto implements Serializable {
         this.tipoArchivoMime = tipoArchivoMime;
     }
 
-    public Expediente getIdExpediente() {
-        return idExpediente;
+    public Tramitacion getIdTramitacion() {
+        return idTramitacion;
     }
 
-    public void setIdExpediente(Expediente idExpediente) {
-        this.idExpediente = idExpediente;
+    public void setIdTramitacion(Tramitacion idTramitacion) {
+        this.idTramitacion = idTramitacion;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idExpedienteAdjunto != null ? idExpedienteAdjunto.hashCode() : 0);
+        hash += (idTramitacionAdjunto != null ? idTramitacionAdjunto.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ExpedienteAdjunto)) {
+        if (!(object instanceof TramitacionAdjunto)) {
             return false;
         }
-        ExpedienteAdjunto other = (ExpedienteAdjunto) object;
-        if ((this.idExpedienteAdjunto == null && other.idExpedienteAdjunto != null) || (this.idExpedienteAdjunto != null && !this.idExpedienteAdjunto.equals(other.idExpedienteAdjunto))) {
+        TramitacionAdjunto other = (TramitacionAdjunto) object;
+        if ((this.idTramitacionAdjunto == null && other.idTramitacionAdjunto != null) || (this.idTramitacionAdjunto != null && !this.idTramitacionAdjunto.equals(other.idTramitacionAdjunto))) {
             return false;
         }
         return true;
@@ -154,24 +154,7 @@ public class ExpedienteAdjunto implements Serializable {
 
     @Override
     public String toString() {
-        return "segment.modelo.ExpedienteAdjunto[ idExpedienteAdjunto=" + idExpedienteAdjunto + " ]";
-    }
-
-    public String toNameDownload() {
-        String extension = "";
-        int i = this.getNombreArchivo().lastIndexOf('.');
-        if (i > 0) {
-            extension = this.getNombreArchivo().substring(i + 1);
-        }
-        if (extension.length() <= 0) {
-            extension = "doc";
-        }
-        //return this.getTipoAdjunto() + "-" + this.idProyecto.getExpedienteCamara() + "." + extension;
-        return this.getNombreArchivo();
-    }
-
-    public String toURLDownload() {
-        return "expediente-" + this.idExpedienteAdjunto;
+        return "segment.modelo.TramitacionAdjunto[ idTramitacionAdjunto=" + idTramitacionAdjunto + " ]";
     }
 
 }
