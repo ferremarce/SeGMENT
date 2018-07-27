@@ -31,9 +31,10 @@ public class TramitacionFacade extends AbstractFacade<Tramitacion> {
         super(Tramitacion.class);
     }
 
-    public List<Tramitacion> findAllTramitacion(Integer idEstado) {
-        Query q = em.createQuery("SELECT a FROM Tramitacion a WHERE a.idEstadoTramite.idSubTipo=:xIdEstado ORDER BY a.fechaTramite DESC");
+    public List<Tramitacion> findAllTramitacion(Integer idEstado, Integer idDependencia) {
+        Query q = em.createQuery("SELECT a FROM Tramitacion a WHERE a.idEstadoTramite.idSubTipo=:xIdEstado AND a.idDestino.idDependencia=:xIdDependencia ORDER BY a.fechaTramite DESC");
         q.setParameter("xIdEstado", idEstado);
+        q.setParameter("xIdDependencia", idDependencia);
         //q.setParameter("xIdDependencia", idDependencia);
         List<Tramitacion> tr = q.getResultList();
         return tr;

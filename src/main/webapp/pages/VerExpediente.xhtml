@@ -90,6 +90,22 @@
                         </f:facet>
                         <h:outputText value="#{item.idEstadoTramite.descripcionSubTipo}"/>
                     </p:column>
+                    <p:column>
+                        <p:dataTable rendered="#{item.tramitacionAdjuntoList.size()>0}" reflow="true" value="#{item.tramitacionAdjuntoList}" var="itemAdjuntoTramita">
+                            <f:facet name="header">
+                                <h:outputText styleClass="Purple" value="Archivos del Trámite"/>
+                            </f:facet>
+                            <p:column headerText="Archivos" >
+                                <h:outputText value="#{itemAdjuntoTramita.toNameDownload()}"/>
+                                [<h:outputText value="#{itemAdjuntoTramita.tamanhoArchivo/(1024*1024)}">
+                                    <f:convertNumber pattern="###,###,###.##"/>
+                                </h:outputText> MB]
+                            </p:column>
+                            <p:column style="width: 100px" headerText="Acción" >
+                                <p:button target="_blank" href="#{CommonController.serverURLDownload}/#{itemAdjuntoTramita.toURLDownload()}" title="#{bundle.DescargarBoton}" icon="fa fa-fw fa-download"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:column>
                 </p:dataTable>
             </p:panel>
         </h:form>

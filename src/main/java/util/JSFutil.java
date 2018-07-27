@@ -43,6 +43,7 @@ public class JSFutil implements Serializable {
 
     public static final String folderRoot = "/segment/";
     public static String folderExpediente = folderRoot + "expediente/";
+    public static String folderTramitacion = folderRoot + "tramitacion/";
 
     public static enum StatusMessage {
         INFORMATION, WARNING, ERROR, FATAL

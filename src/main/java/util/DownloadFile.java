@@ -26,7 +26,9 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import segment.fachada.ExpedienteAdjuntoFacade;
 import segment.fachada.ExpedienteFacade;
+import segment.fachada.TramitacionAdjuntoFacade;
 import segment.modelo.ExpedienteAdjunto;
+import segment.modelo.TramitacionAdjunto;
 
 /**
  *
@@ -42,6 +44,8 @@ public class DownloadFile implements Serializable {
     ExpedienteFacade expedienteFacade;
     @Inject
     ExpedienteAdjuntoFacade expedienteAdjuntoFacade;
+    @Inject
+    TramitacionAdjuntoFacade tramitacionAdjuntoFacade;
 
     private String pagina;
     private Integer id;
@@ -96,8 +100,11 @@ public class DownloadFile implements Serializable {
 
             StreamedContent content = new DefaultStreamedContent(new ByteArrayInputStream(noContent.getBytes()), "text/html", "No existe Archivo");
             switch (pagina) {
-                case "expediente": //INICITIVAS DE EXPEDIENTES
+                case "expediente":
                     content = this.downloadExpediente(id);
+                    break;
+                case "tramitacion":
+                    content = this.downloadTramitacion(id);
                     break;
                 default:
                     break;
@@ -152,6 +159,20 @@ public class DownloadFile implements Serializable {
             return file;
         } else {
             System.out.println("ARCHIVO_NO_ENCONTRADO: " + pa.getClass() + " con ID " + pa.getIdExpedienteAdjunto());
+            JSFutil.addMessage("No dispone de adjuntos para visualizar...", JSFutil.StatusMessage.WARNING);
+            String noContent = "<html><h1>Sin adjunto...</></html>";
+            return new DefaultStreamedContent(new ByteArrayInputStream(noContent.getBytes()), "text/html", "No existe Archivo");
+        }
+    }
+
+    public StreamedContent downloadTramitacion(Integer id) throws FileNotFoundException {
+        TramitacionAdjunto pa = tramitacionAdjuntoFacade.find(id);
+        File archivo = new File(JSFutil.folderTramitacion + pa.getIdTramitacionAdjunto() + "-" + pa.getNombreArchivo());
+        if (archivo.exists()) {
+            StreamedContent file = new DefaultStreamedContent(new FileInputStream(archivo), pa.getTipoArchivoMime(), pa.getNombreArchivo());
+            return file;
+        } else {
+            System.out.println("ARCHIVO_NO_ENCONTRADO: " + pa.getClass() + " con ID " + pa.getIdTramitacionAdjunto());
             JSFutil.addMessage("No dispone de adjuntos para visualizar...", JSFutil.StatusMessage.WARNING);
             String noContent = "<html><h1>Sin adjunto...</></html>";
             return new DefaultStreamedContent(new ByteArrayInputStream(noContent.getBytes()), "text/html", "No existe Archivo");

@@ -34,18 +34,43 @@
             <p:messages/>
             <p:panel header="Datos del Trámite">
                 <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" layout="grid" columnClasses="ui-grid-col-8,ui-grid-col-4">
-                    <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
-                        <p:outputLabel value="Descripción:" for="descripcionTramite" />
-                        <p:inputText id="descripcionTramite" value="#{TramitacionController.tramitacion.descripcionTramite}" title="DescripcionTramite" required="true" requiredMessage="#{bundle.Requerido}" />
-                        <p:outputLabel value="Fecha Trámite:" for="fechaTramite" />
-                        <p:calendar navigator="true" locale="es"  size="12" id="fechaTramite" value="#{TramitacionController.tramitacion.fechaTramite}" pattern="dd/MM/yyyy HH:mm" title="Fecha Trámite" required="true"/>
-                        <p:outputLabel value="Remitido a:" for="remitidoA" />
-                        <p:inputText id="remitidoA" value="#{TramitacionController.tramitacion.remitidoA}" title="Remitido A" />
-                        <p:outputLabel value="Origen:" for="idOrigen" />
-                        <h:outputText id="idOrigen" value="#{TramitacionController.tramitacion.idOrigen.descripcionDependencia}" title="Origen"/>
-                        <p:outputLabel value="Observación:" for="observacion" />
-                        <p:textEditor id="observacion" height="100" value="#{TramitacionController.tramitacion.observacion}" />
-                    </p:panelGrid>
+                    <p:outputPanel>
+                        <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+                            <p:outputLabel value="Descripción:" for="descripcionTramite" />
+                            <p:inputText id="descripcionTramite" value="#{TramitacionController.tramitacion.descripcionTramite}" title="DescripcionTramite" required="true" requiredMessage="#{bundle.Requerido}" />
+                            <p:outputLabel value="Fecha Trámite:" for="fechaTramite" />
+                            <p:calendar navigator="true" locale="es"  size="12" id="fechaTramite" value="#{TramitacionController.tramitacion.fechaTramite}" pattern="dd/MM/yyyy HH:mm" title="Fecha Trámite" required="true"/>
+                            <p:outputLabel value="Remitido a:" for="remitidoA" />
+                            <p:inputText id="remitidoA" value="#{TramitacionController.tramitacion.remitidoA}" title="Remitido A" />
+                            <p:outputLabel value="Origen:" for="idOrigen" />
+                            <h:outputText id="idOrigen" value="#{TramitacionController.tramitacion.idOrigen.descripcionDependencia}" title="Origen"/>
+                            <p:outputLabel value="Observación:" for="observacion" />
+                            <p:textEditor id="observacion" height="100" value="#{TramitacionController.tramitacion.observacion}" />
+                        </p:panelGrid>
+                        <p:panel header="Haga click en #{bundle.SeleccionarBoton} o Arrastre hasta aquí los archivos">
+                            <p:fileUpload id="archivo" label="#{bundle.SeleccionarBoton}" cancelLabel="#{bundle.EliminarBoton}" uploadLabel="#{bundle.AgregarBoton}" 
+                                          fileUploadListener="#{TramitacionController.handleFileUpload}"
+                                          mode="advanced"
+                                          multiple="true"
+                                          allowTypes="/(\.|\/)(doc|docx|xls|xlsx|pdf|DOC|DOCX|XLS|XLSX|PDF)$/"
+                                          invalidFileMessage="#{bundle.MensajeTipoArchivoNoValido}"
+                                          update="dtAdjuntoTramite">
+                            </p:fileUpload>
+                            <p:dataTable id="dtAdjuntoTramite" value="#{TramitacionController.adjuntoTramitacion}" rowIndexVar="index" var="item" emptyMessage="#{bundle.SinRegistrosMensaje}" >
+                                <p:column headerText="Archivo">
+                                    <h:outputText value="#{index+1}. #{item.fileName}"/>
+                                </p:column>
+                                <p:column headerText="Acción">
+                                    <p:panelGrid columns="2" layout="grid">
+                                        <p:commandButton title="#{bundle.DescargarBoton}" value="#{bundle.DescargarBoton}" icon="fa fa-download" immediate="true" ajax="false">
+                                            <p:fileDownload value="#{CommonController.downloadAdjuntoTMP(item)}"/>
+                                        </p:commandButton>
+                                        <p:commandButton immediate="true" title="#{bundle.EliminarAdjunto}" value="#{bundle.EliminarAdjunto}" icon="fa fa-minus-square" action="#{TramitacionController.doSacarAdjunto(index)}" update="dtAdjuntoTramite"/>
+                                    </p:panelGrid>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                    </p:outputPanel>
                     <p:outputPanel>
                         <p:outputLabel value="Destino:" for="idDestino" />
                         <p:selectManyCheckbox id="idDestino" layout="grid" columns="1" value="#{TramitacionController.arrayDependencias}" required="true" requiredMessage="#{bundle.Requerido}" >

@@ -37,6 +37,7 @@
                     <p:submenu label="&nbsp;Mantenimiento" icon="fa fa-book">
                         <p:menuitem ajax="false" icon="fa fa-sticky-note-o" value="Expedientes" action="#{ExpedienteController.doListarForm()}"/>
                         <p:menuitem ajax="false" icon="fa fa-cubes" value="Dependencias" action="#{DependenciaController.doListarForm()}"/>
+                        <p:menuitem ajax="false" icon="fa fa-users" value="Usuarios" action="#{UsuarioController.doListarForm()}"/>
                     </p:submenu>
                     <p:submenu label="&nbsp;Procesos" icon="fa fa-cogs">
                         <p:menuitem ajax="false" value="Seguimiento de Expediente" url="#"/>
@@ -61,30 +62,15 @@
             </h:form>
             <ui:insert name="title">
             </ui:insert>
-            <ui:insert name="ajax">
-                <ui:include src="/ajax.xhtml"/>
-            </ui:insert>
-            <ui:insert name="dialogConfirm">
-                <ui:include src="/dialogConfirm.xhtml"/>
-            </ui:insert>
+            <ui:include src="/ajax.xhtml"/>
+            <ui:include src="/dialogConfirm.xhtml"/>
             <p:growl life="5000" globalOnly="true" showDetail="true" severity="info, warn" id="messages"/> 
             <p:messages closable="true" showDetail="true" globalOnly="true" severity="error" >
                 <p:autoUpdate/>
             </p:messages>
             <ui:insert name="content">
             </ui:insert>
-            <footer>
-                <p:panel>
-                    <span >
-                        &copy;#{MainController.doGetAnhoActual()} #{bundle.TituloSistema}
-                        <br/>
-                        #{bundle.SubTituloSistema}
-                    </span>
-                    <span style="float: right;">
-                        Desarrollado por @ferremarce
-                    </span>
-                </p:panel>
-            </footer>
+            <ui:include src="/footer.xhtml"/>
         </div>
         <script>
             document.getElementById('panelLoad').style.display = 'none';

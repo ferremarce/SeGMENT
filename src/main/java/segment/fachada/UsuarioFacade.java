@@ -5,6 +5,7 @@
  */
 package segment.fachada;
 
+import java.util.List;
 import java.util.logging.Level;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -41,6 +42,14 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
             LOG.log(Level.SEVERE, "Error al recuperar el usuario de la cuenta [" + cuenta + "]", e);
             return null;
         }
+    }
+
+    public List<Usuario> findUsuario(String criterio) {
+        Query q = em.createQuery("SELECT a FROM Usuario a WHERE UPPER(CONCAT(a.apellidos, a.nombres, a.cuenta)) LIKE :xCriterio");
+        q.setParameter("xCriterio", "%" + criterio.toUpperCase() + "%");
+        List<Usuario> tr = q.getResultList();
+        return tr;
+
     }
 
 }
