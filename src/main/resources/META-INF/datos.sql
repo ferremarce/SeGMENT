@@ -38,6 +38,7 @@ INSERT INTO `sub_tipo` (`id_sub_tipo`,`descripcion_sub_tipo`,`orden`,`id_tipo`) 
 INSERT INTO `sub_tipo` (`id_sub_tipo`,`descripcion_sub_tipo`,`orden`,`id_tipo`) VALUES (6,'PENDIENTE',NULL,3);
 INSERT INTO `sub_tipo` (`id_sub_tipo`,`descripcion_sub_tipo`,`orden`,`id_tipo`) VALUES (7,'CONFIRMADO',NULL,3);
 INSERT INTO `sub_tipo` (`id_sub_tipo`,`descripcion_sub_tipo`,`orden`,`id_tipo`) VALUES (8,'DEVUELTO',NULL,3);
+INSERT INTO `sub_tipo` (`id_sub_tipo`,`descripcion_sub_tipo`,`orden`,`id_tipo`) VALUES (9,'DERIVADO',NULL,3);
 
 INSERT INTO `clasificador` (`id_clasificador`,`descripcion`,`mapeo_numerico`,`id_padre`) VALUES (1,'Computadoras',NULL,NULL);
 INSERT INTO `clasificador` (`id_clasificador`,`descripcion`,`mapeo_numerico`,`id_padre`) VALUES (2,'Impresoras',NULL,NULL);

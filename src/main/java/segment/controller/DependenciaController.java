@@ -159,6 +159,6 @@ public class DependenciaController implements Serializable {
     }
 
     public SelectItem[] getDependenciaSet() {
-        return JSFutil.getSelectItems(dependenciaFacade.findAllDependencia(), Boolean.TRUE);
+        return JSFutil.getSelectItems(dependenciaFacade.findAllDependencia(), Boolean.FALSE);
     }
 }

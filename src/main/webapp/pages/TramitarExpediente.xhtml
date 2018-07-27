@@ -14,7 +14,7 @@
             <p:panel header="Datos del Expediente">
                 <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
                     <p:outputLabel value="Tipo:" for="idTipoExpediente" />
-                    <h:outputText id="idTipoExpediente" value="#{TramitacionController.tramitacion.idExpediente.idTipoExpediente}"/>  
+                    <h:outputText id="idTipoExpediente" value="#{TramitacionController.tramitacion.idExpediente.idTipoExpediente.descripcionSubTipo}"/>  
                     <p:outputLabel value="Nro. Expediente:" for="nroExpediente" />
                     <h:outputText id="nroExpediente" value="#{TramitacionController.tramitacion.idExpediente.nroExpediente}" title="NroExpediente"/>
                     <p:outputLabel value="Acápite:" for="acapite" />
@@ -31,24 +31,36 @@
                     <h:outputText id="remitente" value="#{TramitacionController.tramitacion.idExpediente.remitente}" title="Remitente" />
                 </p:panelGrid>
             </p:panel>
-            <p:panelGrid columns="2">
-                <p:outputLabel value="Descripción:" for="descripcionTramite" />
-                <p:inputText id="descripcionTramite" value="#{TramitacionController.tramitacion.descripcionTramite}" title="DescripcionTramite" required="true" />
-                <p:outputLabel value="FechaTramite:" for="fechaTramite" />
-                <p:calendar navigator="true" locale="es"  size="12" id="fechaTramite" value="#{ExpedienteController.expediente.fechaEntrada}" pattern="dd/MM/yyyy HH:mm" title="Fecha Trámite" required="true"/>
-                <p:outputLabel value="RemitidoA:" for="remitidoA" />
-                <p:inputText id="remitidoA" value="#{TramitacionController.tramitacion.remitidoA}" title="RemitidoA" />
-                <p:outputLabel value="Origen:" for="idOrigen" />
-                <p:selectOneMenu id="idOrigen" value="#{TramitacionController.tramitacion.idOrigen}" required="true" >
-                    <f:selectItems value="#{DependenciaController.dependenciaSet}"/>
-                </p:selectOneMenu>
-                <p:outputLabel value="Destino:" for="idDestino" />
-                <p:selectOneMenu id="idDestino" value="#{TramitacionController.tramitacion.idDestino}" required="true" >
-                    <f:selectItems value="#{DependenciaController.dependenciaSet}"/>
-                </p:selectOneMenu>
-                <p:outputLabel value="Observacion:" for="observacion" />
-                <p:textEditor id="observacion" height="100" value="#{TramitacionController.tramitacion.observacion}" />
-            </p:panelGrid>
+            <p:messages/>
+            <p:panel header="Datos del Trámite">
+                <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" layout="grid" columnClasses="ui-grid-col-8,ui-grid-col-4">
+                    <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+                        <p:outputLabel value="Descripción:" for="descripcionTramite" />
+                        <p:inputText id="descripcionTramite" value="#{TramitacionController.tramitacion.descripcionTramite}" title="DescripcionTramite" required="true" requiredMessage="#{bundle.Requerido}" />
+                        <p:outputLabel value="Fecha Trámite:" for="fechaTramite" />
+                        <p:calendar navigator="true" locale="es"  size="12" id="fechaTramite" value="#{TramitacionController.tramitacion.idExpediente.fechaEntrada}" pattern="dd/MM/yyyy HH:mm" title="Fecha Trámite" required="true"/>
+                        <p:outputLabel value="Remitido a:" for="remitidoA" />
+                        <p:inputText id="remitidoA" value="#{TramitacionController.tramitacion.remitidoA}" title="RemitidoA" />
+                        <p:outputLabel value="Origen:" for="idOrigen" />
+                        <h:outputText id="idOrigen" value="#{TramitacionController.tramitacion.idOrigen.descripcionDependencia}" title="Origen"/>
+                        <p:outputLabel value="Observación:" for="observacion" />
+                        <p:textEditor id="observacion" height="100" value="#{TramitacionController.tramitacion.observacion}" />
+                    </p:panelGrid>
+                    <p:outputPanel>
+                        <p:outputLabel value="Destino:" for="idDestino" />
+                        <p:selectManyCheckbox id="idDestino" layout="grid" columns="1" value="#{TramitacionController.arrayDependencias}" required="true" requiredMessage="#{bundle.Requerido}" >
+                            <f:selectItems value="#{DependenciaController.dependenciaSet}"/>
+                        </p:selectManyCheckbox>
+                    </p:outputPanel>
+                </p:panelGrid>
+                <f:facet name="footer">
+                    <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6,ui-grid-col-6">
+                        <p:commandButton ajax="false" icon="fa fa-save" value="#{bundle.ProcesarBoton}" action="#{TramitacionController.doTramitar()}"/>
+                        <p:commandButton immediate="true" ajax="false" icon="fa fa-sign-out" value="#{bundle.RegresarBoton}" action="/pages/MisTareas"/>
+                    </p:panelGrid>
+                </f:facet>   
+
+            </p:panel>
         </h:form>
     </ui:define>
 
