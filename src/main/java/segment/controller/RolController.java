@@ -16,8 +16,8 @@ import java.util.logging.Logger;
 import javax.ejb.EJBException;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
-import segment.fachada.DependenciaFacade;
-import segment.modelo.Dependencia;
+import segment.fachada.RolFacade;
+import segment.modelo.Rol;
 import util.JSFutil;
 import util.JSFutil.PersistAction;
 
@@ -25,31 +25,31 @@ import util.JSFutil.PersistAction;
  *
  * @author jmferreira
  */
-@Named(value = "DependenciaController")
+@Named(value = "RolController")
 @SessionScoped
-public class DependenciaController implements Serializable {
+public class RolController implements Serializable {
 
-    private static final Logger LOG = Logger.getLogger(DependenciaController.class.getName());
+    private static final Logger LOG = Logger.getLogger(RolController.class.getName());
     ResourceBundle bundle = ResourceBundle.getBundle("propiedades.bundle", JSFutil.getmyLocale());
 
     @Inject
-    DependenciaFacade dependenciaFacade;
+    RolFacade rolFacade;
     @Inject
     CommonController commonController;
 
-    private Dependencia dependencia;
-    private List<Dependencia> listaDependencia;
+    private Rol rol;
+    private List<Rol> listaRol;
     private String criterio;
 
-    public DependenciaController() {
+    public RolController() {
     }
 
-    public DependenciaFacade getDependenciaFacade() {
-        return dependenciaFacade;
+    public RolFacade getRolFacade() {
+        return rolFacade;
     }
 
-    public void setDependenciaFacade(DependenciaFacade dependenciaFacade) {
-        this.dependenciaFacade = dependenciaFacade;
+    public void setRolFacade(RolFacade rolFacade) {
+        this.rolFacade = rolFacade;
     }
 
     public String getCriterio() {
@@ -60,51 +60,51 @@ public class DependenciaController implements Serializable {
         this.criterio = criterio;
     }
 
-    public Dependencia getDependencia() {
-        return dependencia;
+    public Rol getRol() {
+        return rol;
     }
 
-    public void setDependencia(Dependencia dependencia) {
-        this.dependencia = dependencia;
+    public void setRol(Rol rol) {
+        this.rol = rol;
     }
 
-    public List<Dependencia> getListaDependencia() {
-        return listaDependencia;
+    public List<Rol> getListaRol() {
+        return listaRol;
     }
 
-    public void setListaDependencia(List<Dependencia> listaDependencia) {
-        this.listaDependencia = listaDependencia;
+    public void setListaRol(List<Rol> listaRol) {
+        this.listaRol = listaRol;
     }
 
     public String doListarForm() {
-        if (this.listaDependencia == null) {
-            this.listaDependencia = new ArrayList<>();
+        if (this.listaRol == null) {
+            this.listaRol = new ArrayList<>();
         }
-        return "/pages/ListarDependencia";
+        return "/pages/ListarRol";
     }
 
     public String doCrearForm() {
-        this.dependencia = new Dependencia();
-        return "/pages/CrearDependencia";
+        this.rol = new Rol();
+        return "/pages/CrearRol";
     }
 
     public String doEditarForm(Integer id) {
-        this.dependencia = dependenciaFacade.find(id);
-        return "/pages/CrearDependencia";
+        this.rol = rolFacade.find(id);
+        return "/pages/CrearRol";
     }
 
     public String doBorrar(Integer id) {
-        this.dependencia = dependenciaFacade.find(id);
+        this.rol = rolFacade.find(id);
         persist(PersistAction.DELETE);
         return doListarForm();
     }
 
     public String doRefrescar() {
-        this.listaDependencia = dependenciaFacade.findDependencia("");
-        if (this.listaDependencia.isEmpty()) {
+        this.listaRol = rolFacade.findRol("");
+        if (this.listaRol.isEmpty()) {
             JSFutil.addMessage("No hay resultados...", JSFutil.StatusMessage.WARNING);
         } else {
-            JSFutil.addMessage(this.listaDependencia.size() + " registros recuperados", JSFutil.StatusMessage.INFORMATION);
+            JSFutil.addMessage(this.listaRol.size() + " registros recuperados", JSFutil.StatusMessage.INFORMATION);
         }
         return "";
     }
@@ -114,33 +114,33 @@ public class DependenciaController implements Serializable {
             JSFutil.addMessage("No hay criterios para buscar...", JSFutil.StatusMessage.WARNING);
             return "";
         }
-        this.listaDependencia = dependenciaFacade.findDependencia(this.criterio);
-        if (this.listaDependencia.isEmpty()) {
+        this.listaRol = rolFacade.findRol(this.criterio);
+        if (this.listaRol.isEmpty()) {
             JSFutil.addMessage("No hay resultados...", JSFutil.StatusMessage.WARNING);
         } else {
-            JSFutil.addMessage(this.listaDependencia.size() + " registros recuperados", JSFutil.StatusMessage.INFORMATION);
+            JSFutil.addMessage(this.listaRol.size() + " registros recuperados", JSFutil.StatusMessage.INFORMATION);
         }
         return "";
     }
 
     public String doGuardar() {
-        if (this.dependencia.getIdDependencia() != null) {
+        if (this.rol.getIdRol() != null) {
             persist(PersistAction.UPDATE);
         } else {
             persist(PersistAction.CREATE);
         }
-        this.listaDependencia = dependenciaFacade.findDependencia(dependencia.getDescripcionDependencia());
+        this.listaRol = rolFacade.findRol(rol.getDescripcionRol());
         return doListarForm();
     }
 
     private void persist(PersistAction persistAction) {
         try {
             if (persistAction.compareTo(PersistAction.CREATE) == 0) {
-                dependenciaFacade.create(dependencia);
+                rolFacade.create(rol);
             } else if (persistAction.compareTo(PersistAction.UPDATE) == 0) {
-                dependenciaFacade.edit(dependencia);
+                rolFacade.edit(rol);
             } else if (persistAction.compareTo(PersistAction.DELETE) == 0) {
-                dependenciaFacade.remove(dependencia);
+                rolFacade.remove(rol);
             }
             JSFutil.addMessage(this.bundle.getString("UpdateSuccess"), JSFutil.StatusMessage.INFORMATION);
         } catch (EJBException ex) {
@@ -158,12 +158,8 @@ public class DependenciaController implements Serializable {
         }
     }
 
-    public SelectItem[] getDependenciaSet() {
-        return JSFutil.getSelectItems(dependenciaFacade.findAllDependencia(), Boolean.FALSE);
-    }
-
-    public SelectItem[] getDependenciaOptionSet() {
-        return JSFutil.getSelectItems(dependenciaFacade.findAllDependencia(), Boolean.TRUE);
+    public SelectItem[] getRolSet() {
+        return JSFutil.getSelectItems(rolFacade.findAll(), Boolean.TRUE);
     }
 
 }

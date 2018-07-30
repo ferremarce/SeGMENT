@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">
+        <h1>Crear/Editar Usuario</h1>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="formMain">
+            <p:panel header="Datos del Usuario" >
+                <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+                    <p:outputLabel value="Cuenta:" for="cuenta" />
+                    <p:inputText id="cuenta" value="#{UsuarioController.usuario.cuenta}" title="Cuenta" required="true" requiredMessage="#{bundle.Requerido}" />
+                    <p:outputLabel value="Contrasenha:" for="contrasenha" />
+                    <p:password id="contrasenha" goodLabel="Bueno" promptLabel="Ingrese Password" feedback="true" weakLabel="Débil" strongLabel="Excelente" size="20" value="#{UsuarioController.usuario.contrasenha}" required="#{UsuarioController.usuario.contrasenha.length()>0?'false':'true'}" requiredMessage="#{bundle.Requerido}"/> 
+                    <p:outputLabel value="Apellidos:" for="apellidos" />
+                    <p:inputText id="apellidos" value="#{UsuarioController.usuario.apellidos}" title="Apellidos" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:outputLabel value="Nombres:" for="nombres" />
+                    <p:inputText id="nombres" value="#{UsuarioController.usuario.nombres}" title="Nombres" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:outputLabel value="Rol:" for="idRol" />
+                    <p:selectOneMenu id="idRol" value="#{UsuarioController.usuario.idRol}" required="true" requiredMessage="#{bundle.Requerido}" >
+                        <f:selectItems value="#{RolController.rolSet}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Dependencia:" for="idDependencia" />
+                    <p:selectOneMenu id="idDependencia" value="#{UsuarioController.usuario.idDependencia}" required="true" requiredMessage="#{bundle.Requerido}" >
+                        <f:selectItems value="#{DependenciaController.dependenciaOptionSet}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="¿Está Activo?" for="activo" />
+                    <p:selectBooleanCheckbox id="activo" value="#{UsuarioController.usuario.activo}" title="Activo" />
+                    <p:outputLabel value="¿Puede ingresar de afuera?:" for="loginExterno" />
+                    <p:selectBooleanCheckbox id="loginExterno" value="#{UsuarioController.usuario.loginExterno}" title="LoginExterno" />
+                </p:panelGrid>
+                <f:facet name="footer">
+                    <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6,ui-grid-col-6">
+                        <p:commandButton ajax="false" icon="fa fa-save" value="#{bundle.GuardarBoton}" action="#{UsuarioController.doGuardar()}"/>
+                        <p:commandButton immediate="true" ajax="false" icon="fa fa-sign-out" value="#{bundle.RegresarBoton}" action="/usuario/ListarUsuario"/>
+                    </p:panelGrid>
+                </f:facet>   
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
