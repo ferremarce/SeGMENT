@@ -241,7 +241,5 @@ public class TramitacionController implements Serializable {
         return "/pages/MisTareas";
     }
     
-    public List<Tramitacion> doListarTramitacionDerivadas(Integer id) {
-        return tramitacionFacade.findAllTramitacionDerivadas(id);
-    }
+  
 }

@@ -48,12 +48,4 @@ public class TramitacionFacade extends AbstractFacade<Tramitacion> {
         List<Tramitacion> tr = q.getResultList();
         return tr;
     }
-
-    public List<Tramitacion> findAllTramitacionDerivadas(Integer idTramitacion) {
-        Query q = em.createQuery("SELECT a FROM Tramitacion a WHERE a.idTramitacionAnterior.idTramitacion=:xIdTram ORDER BY a.idTramitacion");
-        q.setParameter("xIdTram", idTramitacion);
-        List<Tramitacion> tr = q.getResultList();
-        return tr;
-    }
-
 }

@@ -96,8 +96,8 @@
                             <h:outputText value="Estado"/>
                         </f:facet>
                         <h:outputText styleClass="fontBold" value="#{item.idEstadoTramite.descripcionSubTipo}"/>
-                        <p:separator rendered="#{TramitacionController.doListarTramitacionDerivadas(item.idTramitacion).size()>0}"/>
-                        <p:dataList rendered="#{TramitacionController.doListarTramitacionDerivadas(item.idTramitacion).size()>0}" value="#{TramitacionController.doListarTramitacionDerivadas(item.idTramitacion)}" var="tram">
+                        <p:separator rendered="#{item.tramitacionList.size()>0}"/>
+                        <p:dataList rendered="#{item.tramitacionList.size()>0}" value="#{item.tramitacionList}" var="tram">
                             <p:link title="Ir al flujo #{tram.idTramitacion}" style="border-bottom: #aaa dotted thin" value="#{tram.idDependencia.descripcionDependencia} [#{tram.idTramitacion}]" fragment="fila#{tram.idTramitacion}"/>
                         </p:dataList>
                     </p:column>
