@@ -34,15 +34,16 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "TramitacionAdjunto.findAll", query = "SELECT t FROM TramitacionAdjunto t")})
 public class TramitacionAdjunto implements Serializable {
 
+    @Lob
+    @Column(name = "archivo")
+    private byte[] archivo;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_tramitacion_adjunto")
     private Integer idTramitacionAdjunto;
-    @Lob
-    @Column(name = "archivo")
-    private byte[] archivo;
     @Column(name = "fecha_registro")
     @Temporal(TemporalType.DATE)
     private Date fechaRegistro;
@@ -74,14 +75,6 @@ public class TramitacionAdjunto implements Serializable {
 
     public void setIdTramitacionAdjunto(Integer idTramitacionAdjunto) {
         this.idTramitacionAdjunto = idTramitacionAdjunto;
-    }
-
-    public byte[] getArchivo() {
-        return archivo;
-    }
-
-    public void setArchivo(byte[] archivo) {
-        this.archivo = archivo;
     }
 
     public Date getFechaRegistro() {
@@ -172,6 +165,24 @@ public class TramitacionAdjunto implements Serializable {
 
     public String toURLDownload() {
         return "tramitacion-" + this.idTramitacionAdjunto;
+    }
+
+    public byte[] getArchivo() {
+        return archivo;
+    }
+
+    public void setArchivo(byte[] archivo) {
+        this.archivo = archivo;
+    }
+
+    public String toTamanho() {
+        if (this.tamanhoArchivo.intValue() < 1024) {
+            return tamanhoArchivo + "B";
+        } else if (this.tamanhoArchivo.intValue() < 1048576) {
+            return (tamanhoArchivo.intValue() / 1024) + "KB";
+        } else {
+            return (tamanhoArchivo.intValue() / 1048576) + "MB";
+        }
     }
 
 }

@@ -35,15 +35,15 @@ import util.JSFutil;
 @Named(value = "TramitacionController")
 @SessionScoped
 public class TramitacionController implements Serializable {
-
+    
     private static final Logger LOG = Logger.getLogger(TramitacionController.class.getName());
     ResourceBundle bundle = ResourceBundle.getBundle("propiedades.bundle", JSFutil.getmyLocale());
-
+    
     @Inject
     TramitacionFacade tramitacionFacade;
     @Inject
     TramitacionAdjuntoFacade tramitacionAdjuntoFacade;
-
+    
     private Tramitacion tramitacion;
     private List<Tramitacion> listaTramitacion;
     private Dependencia[] arrayDependencias;
@@ -54,82 +54,83 @@ public class TramitacionController implements Serializable {
      */
     public TramitacionController() {
     }
-
+    
     public Dependencia[] getArrayDependencias() {
         return arrayDependencias;
     }
-
+    
     public void setArrayDependencias(Dependencia[] arrayDependencias) {
         this.arrayDependencias = arrayDependencias;
     }
-
+    
     public List<UploadedFile> getAdjuntoTramitacion() {
         return adjuntoTramitacion;
     }
-
+    
     public void setAdjuntoTramitacion(List<UploadedFile> adjuntoTramitacion) {
         this.adjuntoTramitacion = adjuntoTramitacion;
     }
-
+    
     public Tramitacion getTramitacion() {
         return tramitacion;
     }
-
+    
     public void setTramitacion(Tramitacion tramitacion) {
         this.tramitacion = tramitacion;
     }
-
+    
     public List<Tramitacion> getListaTramitacion() {
         return listaTramitacion;
     }
-
+    
     public void setListaTramitacion(List<Tramitacion> listaTramitacion) {
         this.listaTramitacion = listaTramitacion;
     }
-
+    
     public void doListarTramitacionEntrada() {
         //Pendiente
         this.listaTramitacion = tramitacionFacade.findAllTramitacion(6, JSFutil.getUsuarioConectado().getIdDependencia().getIdDependencia());
     }
-
+    
     public void doListarTramitacionSalida() {
         //Confirmado
         this.listaTramitacion = tramitacionFacade.findAllTramitacion(7, JSFutil.getUsuarioConectado().getIdDependencia().getIdDependencia());
     }
-
+    
     public void doListarTramitacionProcesado() {
         //Derivado
-        this.listaTramitacion = tramitacionFacade.findAllTramitacion(9, JSFutil.getUsuarioConectado().getIdDependencia().getIdDependencia());
+        this.listaTramitacion = tramitacionFacade.findAllTramitacionProcesados(JSFutil.getUsuarioConectado().getIdDependencia().getIdDependencia());
     }
-
+    
     public Integer doCantidadEntrada() {
         return tramitacionFacade.findAllTramitacion(6, JSFutil.getUsuarioConectado().getIdDependencia().getIdDependencia()).size();
     }
-
+    
     public Integer doCantidadSalida() {
         return tramitacionFacade.findAllTramitacion(7, JSFutil.getUsuarioConectado().getIdDependencia().getIdDependencia()).size();
     }
-
+    
     public Integer doCantidadProcesado() {
-        return tramitacionFacade.findAllTramitacion(9, JSFutil.getUsuarioConectado().getIdDependencia().getIdDependencia()).size();
+        return tramitacionFacade.findAllTramitacionProcesados(JSFutil.getUsuarioConectado().getIdDependencia().getIdDependencia()).size();
     }
-
+    
     public String doMisTareasForm() {
         this.listaTramitacion = new ArrayList<>();
         return "/pages/MisTareas";
     }
-
+    
     public void handleFileUpload(FileUploadEvent event) {
         //LOG.log(Level.INFO, "Agregado el archivo {0}", event.getFile().getFileName());
         this.adjuntoTramitacion.add(event.getFile());
     }
-
+    
     public void doAceptarTramite(Integer idTramitacion) {
         try {
             Tramitacion tram = tramitacionFacade.find(idTramitacion);
             //Confirmado
             tram.setIdEstadoTramite(new SubTipo(7));
-
+            tram.setIdUsuario(JSFutil.getUsuarioConectado());
+            tram.setFechaTramite(JSFutil.getFechaHoraActual());
             tramitacionFacade.edit(tram);
             this.doListarTramitacionEntrada();
         } catch (EJBException ex) {
@@ -149,11 +150,11 @@ public class TramitacionController implements Serializable {
             LOG.log(Level.SEVERE, null, ex);
         }
     }
-
+    
     public void doSacarAdjunto(int indice) {
         this.adjuntoTramitacion.remove(indice);
     }
-
+    
     public void doArchivarTramite(Integer idTramitacion) {
         try {
             Tramitacion tram = tramitacionFacade.find(idTramitacion);
@@ -178,47 +179,47 @@ public class TramitacionController implements Serializable {
             LOG.log(Level.SEVERE, null, ex);
         }
     }
-
+    
     public String doTramitarForm(Integer idTramitacion) {
         Tramitacion tramActual = tramitacionFacade.find(idTramitacion);
         this.tramitacion = new Tramitacion();
         this.tramitacion.setIdTramitacionAnterior(tramActual);
-        this.tramitacion.setIdOrigen(JSFutil.getUsuarioConectado().getIdDependencia());
+        this.tramitacion.setIdDependencia(JSFutil.getUsuarioConectado().getIdDependencia());
         this.tramitacion.setIdExpediente(tramActual.getIdExpediente());
         this.adjuntoTramitacion = new ArrayList<>();
         return "/pages/TramitarExpediente";
     }
-
+    
     public String doTramitar() {
         try {
             Tramitacion tramAnterior = tramitacion.getIdTramitacionAnterior();
+            tramAnterior.setIdEstadoTramite(new SubTipo(9));
+            this.tramitacionFacade.edit(tramAnterior);
+            TramitacionAdjunto ap;
+            for (UploadedFile uf : this.adjuntoTramitacion) {
+                ap = new TramitacionAdjunto();
+                //ap.setArchivo(uf.getContents());
+                ap.setTipoArchivoMime(uf.getContentType());
+                ap.setTamanhoArchivo(BigInteger.valueOf(uf.getSize()));
+                ap.setNombreArchivo(JSFutil.sanitizeFilename(uf.getFileName()));
+                ap.setIdTramitacion(tramAnterior);
+                ap.setFechaRegistro(JSFutil.getFechaHoraActual());
+                tramitacionAdjuntoFacade.create(ap);
+                int resultado = JSFutil.fileToDisk(new ByteArrayInputStream(uf.getContents()), JSFutil.folderTramitacion + ap.getIdTramitacionAdjunto() + "-" + JSFutil.sanitizeFilename(uf.getFileName()));
+                if (resultado != 0) {
+                    JSFutil.addMessage("No se ha podido guardar el adjunto debido a un error interno en el procesamiento del archivo. Se deshace el guardado del archivo.", JSFutil.StatusMessage.ERROR);
+                    tramitacionAdjuntoFacade.remove(ap);
+                }
+            }
+            //Derivacion
             for (Dependencia dep : this.arrayDependencias) {
                 this.tramitacion.setIdTramitacion(null);
                 this.tramitacion.setFechaRegistro(JSFutil.getFechaHoraActual());
                 this.tramitacion.setIdEstadoTramite(new SubTipo(6));
-                this.tramitacion.setIdDestino(dep);
-                this.tramitacion.setIdUsuarioOrigen(JSFutil.getUsuarioConectado());
+                this.tramitacion.setIdDependencia(dep);
                 this.tramitacionFacade.create(tramitacion);
                 
-                TramitacionAdjunto ap;
-                for (UploadedFile uf : this.adjuntoTramitacion) {
-                        ap = new TramitacionAdjunto();
-                        //ap.setArchivo(uf.getContents());
-                        ap.setTipoArchivoMime(uf.getContentType());
-                        ap.setTamanhoArchivo(BigInteger.valueOf(uf.getSize()));
-                        ap.setNombreArchivo(JSFutil.sanitizeFilename(uf.getFileName()));
-                        ap.setIdTramitacion(tramitacion);
-                        ap.setFechaRegistro(JSFutil.getFechaHoraActual());
-                        tramitacionAdjuntoFacade.create(ap);
-                        int resultado = JSFutil.fileToDisk(new ByteArrayInputStream(uf.getContents()), JSFutil.folderTramitacion + ap.getIdTramitacionAdjunto() + "-" + JSFutil.sanitizeFilename(uf.getFileName()));
-                        if (resultado != 0) {
-                            JSFutil.addMessage("No se ha podido guardar el adjunto debido a un error interno en el procesamiento del archivo. Se deshace el guardado del archivo.", JSFutil.StatusMessage.ERROR);
-                            tramitacionAdjuntoFacade.remove(ap);
-                        }
-                    }
             }
-            tramAnterior.setIdEstadoTramite(new SubTipo(9));
-            this.tramitacionFacade.edit(tramAnterior);
             this.doListarTramitacionSalida();
             JSFutil.addMessage(this.bundle.getString("UpdateSuccess"), JSFutil.StatusMessage.INFORMATION);
         } catch (EJBException ex) {
@@ -238,5 +239,9 @@ public class TramitacionController implements Serializable {
             LOG.log(Level.SEVERE, null, ex);
         }
         return "/pages/MisTareas";
+    }
+    
+    public List<Tramitacion> doListarTramitacionDerivadas(Integer id) {
+        return tramitacionFacade.findAllTramitacionDerivadas(id);
     }
 }

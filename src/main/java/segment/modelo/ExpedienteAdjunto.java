@@ -34,15 +34,16 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ExpedienteAdjunto.findAll", query = "SELECT e FROM ExpedienteAdjunto e")})
 public class ExpedienteAdjunto implements Serializable {
 
+    @Lob
+    @Column(name = "archivo")
+    private byte[] archivo;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_expediente_adjunto")
     private Integer idExpedienteAdjunto;
-    @Lob
-    @Column(name = "archivo")
-    private byte[] archivo;
     @Column(name = "fecha_registro")
     @Temporal(TemporalType.DATE)
     private Date fechaRegistro;
@@ -74,14 +75,6 @@ public class ExpedienteAdjunto implements Serializable {
 
     public void setIdExpedienteAdjunto(Integer idExpedienteAdjunto) {
         this.idExpedienteAdjunto = idExpedienteAdjunto;
-    }
-
-    public byte[] getArchivo() {
-        return archivo;
-    }
-
-    public void setArchivo(byte[] archivo) {
-        this.archivo = archivo;
     }
 
     public Date getFechaRegistro() {
@@ -174,4 +167,21 @@ public class ExpedienteAdjunto implements Serializable {
         return "expediente-" + this.idExpedienteAdjunto;
     }
 
+    public byte[] getArchivo() {
+        return archivo;
+    }
+
+    public void setArchivo(byte[] archivo) {
+        this.archivo = archivo;
+    }
+
+    public String toTamanho() {
+        if (this.tamanhoArchivo.intValue() < 1024) {
+            return tamanhoArchivo + "B";
+        } else if (this.tamanhoArchivo.intValue() < 1048576) {
+            return (tamanhoArchivo.intValue() / 1024) + "KB";
+        } else {
+            return (tamanhoArchivo.intValue() / 1048576) + "MB";
+        }
+    }
 }

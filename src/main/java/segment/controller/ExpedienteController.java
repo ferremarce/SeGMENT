@@ -223,9 +223,8 @@ public class ExpedienteController implements Serializable {
                 t.setFechaRegistro(JSFutil.getFechaHoraActual());
                 t.setFechaTramite(expediente.getFechaEntrada());
                 t.setIdEstadoTramite(new SubTipo(7));
-                t.setIdDestino(JSFutil.getUsuarioConectado().getIdDependencia());
-                t.setIdOrigen(JSFutil.getUsuarioConectado().getIdDependencia());
-                t.setIdUsuarioOrigen(JSFutil.getUsuarioConectado());
+                t.setIdDependencia(JSFutil.getUsuarioConectado().getIdDependencia());
+                t.setIdUsuario(JSFutil.getUsuarioConectado());
                 t.setDescripcionTramite("Entrada de Expediente");
                 t.setIdExpediente(expediente);
                 tramitacionFacade.create(t);
@@ -255,9 +254,8 @@ public class ExpedienteController implements Serializable {
                     t.setFechaRegistro(JSFutil.getFechaHoraActual());
                     t.setFechaTramite(expediente.getFechaEntrada());
                     t.setIdEstadoTramite(new SubTipo(7));
-                    t.setIdOrigen(JSFutil.getUsuarioConectado().getIdDependencia());
-                    t.setIdDestino(JSFutil.getUsuarioConectado().getIdDependencia());
-                    t.setIdUsuarioOrigen(JSFutil.getUsuarioConectado());
+                    t.setIdDependencia(JSFutil.getUsuarioConectado().getIdDependencia());
+                    t.setIdUsuario(JSFutil.getUsuarioConectado());
                     t.setDescripcionTramite("Entrada de Expediente");
                     t.setIdExpediente(expediente);
                     tramitacionFacade.create(t);

@@ -32,10 +32,26 @@ public class TramitacionFacade extends AbstractFacade<Tramitacion> {
     }
 
     public List<Tramitacion> findAllTramitacion(Integer idEstado, Integer idDependencia) {
-        Query q = em.createQuery("SELECT a FROM Tramitacion a WHERE a.idEstadoTramite.idSubTipo=:xIdEstado AND a.idDestino.idDependencia=:xIdDependencia ORDER BY a.fechaTramite DESC");
+        Query q = em.createQuery("SELECT a FROM Tramitacion a WHERE a.idEstadoTramite.idSubTipo=:xIdEstado AND a.idDependencia.idDependencia=:xIdDependencia ORDER BY a.fechaTramite DESC");
         q.setParameter("xIdEstado", idEstado);
         q.setParameter("xIdDependencia", idDependencia);
         //q.setParameter("xIdDependencia", idDependencia);
+        List<Tramitacion> tr = q.getResultList();
+        return tr;
+    }
+
+    public List<Tramitacion> findAllTramitacionProcesados(Integer idDependencia) {
+        //Todos los estados menos el Pendiente
+        Query q = em.createQuery("SELECT a FROM Tramitacion a WHERE a.idEstadoTramite.idSubTipo NOT IN (6) AND a.idDependencia.idDependencia=:xIdDependencia ORDER BY a.fechaTramite DESC");
+        q.setParameter("xIdDependencia", idDependencia);
+        //q.setParameter("xIdDependencia", idDependencia);
+        List<Tramitacion> tr = q.getResultList();
+        return tr;
+    }
+
+    public List<Tramitacion> findAllTramitacionDerivadas(Integer idTramitacion) {
+        Query q = em.createQuery("SELECT a FROM Tramitacion a WHERE a.idTramitacionAnterior.idTramitacion=:xIdTram ORDER BY a.idTramitacion");
+        q.setParameter("xIdTram", idTramitacion);
         List<Tramitacion> tr = q.getResultList();
         return tr;
     }

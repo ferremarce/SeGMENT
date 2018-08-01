@@ -31,9 +31,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")})
 public class Usuario implements Serializable {
 
-    @OneToMany(mappedBy = "idUsuarioOrigen")
-    private List<Tramitacion> tramitacionList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,6 +63,8 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "id_dependencia", referencedColumnName = "id_dependencia")
     @ManyToOne
     private Dependencia idDependencia;
+    @OneToMany(mappedBy = "idUsuario")
+    private List<Tramitacion> tramitacionList;
 
 
     public Usuario() {
@@ -179,7 +178,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return this.nombres+" "+this.apellidos+" ["+this.getIdDependencia().getDescripcionDependencia()+"]";
+        return this.nombres+" "+this.apellidos;
     }
 
     public Dependencia getIdDependencia() {

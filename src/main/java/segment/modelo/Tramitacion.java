@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -59,23 +58,20 @@ public class Tramitacion implements Serializable {
     @Size(max = 45)
     @Column(name = "fecha_confirmado")
     private String fechaConfirmado;
+    @OneToMany(mappedBy = "idTramitacion")
+    private List<TramitacionAdjunto> tramitacionAdjuntoList;
     @JoinColumn(name = "id_estado_tramite", referencedColumnName = "id_sub_tipo")
     @ManyToOne
     private SubTipo idEstadoTramite;
     @JoinColumn(name = "id_expediente", referencedColumnName = "id_expediente")
     @ManyToOne
     private Expediente idExpediente;
-    @JoinColumn(name = "id_usuario_origen", referencedColumnName = "id_usuario")
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
     @ManyToOne
-    private Usuario idUsuarioOrigen;
-    @JoinColumn(name = "id_origen", referencedColumnName = "id_dependencia")
+    private Usuario idUsuario;
+    @JoinColumn(name = "id_dependencia", referencedColumnName = "id_dependencia")
     @ManyToOne
-    private Dependencia idOrigen;
-    @JoinColumn(name = "id_destino", referencedColumnName = "id_dependencia")
-    @ManyToOne
-    private Dependencia idDestino;
-    @OneToMany(mappedBy = "idTramitacion", cascade = CascadeType.REMOVE)
-    private List<TramitacionAdjunto> tramitacionAdjuntoList;
+    private Dependencia idDependencia;
     @OneToMany(mappedBy = "idTramitacionAnterior")
     private List<Tramitacion> tramitacionList;
     @JoinColumn(name = "id_tramitacion_anterior", referencedColumnName = "id_tramitacion")
@@ -145,6 +141,14 @@ public class Tramitacion implements Serializable {
         this.fechaConfirmado = fechaConfirmado;
     }
 
+    public List<TramitacionAdjunto> getTramitacionAdjuntoList() {
+        return tramitacionAdjuntoList;
+    }
+
+    public void setTramitacionAdjuntoList(List<TramitacionAdjunto> tramitacionAdjuntoList) {
+        this.tramitacionAdjuntoList = tramitacionAdjuntoList;
+    }
+
     public SubTipo getIdEstadoTramite() {
         return idEstadoTramite;
     }
@@ -161,28 +165,36 @@ public class Tramitacion implements Serializable {
         this.idExpediente = idExpediente;
     }
 
-    public Usuario getIdUsuarioOrigen() {
-        return idUsuarioOrigen;
+    public Usuario getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setIdUsuarioOrigen(Usuario idUsuarioOrigen) {
-        this.idUsuarioOrigen = idUsuarioOrigen;
+    public void setIdUsuario(Usuario idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
-    public Dependencia getIdOrigen() {
-        return idOrigen;
+    public Dependencia getIdDependencia() {
+        return idDependencia;
     }
 
-    public void setIdOrigen(Dependencia idOrigen) {
-        this.idOrigen = idOrigen;
+    public void setIdDependencia(Dependencia idDependencia) {
+        this.idDependencia = idDependencia;
     }
 
-    public Dependencia getIdDestino() {
-        return idDestino;
+    public List<Tramitacion> getTramitacionList() {
+        return tramitacionList;
     }
 
-    public void setIdDestino(Dependencia idDestino) {
-        this.idDestino = idDestino;
+    public void setTramitacionList(List<Tramitacion> tramitacionList) {
+        this.tramitacionList = tramitacionList;
+    }
+
+    public Tramitacion getIdTramitacionAnterior() {
+        return idTramitacionAnterior;
+    }
+
+    public void setIdTramitacionAnterior(Tramitacion idTramitacionAnterior) {
+        this.idTramitacionAnterior = idTramitacionAnterior;
     }
 
     @Override
@@ -209,29 +221,5 @@ public class Tramitacion implements Serializable {
     public String toString() {
         return "segment.modelo.Tramitacion[ idTramitacion=" + idTramitacion + " ]";
     }
-
-    public List<Tramitacion> getTramitacionList() {
-        return tramitacionList;
-    }
-
-    public void setTramitacionList(List<Tramitacion> tramitacionList) {
-        this.tramitacionList = tramitacionList;
-    }
-
-    public Tramitacion getIdTramitacionAnterior() {
-        return idTramitacionAnterior;
-    }
-
-    public void setIdTramitacionAnterior(Tramitacion idTramitacionAnterior) {
-        this.idTramitacionAnterior = idTramitacionAnterior;
-    }
-
-    public List<TramitacionAdjunto> getTramitacionAdjuntoList() {
-        return tramitacionAdjuntoList;
-    }
-
-    public void setTramitacionAdjuntoList(List<TramitacionAdjunto> tramitacionAdjuntoList) {
-        this.tramitacionAdjuntoList = tramitacionAdjuntoList;
-    }
-
+    
 }

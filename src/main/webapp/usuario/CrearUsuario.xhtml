@@ -11,12 +11,13 @@
     </ui:define>
     <ui:define name="content">
         <h:form id="formMain">
+            <p:messages/>
             <p:panel header="Datos del Usuario" >
                 <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
                     <p:outputLabel value="Cuenta:" for="cuenta" />
                     <p:inputText id="cuenta" value="#{UsuarioController.usuario.cuenta}" title="Cuenta" required="true" requiredMessage="#{bundle.Requerido}" />
-                    <p:outputLabel value="Contrasenha:" for="contrasenha" />
-                    <p:password id="contrasenha" goodLabel="Bueno" promptLabel="Ingrese Password" feedback="true" weakLabel="Débil" strongLabel="Excelente" size="20" value="#{UsuarioController.usuario.contrasenha}" required="#{UsuarioController.usuario.contrasenha.length()>0?'false':'true'}" requiredMessage="#{bundle.Requerido}"/> 
+                    <p:outputLabel value="Contraseña:" for="contrasenha" />
+                    <p:password id="contrasenha" goodLabel="Bueno" promptLabel="Ingrese Contraseña" feedback="true" weakLabel="Débil" strongLabel="Excelente" size="20" value="#{UsuarioController.usuario.contrasenha}" required="#{UsuarioController.usuario.contrasenha.length()>0?'false':'true'}" requiredMessage="#{bundle.Requerido}"/> 
                     <p:outputLabel value="Apellidos:" for="apellidos" />
                     <p:inputText id="apellidos" value="#{UsuarioController.usuario.apellidos}" title="Apellidos" required="true" requiredMessage="#{bundle.Requerido}"/>
                     <p:outputLabel value="Nombres:" for="nombres" />

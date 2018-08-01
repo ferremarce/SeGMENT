@@ -134,6 +134,9 @@ public class UsuarioController implements Serializable {
 
     private void persist(PersistAction persistAction) {
         try {
+            if (!usuario.getContrasenha().isEmpty()) {
+                usuario.setContrasenha(JSFutil.getSecurePassword(usuario.getContrasenha()));
+            }
             if (persistAction.compareTo(PersistAction.CREATE) == 0) {
                 usuarioFacade.create(usuario);
             } else if (persistAction.compareTo(PersistAction.UPDATE) == 0) {
