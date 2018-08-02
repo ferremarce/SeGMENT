@@ -46,6 +46,11 @@
                     </p:dataTable> 
                 </p:panelGrid>
             </p:panel>
+            <p:tree id="tree1" value="#{ExpedienteController.rootTramitacion}" var="node"  selectionMode="single" selection="#{ExpedienteController.selectedNode1}">
+                <p:treeNode expandedIcon="fa fa-folder-open" collapsedIcon="fa fa-folder">
+                    <h:outputText value="#{node.idTramitacion}"/>
+                </p:treeNode>
+            </p:tree>
             <p:panel header="Flujo de Trabajo">
                 <p:dataTable id="dtTramitacionPendiente" value="#{ExpedienteController.expediente.tramitacionList}" var="item" emptyMessage="#{bundle.SinRegistrosMensaje}"
                              reflow="true"

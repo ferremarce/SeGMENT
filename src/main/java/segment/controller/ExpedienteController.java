@@ -21,7 +21,9 @@ import javax.inject.Inject;
 import org.eclipse.persistence.exceptions.DatabaseException;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.StreamedContent;
+import org.primefaces.model.TreeNode;
 import org.primefaces.model.UploadedFile;
+import segment.clases.TreeTramitacion;
 import segment.fachada.ExpedienteAdjuntoFacade;
 import segment.fachada.ExpedienteFacade;
 import segment.fachada.TramitacionFacade;
@@ -57,8 +59,26 @@ public class ExpedienteController implements Serializable {
     private String criterio;
     private List<UploadedFile> adjuntoExpediente;
     private Integer indexAdjunto;
+    private TreeNode rootTramitacion;
+    private TreeNode selectedNode1;
 
     public ExpedienteController() {
+    }
+
+    public TreeNode getRootTramitacion() {
+        return rootTramitacion;
+    }
+
+    public void setRootTramitacion(TreeNode rootTramitacion) {
+        this.rootTramitacion = rootTramitacion;
+    }
+
+    public TreeNode getSelectedNode1() {
+        return selectedNode1;
+    }
+
+    public void setSelectedNode1(TreeNode selectedNode1) {
+        this.selectedNode1 = selectedNode1;
     }
 
     public String getCriterio() {
@@ -102,6 +122,8 @@ public class ExpedienteController implements Serializable {
 
     public String doVerForm(Integer idExpediente) {
         this.expediente = expedienteFacade.find(idExpediente);
+        TreeTramitacion tt=new TreeTramitacion();
+        this.rootTramitacion=tt.init(this.getExpediente().getTramitacionList().get(0));
         return "/pages/VerExpediente";
     }
 
