@@ -123,7 +123,7 @@ public class ExpedienteController implements Serializable {
     public String doVerForm(Integer idExpediente) {
         this.expediente = expedienteFacade.find(idExpediente);
         TreeTramitacion tt = new TreeTramitacion();
-        this.rootTramitacion = tt.init(this.getExpediente().getTramitacionList().get(0));
+        this.rootTramitacion = tt.init(tramitacionFacade.findFirstTramitacion());
         tt.expandedAll(this.rootTramitacion, true);
         return "/pages/VerExpediente";
     }

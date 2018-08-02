@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -40,6 +41,7 @@ public class Clasificador implements Serializable {
     @Column(name = "mapeo_numerico")
     private String mapeoNumerico;
     @OneToMany(mappedBy = "idPadre")
+    @OrderBy("mapeoNumerico ASC")
     private List<Clasificador> ClasificadorList;
     @JoinColumn(name = "id_padre", referencedColumnName = "id_Clasificador")
     @ManyToOne

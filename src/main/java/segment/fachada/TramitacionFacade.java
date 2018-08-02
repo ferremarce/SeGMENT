@@ -48,4 +48,16 @@ public class TramitacionFacade extends AbstractFacade<Tramitacion> {
         List<Tramitacion> tr = q.getResultList();
         return tr;
     }
+
+    public Tramitacion findFirstTramitacion() {
+        //Todos los estados menos el Pendiente
+        Query q = em.createQuery("SELECT a FROM Tramitacion a WHERE a.idTramitacionAnterior IS NULL");
+        List<Tramitacion> tr = q.getResultList();
+        if (tr.size() > 0) {
+            return tr.get(0);
+        } else {
+            return null;
+        }
+
+    }
 }

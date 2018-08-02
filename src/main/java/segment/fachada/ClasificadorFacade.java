@@ -5,9 +5,11 @@
  */
 package segment.fachada;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import segment.modelo.Clasificador;
 
 /**
@@ -28,5 +30,16 @@ public class ClasificadorFacade extends AbstractFacade<Clasificador> {
     public ClasificadorFacade() {
         super(Clasificador.class);
     }
-    
+
+    public Clasificador findFirstClasificador() {
+        //Todos los estados menos el Pendiente
+        Query q = em.createQuery("SELECT a FROM Clasificador a WHERE a.idPadre IS NULL");
+        List<Clasificador> tr = q.getResultList();
+        if (tr.size() > 0) {
+            return tr.get(0);
+        } else {
+            return null;
+        }
+
+    }
 }

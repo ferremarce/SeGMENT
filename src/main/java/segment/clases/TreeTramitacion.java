@@ -16,7 +16,11 @@ import segment.modelo.Tramitacion;
 public class TreeTramitacion {
 
     public TreeNode init(Tramitacion root) {
-        return newNodeWithChildren(root, null);
+        if (root != null) {
+            return newNodeWithChildren(root, null);
+        } else {
+            return null;
+        }
     }
 
     /**
