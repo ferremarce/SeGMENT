@@ -26,12 +26,19 @@ public class TreeTramitacion {
      * @param parent
      * @return
      */
-    public TreeNode newNodeWithChildren(Tramitacion ttParent, TreeNode parent) {
+    private TreeNode newNodeWithChildren(Tramitacion ttParent, TreeNode parent) {
         TreeNode newNode = new DefaultTreeNode(ttParent, parent);
         for (Tramitacion tt : ttParent.getTramitacionList()) {
             TreeNode newNode2 = newNodeWithChildren(tt, newNode);
         }
         return newNode;
+    }
+
+    public void expandedAll(final TreeNode node, final boolean expanded) {
+        for (final TreeNode child : node.getChildren()) {
+            expandedAll(child, expanded);
+        }
+        node.setExpanded(expanded);
     }
 
 }

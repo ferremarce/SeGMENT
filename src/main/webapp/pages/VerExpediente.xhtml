@@ -46,9 +46,10 @@
                     </p:dataTable> 
                 </p:panelGrid>
             </p:panel>
-            <p:tree id="tree1" value="#{ExpedienteController.rootTramitacion}" var="node"  selectionMode="single" selection="#{ExpedienteController.selectedNode1}">
-                <p:treeNode expandedIcon="fa fa-folder-open" collapsedIcon="fa fa-folder">
-                    <h:outputText value="#{node.idTramitacion}"/>
+            <p:tree id="tree1" orientation="horizontal" animate="true" value="#{ExpedienteController.rootTramitacion}" var="node"  selectionMode="single" selection="#{ExpedienteController.selectedNode1}">
+                <p:treeNode>
+                    <h:outputText value="#{node.idDependencia.descripcionDependencia}"/><br/>
+                    <h:outputText styleClass="Blue fontBold" value="#{node.idEstadoTramite.descripcionSubTipo}"/>
                 </p:treeNode>
             </p:tree>
             <p:panel header="Flujo de Trabajo">

@@ -13,7 +13,7 @@ import java.util.List;
 import javax.inject.Inject;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
-import segment.clases.MyTree;
+import segment.clases.TreeClasificador;
 import segment.fachada.ClasificadorFacade;
 import segment.modelo.Clasificador;
 
@@ -66,15 +66,9 @@ public class ClasificadorController implements Serializable {
     }
 
     public void init() {
-        MyTree t = new MyTree();
-        root1 = t.crearArbol(clasificadorFacade.findAll());
-        root1.setExpanded(true);
-//        for (TreeNode n : root1.getChildren()) {
-//            n.setExpanded(true);
-//            for (TreeNode n1 : n.getChildren()) {
-//                n1.setExpanded(true);
-//            }
-//        }
+        TreeClasificador t = new TreeClasificador();
+        root1 = t.init(clasificadorFacade.findAll().get(0));
+        t.expandedAll(root1, true);
     }
 
     public TreeNode getRoot1() {
@@ -139,7 +133,7 @@ public class ClasificadorController implements Serializable {
     }
 
     public String doRuta() {
-        MyTree t = new MyTree();
+        TreeClasificador t = new TreeClasificador();
         return t.getRuta(nodoSeleccionado);
     }
 
