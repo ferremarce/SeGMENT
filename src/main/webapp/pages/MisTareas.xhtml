@@ -47,7 +47,7 @@
                                 <p:menuitem ajax="false" title="Aceptar y Confirmar" value="#{bundle.AceptarBoton}" icon="fa fa-check-circle" action="#{TramitacionController.doAceptarTramite(item.idTramitacion)}" onclick="if (!confirm('#{bundle.ConfirmacionMensaje}')) {
                                             return false;
                                         }"/>
-                                <p:menuitem ajax="false" title="Rechazar y Devolver" value="#{bundle.RechazarBoton}" icon="fa fa-minus-circle" action="#{TramitacionController.doTramitarForm(item.idTramitacion)}"/>
+                                <p:menuitem ajax="false" title="Rechazar y Devolver" value="#{bundle.RechazarBoton}" icon="fa fa-minus-circle" action="#{TramitacionController.doRechazarForm(item.idTramitacion)}"/>
                             </p:menuButton>
                             <p:menuButton rendered="#{item.idEstadoTramite.idSubTipo==7}" value="Opciones">
                                 <p:menuitem ajax="false" value="#{bundle.DerivarBoton}" icon="fa fa-mail-forward" action="#{TramitacionController.doTramitarForm(item.idTramitacion)}"/>

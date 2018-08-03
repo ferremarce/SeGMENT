@@ -214,7 +214,7 @@ public class ExpedienteController implements Serializable {
             this.expediente.setCerrado(Boolean.FALSE);
             this.expediente.setIdUsuario(JSFutil.getUsuarioConectado());
             //Estado en Tramite
-            this.expediente.setIdEstadoExpediente(new SubTipo(5));
+            this.expediente.setIdEstadoExpediente(new SubTipo(JSFutil.estadoTramite.PENDIENTE));
             this.expediente.setFechaRegistro(JSFutil.getFechaHoraActual());
             persist(PersistAction.CREATE);
         }
@@ -250,7 +250,7 @@ public class ExpedienteController implements Serializable {
                 t.setIdUsuarioTramite(JSFutil.getUsuarioConectado());
                 t.setFechaRecibido(JSFutil.getFechaHoraActual());
                 t.setIdUsuarioRecibido(JSFutil.getUsuarioConectado());
-                t.setIdEstadoTramite(new SubTipo(7));
+                t.setIdEstadoTramite(new SubTipo(JSFutil.estadoTramite.RECIBIDO));
                 t.setIdDependencia(JSFutil.getUsuarioConectado().getIdDependencia());
                 t.setDescripcionTramite("Entrada de Expediente");
                 t.setIdExpediente(expediente);
@@ -282,7 +282,7 @@ public class ExpedienteController implements Serializable {
                     t.setIdUsuarioTramite(JSFutil.getUsuarioConectado());
                     t.setFechaRecibido(JSFutil.getFechaHoraActual());
                     t.setIdUsuarioRecibido(JSFutil.getUsuarioConectado());
-                    t.setIdEstadoTramite(new SubTipo(7));
+                    t.setIdEstadoTramite(new SubTipo(JSFutil.estadoTramite.RECIBIDO));
                     t.setIdDependencia(JSFutil.getUsuarioConectado().getIdDependencia());
                     t.setDescripcionTramite("Entrada de Expediente");
                     t.setIdExpediente(expediente);

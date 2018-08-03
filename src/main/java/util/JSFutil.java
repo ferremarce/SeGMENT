@@ -28,7 +28,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import org.eclipse.persistence.exceptions.DatabaseException;
 import org.jsoup.Jsoup;
 import org.mindrot.jbcrypt.BCrypt;
 import segment.modelo.Usuario;
@@ -47,6 +46,15 @@ public class JSFutil implements Serializable {
 
     public static enum StatusMessage {
         INFORMATION, WARNING, ERROR, FATAL
+    }
+
+    public static class estadoTramite {
+
+        public static final Integer PENDIENTE = 6;
+        public static final Integer RECIBIDO = 7;
+        public static final Integer DEVUELTO = 8;
+        public static final Integer DERIVADO = 9;
+        public static final Integer ARCHIVADO = 10;
     }
 
     /**
@@ -501,4 +509,5 @@ public class JSFutil implements Serializable {
             return Boolean.FALSE;
         }
     }
+
 }

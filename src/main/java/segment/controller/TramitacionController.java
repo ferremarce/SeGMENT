@@ -90,7 +90,7 @@ public class TramitacionController implements Serializable {
     public void doListarTramitacionEntrada() {
         //Pendiente
         this.listaTramitacion = tramitacionFacade.findAllTramitacion(6, JSFutil.getUsuarioConectado().getIdDependencia().getIdDependencia());
-        if(this.listaTramitacion.isEmpty()){
+        if (this.listaTramitacion.isEmpty()) {
             JSFutil.addMessage("No hay expedientes en la bandeja de entrada", JSFutil.StatusMessage.WARNING);
         }
     }
@@ -98,7 +98,7 @@ public class TramitacionController implements Serializable {
     public void doListarTramitacionSalida() {
         //Confirmado
         this.listaTramitacion = tramitacionFacade.findAllTramitacion(7, JSFutil.getUsuarioConectado().getIdDependencia().getIdDependencia());
-                if(this.listaTramitacion.isEmpty()){
+        if (this.listaTramitacion.isEmpty()) {
             JSFutil.addMessage("No hay expedientes en la bandeja de salida", JSFutil.StatusMessage.WARNING);
         }
 
@@ -107,7 +107,7 @@ public class TramitacionController implements Serializable {
     public void doListarTramitacionProcesado() {
         //Derivado
         this.listaTramitacion = tramitacionFacade.findAllTramitacionProcesados(JSFutil.getUsuarioConectado().getIdDependencia().getIdDependencia());
-                if(this.listaTramitacion.isEmpty()){
+        if (this.listaTramitacion.isEmpty()) {
             JSFutil.addMessage("No hay expedientes en la bandeja de procesados", JSFutil.StatusMessage.WARNING);
         }
 
@@ -139,7 +139,7 @@ public class TramitacionController implements Serializable {
         try {
             Tramitacion tram = tramitacionFacade.find(idTramitacion);
             //Confirmado
-            tram.setIdEstadoTramite(new SubTipo(7));
+            tram.setIdEstadoTramite(new SubTipo(JSFutil.estadoTramite.RECIBIDO));
             tram.setIdUsuarioRecibido(JSFutil.getUsuarioConectado());
             tram.setFechaRecibido(JSFutil.getFechaHoraActual());
             tramitacionFacade.edit(tram);
@@ -170,7 +170,7 @@ public class TramitacionController implements Serializable {
         try {
             Tramitacion tram = tramitacionFacade.find(idTramitacion);
             //Archivado
-            tram.setIdEstadoTramite(new SubTipo(10));
+            tram.setIdEstadoTramite(new SubTipo(JSFutil.estadoTramite.ARCHIVADO));
             tram.setFechaArchivado(JSFutil.getFechaHoraActual());
             tram.setIdUsuarioArchivado(JSFutil.getUsuarioConectado());
             tramitacionFacade.edit(tram);
@@ -205,6 +205,20 @@ public class TramitacionController implements Serializable {
         return "/pages/TramitarExpediente";
     }
 
+    public String doRechazarForm(Integer idTramitacion) {
+        Tramitacion tramActual = tramitacionFacade.find(idTramitacion);
+        this.tramitacion = new Tramitacion();
+        this.tramitacion.setIdTramitacionAnterior(tramActual);
+        this.tramitacion.setIdDependencia(JSFutil.getUsuarioConectado().getIdDependencia());
+        this.tramitacion.setIdExpediente(tramActual.getIdExpediente());
+        this.tramitacion.setFechaTramite(JSFutil.getFechaHoraActual());
+        this.tramitacion.setDescripcionTramite("Devolución de Expediente");
+        arrayDependencias = new Dependencia[1];
+        arrayDependencias[0] = tramActual.getIdTramitacionAnterior().getIdDependencia();
+        this.adjuntoTramitacion = new ArrayList<>();
+        return "/pages/TramitarExpediente";
+    }
+
     public String doDerivar() {
         return "/pages/MisTareas";
     }
@@ -216,7 +230,7 @@ public class TramitacionController implements Serializable {
     public String doTramitar() {
         try {
             Tramitacion tramAnterior = tramitacion.getIdTramitacionAnterior();
-            tramAnterior.setIdEstadoTramite(new SubTipo(9));
+            tramAnterior.setIdEstadoTramite(new SubTipo(JSFutil.estadoTramite.DERIVADO));
             this.tramitacionFacade.edit(tramAnterior);
             TramitacionAdjunto ap;
             for (UploadedFile uf : this.adjuntoTramitacion) {
@@ -238,7 +252,7 @@ public class TramitacionController implements Serializable {
             for (Dependencia dep : this.arrayDependencias) {
                 this.tramitacion.setIdTramitacion(null);
                 this.tramitacion.setFechaTramite(JSFutil.getFechaHoraActual());
-                this.tramitacion.setIdEstadoTramite(new SubTipo(6));
+                this.tramitacion.setIdEstadoTramite(new SubTipo(JSFutil.estadoTramite.PENDIENTE));
                 this.tramitacion.setIdDependencia(dep);
                 this.tramitacionFacade.create(tramitacion);
 
