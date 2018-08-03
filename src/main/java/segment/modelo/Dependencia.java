@@ -30,6 +30,9 @@ import javax.validation.constraints.Size;
 public class Dependencia implements Serializable {
 
     @OneToMany(mappedBy = "idDependencia")
+    private List<Tramitacion> tramitacionList;
+
+    @OneToMany(mappedBy = "idDependencia")
     private List<Usuario> usuarioList;
 
     private static final long serialVersionUID = 1L;
@@ -116,6 +119,14 @@ public class Dependencia implements Serializable {
 
     public void setUsuarioList(List<Usuario> usuarioList) {
         this.usuarioList = usuarioList;
+    }
+
+    public List<Tramitacion> getTramitacionList() {
+        return tramitacionList;
+    }
+
+    public void setTramitacionList(List<Tramitacion> tramitacionList) {
+        this.tramitacionList = tramitacionList;
     }
 
 }

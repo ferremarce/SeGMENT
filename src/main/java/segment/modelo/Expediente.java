@@ -73,7 +73,7 @@ public class Expediente implements Serializable {
     @ManyToOne
     private Usuario idUsuario;
     @OneToMany(mappedBy = "idExpediente")
-    @OrderBy("fechaRegistro ASC")
+    @OrderBy("fechaTramite ASC")
     private List<Tramitacion> tramitacionList;
     @JoinColumn(name = "id_tipo_expediente", referencedColumnName = "id_sub_tipo")
     @ManyToOne

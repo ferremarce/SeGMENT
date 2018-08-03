@@ -41,10 +41,10 @@ import util.JSFutil.PersistAction;
 @Named(value = "ExpedienteController")
 @SessionScoped
 public class ExpedienteController implements Serializable {
-    
+
     private static final Logger LOG = Logger.getLogger(ExpedienteController.class.getName());
     ResourceBundle bundle = ResourceBundle.getBundle("propiedades.bundle", JSFutil.getmyLocale());
-    
+
     @Inject
     ExpedienteFacade expedienteFacade;
     @Inject
@@ -53,7 +53,7 @@ public class ExpedienteController implements Serializable {
     ExpedienteAdjuntoFacade expedienteAdjuntoFacade;
     @Inject
     TramitacionFacade tramitacionFacade;
-    
+
     private Expediente expediente;
     private List<Expediente> listaExpediente;
     private String criterio;
@@ -61,65 +61,65 @@ public class ExpedienteController implements Serializable {
     private Integer indexAdjunto;
     private TreeNode rootTramitacion;
     private TreeNode selectedNode1;
-    
+
     public ExpedienteController() {
     }
-    
+
     public TreeNode getRootTramitacion() {
         return rootTramitacion;
     }
-    
+
     public void setRootTramitacion(TreeNode rootTramitacion) {
         this.rootTramitacion = rootTramitacion;
     }
-    
+
     public TreeNode getSelectedNode1() {
         return selectedNode1;
     }
-    
+
     public void setSelectedNode1(TreeNode selectedNode1) {
         this.selectedNode1 = selectedNode1;
     }
-    
+
     public String getCriterio() {
         return criterio;
     }
-    
+
     public void setCriterio(String criterio) {
         this.criterio = criterio;
     }
-    
+
     public List<UploadedFile> getAdjuntoExpediente() {
         return adjuntoExpediente;
     }
-    
+
     public void setAdjuntoExpediente(List<UploadedFile> adjuntoExpediente) {
         this.adjuntoExpediente = adjuntoExpediente;
     }
-    
+
     public Expediente getExpediente() {
         return expediente;
     }
-    
+
     public void setExpediente(Expediente expediente) {
         this.expediente = expediente;
     }
-    
+
     public List<Expediente> getListaExpediente() {
         return listaExpediente;
     }
-    
+
     public void setListaExpediente(List<Expediente> listaExpediente) {
         this.listaExpediente = listaExpediente;
     }
-    
+
     public String doListarForm() {
         if (this.listaExpediente == null) {
             this.listaExpediente = new ArrayList<>();
         }
         return "/pages/ListarExpediente";
     }
-    
+
     public String doVerForm(Integer idExpediente) {
         this.expediente = expedienteFacade.find(idExpediente);
         TreeTramitacion tt = new TreeTramitacion();
@@ -129,7 +129,7 @@ public class ExpedienteController implements Serializable {
         }
         return "/pages/VerExpediente";
     }
-    
+
     public String doCrearForm() {
         this.expediente = new Expediente();
         this.adjuntoExpediente = new ArrayList<>();
@@ -139,21 +139,21 @@ public class ExpedienteController implements Serializable {
         this.indexAdjunto = 0;
         return "/pages/CrearExpediente";
     }
-    
+
     public String doEditarForm(Integer id) {
         this.expediente = expedienteFacade.find(id);
         this.adjuntoExpediente = new ArrayList<>();
         this.indexAdjunto = 0;
         return "/pages/CrearExpediente";
     }
-    
+
     public String doBorrar(Integer id) {
         this.expediente = expedienteFacade.find(id);
         persist(PersistAction.DELETE);
         this.doRefrescar();
         return doListarForm();
     }
-    
+
     public String doBorrarAdjunto(Integer id) {
         try {
             ExpedienteAdjunto ea = expedienteAdjuntoFacade.find(id);
@@ -165,7 +165,7 @@ public class ExpedienteController implements Serializable {
             //Solo se borra el registro si el archivo existe fisicamente en el servidor
             expedienteAdjuntoFacade.remove(ea);
             JSFutil.addMessage("El Adjunto #" + name + "# ha sido eliminado.", JSFutil.StatusMessage.INFORMATION);
-            
+
             this.expediente = expedienteFacade.find(this.expediente.getIdExpediente());
         } catch (EJBException ex) {
             String msg = "";
@@ -182,7 +182,7 @@ public class ExpedienteController implements Serializable {
         }
         return "";
     }
-    
+
     public String doRefrescar() {
         this.listaExpediente = expedienteFacade.findExpediente("", JSFutil.getUsuarioConectado());
         if (this.listaExpediente.isEmpty()) {
@@ -192,7 +192,7 @@ public class ExpedienteController implements Serializable {
         }
         return "";
     }
-    
+
     public String doBuscar() {
         if (this.criterio.isEmpty()) {
             JSFutil.addMessage("No hay criterios para buscar...", JSFutil.StatusMessage.WARNING);
@@ -206,7 +206,7 @@ public class ExpedienteController implements Serializable {
         }
         return "";
     }
-    
+
     public String doGuardar() {
         if (this.expediente.getIdExpediente() != null) {
             persist(PersistAction.UPDATE);
@@ -221,7 +221,7 @@ public class ExpedienteController implements Serializable {
         this.listaExpediente = expedienteFacade.findExpediente(expediente.getAcapite(), JSFutil.getUsuarioConectado());
         return doListarForm();
     }
-    
+
     private void persist(PersistAction persistAction) {
         try {
             if (persistAction.compareTo(PersistAction.CREATE) == 0) {
@@ -246,11 +246,12 @@ public class ExpedienteController implements Serializable {
                     }
                 }
                 Tramitacion t = new Tramitacion();
-                t.setFechaRegistro(JSFutil.getFechaHoraActual());
                 t.setFechaTramite(expediente.getFechaEntrada());
+                t.setIdUsuarioTramite(JSFutil.getUsuarioConectado());
+                t.setFechaRecibido(JSFutil.getFechaHoraActual());
+                t.setIdUsuarioRecibido(JSFutil.getUsuarioConectado());
                 t.setIdEstadoTramite(new SubTipo(7));
                 t.setIdDependencia(JSFutil.getUsuarioConectado().getIdDependencia());
-                t.setIdUsuario(JSFutil.getUsuarioConectado());
                 t.setDescripcionTramite("Entrada de Expediente");
                 t.setIdExpediente(expediente);
                 tramitacionFacade.create(t);
@@ -277,11 +278,12 @@ public class ExpedienteController implements Serializable {
                 }
                 if (expediente.getTramitacionList().isEmpty()) {
                     Tramitacion t = new Tramitacion();
-                    t.setFechaRegistro(JSFutil.getFechaHoraActual());
                     t.setFechaTramite(expediente.getFechaEntrada());
+                    t.setIdUsuarioTramite(JSFutil.getUsuarioConectado());
+                    t.setFechaRecibido(JSFutil.getFechaHoraActual());
+                    t.setIdUsuarioRecibido(JSFutil.getUsuarioConectado());
                     t.setIdEstadoTramite(new SubTipo(7));
                     t.setIdDependencia(JSFutil.getUsuarioConectado().getIdDependencia());
-                    t.setIdUsuario(JSFutil.getUsuarioConectado());
                     t.setDescripcionTramite("Entrada de Expediente");
                     t.setIdExpediente(expediente);
                     tramitacionFacade.create(t);
@@ -308,16 +310,16 @@ public class ExpedienteController implements Serializable {
             LOG.log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void handleFileUpload(FileUploadEvent event) {
         //LOG.log(Level.INFO, "Agregado el archivo {0}", event.getFile().getFileName());
         this.adjuntoExpediente.add(event.getFile());
     }
-    
+
     public void doPreparePreviewUpload(Integer ind) {
         this.indexAdjunto = ind;
     }
-    
+
     public StreamedContent expedientePreview() {
         //System.out.println("Indice... "+indexAdjunto);
         try {
@@ -331,5 +333,5 @@ public class ExpedienteController implements Serializable {
         }
         return null;
     }
-    
+
 }

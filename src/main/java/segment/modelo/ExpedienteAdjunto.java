@@ -167,13 +167,6 @@ public class ExpedienteAdjunto implements Serializable {
         return "expediente-" + this.idExpedienteAdjunto;
     }
 
-    public byte[] getArchivo() {
-        return archivo;
-    }
-
-    public void setArchivo(byte[] archivo) {
-        this.archivo = archivo;
-    }
 
     public String toTamanho() {
         if (this.tamanhoArchivo.intValue() < 1024) {
@@ -183,5 +176,13 @@ public class ExpedienteAdjunto implements Serializable {
         } else {
             return (tamanhoArchivo.intValue() / 1048576) + "MB";
         }
+    }
+
+    public byte[] getArchivo() {
+        return archivo;
+    }
+
+    public void setArchivo(byte[] archivo) {
+        this.archivo = archivo;
     }
 }

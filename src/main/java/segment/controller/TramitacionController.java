@@ -140,8 +140,8 @@ public class TramitacionController implements Serializable {
             Tramitacion tram = tramitacionFacade.find(idTramitacion);
             //Confirmado
             tram.setIdEstadoTramite(new SubTipo(7));
-            tram.setIdUsuario(JSFutil.getUsuarioConectado());
-            tram.setFechaTramite(JSFutil.getFechaHoraActual());
+            tram.setIdUsuarioRecibido(JSFutil.getUsuarioConectado());
+            tram.setFechaRecibido(JSFutil.getFechaHoraActual());
             tramitacionFacade.edit(tram);
             this.doListarTramitacionEntrada();
         } catch (EJBException ex) {
@@ -171,6 +171,8 @@ public class TramitacionController implements Serializable {
             Tramitacion tram = tramitacionFacade.find(idTramitacion);
             //Archivado
             tram.setIdEstadoTramite(new SubTipo(10));
+            tram.setFechaArchivado(JSFutil.getFechaHoraActual());
+            tram.setIdUsuarioArchivado(JSFutil.getUsuarioConectado());
             tramitacionFacade.edit(tram);
             this.doListarTramitacionSalida();
         } catch (EJBException ex) {
@@ -235,7 +237,7 @@ public class TramitacionController implements Serializable {
             //Derivacion
             for (Dependencia dep : this.arrayDependencias) {
                 this.tramitacion.setIdTramitacion(null);
-                this.tramitacion.setFechaRegistro(JSFutil.getFechaHoraActual());
+                this.tramitacion.setFechaTramite(JSFutil.getFechaHoraActual());
                 this.tramitacion.setIdEstadoTramite(new SubTipo(6));
                 this.tramitacion.setIdDependencia(dep);
                 this.tramitacionFacade.create(tramitacion);

@@ -57,15 +57,18 @@ public class Usuario implements Serializable {
     private String nombres;
     @OneToMany(mappedBy = "idUsuario")
     private List<Expediente> expedienteList;
-    @JoinColumn(name = "id_rol", referencedColumnName = "id_rol")
-    @ManyToOne
-    private Rol idRol;
+    @OneToMany(mappedBy = "idUsuarioTramite")
+    private List<Tramitacion> tramitacionList;
+    @OneToMany(mappedBy = "idUsuarioRecibido")
+    private List<Tramitacion> tramitacionList1;
+    @OneToMany(mappedBy = "idUsuarioArchivado")
+    private List<Tramitacion> tramitacionList2;
     @JoinColumn(name = "id_dependencia", referencedColumnName = "id_dependencia")
     @ManyToOne
     private Dependencia idDependencia;
-    @OneToMany(mappedBy = "idUsuario")
-    private List<Tramitacion> tramitacionList;
-
+    @JoinColumn(name = "id_rol", referencedColumnName = "id_rol")
+    @ManyToOne
+    private Rol idRol;
 
     public Usuario() {
     }
@@ -146,7 +149,37 @@ public class Usuario implements Serializable {
         this.expedienteList = expedienteList;
     }
 
-   
+    public List<Tramitacion> getTramitacionList() {
+        return tramitacionList;
+    }
+
+    public void setTramitacionList(List<Tramitacion> tramitacionList) {
+        this.tramitacionList = tramitacionList;
+    }
+
+    public List<Tramitacion> getTramitacionList1() {
+        return tramitacionList1;
+    }
+
+    public void setTramitacionList1(List<Tramitacion> tramitacionList1) {
+        this.tramitacionList1 = tramitacionList1;
+    }
+
+    public List<Tramitacion> getTramitacionList2() {
+        return tramitacionList2;
+    }
+
+    public void setTramitacionList2(List<Tramitacion> tramitacionList2) {
+        this.tramitacionList2 = tramitacionList2;
+    }
+
+    public Dependencia getIdDependencia() {
+        return idDependencia;
+    }
+
+    public void setIdDependencia(Dependencia idDependencia) {
+        this.idDependencia = idDependencia;
+    }
 
     public Rol getIdRol() {
         return idRol;
@@ -178,23 +211,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return this.nombres+" "+this.apellidos;
+        return this.nombres + " " + this.apellidos;
     }
 
-    public Dependencia getIdDependencia() {
-        return idDependencia;
-    }
-
-    public void setIdDependencia(Dependencia idDependencia) {
-        this.idDependencia = idDependencia;
-    }
-
-    public List<Tramitacion> getTramitacionList() {
-        return tramitacionList;
-    }
-
-    public void setTramitacionList(List<Tramitacion> tramitacionList) {
-        this.tramitacionList = tramitacionList;
-    }
-    
 }

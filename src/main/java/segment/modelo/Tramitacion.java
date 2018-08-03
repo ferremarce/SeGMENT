@@ -43,9 +43,6 @@ public class Tramitacion implements Serializable {
     @Size(max = 255)
     @Column(name = "descripcion_tramite")
     private String descripcionTramite;
-    @Column(name = "fecha_registro")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaRegistro;
     @Column(name = "fecha_tramite")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaTramite;
@@ -55,9 +52,12 @@ public class Tramitacion implements Serializable {
     @Size(max = 255)
     @Column(name = "remitido_a")
     private String remitidoA;
-    @Size(max = 45)
-    @Column(name = "fecha_confirmado")
-    private String fechaConfirmado;
+    @Column(name = "fecha_recibido")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaRecibido;
+    @Column(name = "fecha_archivado")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaArchivado;
     @OneToMany(mappedBy = "idTramitacion")
     private List<TramitacionAdjunto> tramitacionAdjuntoList;
     @JoinColumn(name = "id_estado_tramite", referencedColumnName = "id_sub_tipo")
@@ -66,9 +66,15 @@ public class Tramitacion implements Serializable {
     @JoinColumn(name = "id_expediente", referencedColumnName = "id_expediente")
     @ManyToOne
     private Expediente idExpediente;
-    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
+    @JoinColumn(name = "id_usuario_tramite", referencedColumnName = "id_usuario")
     @ManyToOne
-    private Usuario idUsuario;
+    private Usuario idUsuarioTramite;
+    @JoinColumn(name = "id_usuario_recibido", referencedColumnName = "id_usuario")
+    @ManyToOne
+    private Usuario idUsuarioRecibido;
+    @JoinColumn(name = "id_usuario_archivado", referencedColumnName = "id_usuario")
+    @ManyToOne
+    private Usuario idUsuarioArchivado;
     @JoinColumn(name = "id_dependencia", referencedColumnName = "id_dependencia")
     @ManyToOne
     private Dependencia idDependencia;
@@ -101,14 +107,6 @@ public class Tramitacion implements Serializable {
         this.descripcionTramite = descripcionTramite;
     }
 
-    public Date getFechaRegistro() {
-        return fechaRegistro;
-    }
-
-    public void setFechaRegistro(Date fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
-    }
-
     public Date getFechaTramite() {
         return fechaTramite;
     }
@@ -133,12 +131,20 @@ public class Tramitacion implements Serializable {
         this.remitidoA = remitidoA;
     }
 
-    public String getFechaConfirmado() {
-        return fechaConfirmado;
+    public Date getFechaRecibido() {
+        return fechaRecibido;
     }
 
-    public void setFechaConfirmado(String fechaConfirmado) {
-        this.fechaConfirmado = fechaConfirmado;
+    public void setFechaRecibido(Date fechaRecibido) {
+        this.fechaRecibido = fechaRecibido;
+    }
+
+    public Date getFechaArchivado() {
+        return fechaArchivado;
+    }
+
+    public void setFechaArchivado(Date fechaArchivado) {
+        this.fechaArchivado = fechaArchivado;
     }
 
     public List<TramitacionAdjunto> getTramitacionAdjuntoList() {
@@ -165,12 +171,28 @@ public class Tramitacion implements Serializable {
         this.idExpediente = idExpediente;
     }
 
-    public Usuario getIdUsuario() {
-        return idUsuario;
+    public Usuario getIdUsuarioTramite() {
+        return idUsuarioTramite;
     }
 
-    public void setIdUsuario(Usuario idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setIdUsuarioTramite(Usuario idUsuarioTramite) {
+        this.idUsuarioTramite = idUsuarioTramite;
+    }
+
+    public Usuario getIdUsuarioRecibido() {
+        return idUsuarioRecibido;
+    }
+
+    public void setIdUsuarioRecibido(Usuario idUsuarioRecibido) {
+        this.idUsuarioRecibido = idUsuarioRecibido;
+    }
+
+    public Usuario getIdUsuarioArchivado() {
+        return idUsuarioArchivado;
+    }
+
+    public void setIdUsuarioArchivado(Usuario idUsuarioArchivado) {
+        this.idUsuarioArchivado = idUsuarioArchivado;
     }
 
     public Dependencia getIdDependencia() {

@@ -81,7 +81,7 @@
                                         <h:outputText value="#{item.idEstadoTramite.descripcionSubTipo}"/>
                                         <h:outputText value="F. Tramite"/>
                                         <h:outputText value="#{item.fechaTramite}">
-                                            <f:convertDateTime timeZone="#{CommonController.myTimeZone}" pattern="dd/MM/yyyy hh:mm" />
+                                            <f:convertDateTime timeZone="#{CommonController.myTimeZone}" pattern="dd/MM/yyyy HH:mm" />
                                         </h:outputText>
                                         <h:outputText value="Usuario"/>
                                         <h:outputText value="#{item.idTramitacionAnterior.idUsuario.toString()}"/>
