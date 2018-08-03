@@ -30,9 +30,9 @@
                             <p:outputLabel value="Acápite:" for="acapite" />
                             <p:inputText id="acapite" value="#{ExpedienteController.expediente.acapite}" title="Acapite" required="true" requiredMessage="#{bundle.Requerido}" />
                             <p:outputLabel value="Fecha Expediente:" for="fechaExpediente" />
-                            <p:calendar navigator="true" locale="es"  size="12" id="fechaExpediente" value="#{ExpedienteController.expediente.fechaExpediente}" pattern="dd/MM/yyyy" title="Fecha Expediente" required="true" requiredMessage="#{bundle.Requerido}"/>
+                            <p:calendar navigator="true" locale="es"  size="16" id="fechaExpediente" value="#{ExpedienteController.expediente.fechaExpediente}" pattern="dd/MM/yyyy" title="Fecha Expediente" required="true" requiredMessage="#{bundle.Requerido}"/>
                             <p:outputLabel value="Fecha Entrada:" for="fechaEntrada" />
-                            <p:calendar navigator="true" locale="es"  size="12" id="fechaEntrada" value="#{ExpedienteController.expediente.fechaEntrada}" pattern="dd/MM/yyyy HH:mm" title="Fecha Entrada"/>
+                            <p:calendar navigator="true" locale="es"  size="16" id="fechaEntrada" value="#{ExpedienteController.expediente.fechaEntrada}" pattern="dd/MM/yyyy HH:mm" title="Fecha Entrada"/>
                             <p:outputLabel value="Remitente:" for="remitente" />
                             <p:inputText id="remitente" value="#{ExpedienteController.expediente.remitente}" title="Remitente" />
                             <p:outputLabel value="Observación:" for="observacion" />

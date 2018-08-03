@@ -19,6 +19,8 @@
                     </p:selectOneMenu>
                     <p:outputLabel value="Descripción:" for="descripcionSubTipo" />
                     <p:inputText id="descripcionSubTipo" value="#{SubTipoController.subTipo.descripcionSubTipo}" title="Descripcion SubTipo" required="true" requiredMessage="#{bundle.Requerido}" />
+                    <p:outputLabel value="Acrónimo:" for="acronimo" />
+                    <p:inputText id="acronimo" value="#{SubTipoController.subTipo.descripcionSubTipo}" title="Acrónimo"/>
                 </p:panelGrid>
                 <f:facet name="footer">
                     <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" >

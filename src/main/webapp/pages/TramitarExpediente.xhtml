@@ -12,7 +12,8 @@
     <ui:define name="content">
         <h:form>
             <p:panel header="Datos del Expediente">
-                <p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+                <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" layout="grid" columnClasses="ui-grid-col-7,ui-grid-col-5">
+                    <p:panelGrid columns="2" >
                     <p:outputLabel value="Tipo:" for="idTipoExpediente" />
                     <h:outputText id="idTipoExpediente" value="#{TramitacionController.tramitacion.idExpediente.idTipoExpediente.descripcionSubTipo}"/>  
                     <p:outputLabel value="Nro. Expediente:" for="nroExpediente" />
@@ -30,6 +31,18 @@
                     <p:outputLabel value="Remitente:" for="remitente" />
                     <h:outputText id="remitente" value="#{TramitacionController.tramitacion.idExpediente.remitente}" title="Remitente" />
                 </p:panelGrid>
+                <p:dataTable id="dataTableAdjunto" var="expeAdj" value="#{TramitacionController.tramitacion.idExpediente.expedienteAdjuntoList}" reflow="true" emptyMessage="#{bundle.SinRegistrosMensaje}">
+                        <f:facet name="header">
+                            <h:outputText styleClass="Purple" value="Archivos del Expediente"/>
+                        </f:facet>
+                        <p:column headerText="Archivos" >
+                            <h:outputText value="#{expeAdj.toNameDownload()} [#{expeAdj.toTamanho()}]"/>
+                        </p:column>
+                        <p:column style="width: 100px" headerText="Acción" >
+                            <p:button target="_blank" href="#{CommonController.serverURLDownload}/#{expeAdj.toURLDownload()}" title="#{bundle.DescargarBoton}" icon="fa fa-fw fa-download"/>
+                        </p:column>
+                    </p:dataTable> 
+                </p:panelGrid>
             </p:panel>
             <p:messages/>
             <p:panel header="Datos del Trámite">
@@ -39,7 +52,7 @@
                             <p:outputLabel value="Descripción:" for="descripcionTramite" />
                             <p:inputText id="descripcionTramite" value="#{TramitacionController.tramitacion.descripcionTramite}" title="DescripcionTramite" required="true" requiredMessage="#{bundle.Requerido}" />
                             <p:outputLabel value="Fecha Trámite:" for="fechaTramite" />
-                            <p:calendar navigator="true" locale="es"  size="12" id="fechaTramite" value="#{TramitacionController.tramitacion.fechaTramite}" pattern="dd/MM/yyyy HH:mm" title="Fecha Trámite" required="true"/>
+                            <p:calendar navigator="true" locale="es"  size="16" id="fechaTramite" value="#{TramitacionController.tramitacion.fechaTramite}" pattern="dd/MM/yyyy HH:mm" title="Fecha Trámite" required="true"/>
                             <p:outputLabel value="Remitido a:" for="remitidoA" />
                             <p:inputText id="remitidoA" value="#{TramitacionController.tramitacion.remitidoA}" title="Remitido A" />
                             <p:outputLabel value="Dependencia:" for="idDependencia" />

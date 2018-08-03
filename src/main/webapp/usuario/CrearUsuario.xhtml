@@ -17,11 +17,11 @@
                     <p:outputLabel value="Cuenta:" for="cuenta" />
                     <p:inputText id="cuenta" value="#{UsuarioController.usuario.cuenta}" title="Cuenta" required="true" requiredMessage="#{bundle.Requerido}" />
                     <p:outputLabel value="Contraseña:" for="contrasenha" />
-                    <p:password id="contrasenha" goodLabel="Bueno" promptLabel="Ingrese Contraseña" feedback="true" weakLabel="Débil" strongLabel="Excelente" size="20" value="#{UsuarioController.usuario.contrasenha}" required="#{UsuarioController.usuario.contrasenha.length()>0?'false':'true'}" requiredMessage="#{bundle.Requerido}"/> 
-                    <p:outputLabel value="Apellidos:" for="apellidos" />
-                    <p:inputText id="apellidos" value="#{UsuarioController.usuario.apellidos}" title="Apellidos" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:password id="contrasenha" goodLabel="Bueno" promptLabel="Ingrese Contraseña" feedback="true" weakLabel="Débil" strongLabel="Excelente" size="20" value="#{UsuarioController.clave}" required="#{UsuarioController.usuario.idUsuario==null?'true':'false'}" requiredMessage="#{bundle.Requerido}"/> 
                     <p:outputLabel value="Nombres:" for="nombres" />
                     <p:inputText id="nombres" value="#{UsuarioController.usuario.nombres}" title="Nombres" required="true" requiredMessage="#{bundle.Requerido}"/>
+                    <p:outputLabel value="Apellidos:" for="apellidos" />
+                    <p:inputText id="apellidos" value="#{UsuarioController.usuario.apellidos}" title="Apellidos" required="true" requiredMessage="#{bundle.Requerido}"/>
                     <p:outputLabel value="Rol:" for="idRol" />
                     <p:selectOneMenu id="idRol" value="#{UsuarioController.usuario.idRol}" required="true" requiredMessage="#{bundle.Requerido}" >
                         <f:selectItems value="#{RolController.rolSet}"/>

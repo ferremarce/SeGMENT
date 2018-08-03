@@ -43,7 +43,7 @@ public class Expediente implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_expediente")
     private Integer idExpediente;
-    @Size(max = 255)
+    @Size(max = 3000)
     @Column(name = "acapite")
     private String acapite;
     @Column(name = "cerrado")

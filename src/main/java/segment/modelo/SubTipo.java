@@ -54,7 +54,9 @@ public class SubTipo implements Serializable {
     private SubTipo idPadre;
     @OneToMany(mappedBy = "idEstadoTramite")
     private List<Tramitacion> tramitacionList;
-
+    @Size(max = 50)
+    @Column(name = "acronimo")
+    private String acronimo;
 
     public SubTipo() {
     }
@@ -93,6 +95,14 @@ public class SubTipo implements Serializable {
 
     public void setIdTipo(Tipo idTipo) {
         this.idTipo = idTipo;
+    }
+
+    public String getAcronimo() {
+        return acronimo;
+    }
+
+    public void setAcronimo(String acronimo) {
+        this.acronimo = acronimo;
     }
 
     @Override

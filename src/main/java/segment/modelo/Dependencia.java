@@ -43,6 +43,8 @@ public class Dependencia implements Serializable {
     @Size(max = 255)
     @Column(name = "descripcion_dependencia")
     private String descripcionDependencia;
+    @Column(name = "orden")
+    private Integer orden;
 
     public Dependencia() {
     }
@@ -73,6 +75,14 @@ public class Dependencia implements Serializable {
 
     public void setDescripcionDependencia(String descripcionDependencia) {
         this.descripcionDependencia = descripcionDependencia;
+    }
+
+    public Integer getOrden() {
+        return orden;
+    }
+
+    public void setOrden(Integer orden) {
+        this.orden = orden;
     }
 
     @Override

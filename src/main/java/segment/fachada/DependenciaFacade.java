@@ -32,7 +32,7 @@ public class DependenciaFacade extends AbstractFacade<Dependencia> {
     }
 
     public List<Dependencia> findDependencia(String criterio) {
-        Query q = em.createQuery("SELECT a FROM Dependencia a WHERE UPPER(a.descripcionDependencia) LIKE :xCriterio");
+        Query q = em.createQuery("SELECT a FROM Dependencia a WHERE UPPER(a.descripcionDependencia) LIKE :xCriterio ORDER BY a.orden");
         q.setParameter("xCriterio", "%" + criterio.toUpperCase() + "%");
         List<Dependencia> tr = q.getResultList();
         return tr;

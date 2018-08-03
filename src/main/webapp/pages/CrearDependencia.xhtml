@@ -17,6 +17,8 @@
                     <p:inputText id="descripcionDependencia" value="#{DependenciaController.dependencia.descripcionDependencia}" title="Descripción Dependencia"  required="true" requiredMessage="#{bundle.Requerido}"/>
                     <p:outputLabel value="¿Está Activo?:" for="activo" />
                     <p:selectBooleanCheckbox id="activo" value="#{DependenciaController.dependencia.activo}" title="Activo" />
+                    <p:outputLabel value="Orden:" for="orden" />
+                    <p:inputText id="orden" value="#{DependenciaController.dependencia.orden}" title="Orden"  required="true" requiredMessage="#{bundle.Requerido}"/>
                 </p:panelGrid>
                 <f:facet name="footer">
                     <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6,ui-grid-col-6">

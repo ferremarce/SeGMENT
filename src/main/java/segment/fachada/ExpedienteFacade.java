@@ -51,4 +51,16 @@ public class ExpedienteFacade extends AbstractFacade<Expediente> {
 
     }
 
+    public String findNextNroExpediente() {
+        Query q = em.createQuery("SELECT a FROM Expediente a ORDER BY a.idExpediente DESC");
+        q.setMaxResults(1);
+        List<Expediente> tr = q.getResultList();
+        if (tr.size() > 0) {
+            return tr.get(0).getIdExpediente() + "";
+        } else {
+            return "1";
+        }
+
+    }
+
 }

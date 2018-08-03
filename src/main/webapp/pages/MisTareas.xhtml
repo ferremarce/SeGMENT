@@ -22,6 +22,7 @@
                     </p:submenu>
                 </p:menu>
                 <p:panel>
+                    <p:messages showDetail="true"/>
                     <p:dataTable id="dtTramitacionPendiente" value="#{TramitacionController.listaTramitacion}" var="item" emptyMessage="#{bundle.SinRegistrosMensaje}"
                                  rows="50"
                                  reflow="true"
@@ -31,43 +32,22 @@
                                  rowsPerPageTemplate="5,10,25,50,100"
                                  sortMode="multiple"
                                  >
-                        <p:column >
-                            <f:facet name="header">
-                                <h:outputText value="Expediente"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idExpediente.idTipoExpediente.descripcionSubTipo}:&nbsp;"/>
-                            <h:outputText styleClass="Blue fontBold" value="#{item.idExpediente.acapite}"/><br/>
-                            <h:outputText value="Remitente: #{item.idExpediente.remitente}"/><br/>
-                            <h:outputText value="#{item.descripcionTramite}"/>
-                        </p:column>
-                        <p:column width="130" sortBy="#{item.fechaTramite}" sortable="true">
-                            <f:facet name="header">
-                                <h:outputText value="F. Tramite"/>
-                            </f:facet>
-                            <h:outputText value="#{item.fechaTramite}">
-                                <f:convertDateTime timeZone="#{CommonController.myTimeZone}" pattern="dd/MM/yyyy hh:mm" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column >
-                            <f:facet name="header">
-                                <h:outputText value="Usuario"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idUsuario}"/><br/>
-                            <h:outputText styleClass="DarkGreen" value="#{item.idDependencia.descripcionDependencia}"/>
+                        <p:column style="width:16px">
+                            <p:rowToggler />
                         </p:column>
                         <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Estado"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idEstadoTramite.descripcionSubTipo}"/>
-                        </p:column>                        
+                            <h:outputText styleClass="Brown fontBold" value="#{item.idExpediente.idTipoExpediente.descripcionSubTipo}"/><br/>
+                            <h:outputText value="#{item.idExpediente.acapite}"/>
+                        </p:column>
                         <p:column style="width: 120px">
                             <f:facet name="header">
                                 <h:outputText value="Acción"/>
                             </f:facet>
                             <p:menuButton rendered="#{item.idEstadoTramite.idSubTipo==6}" value="Opciones">
-                                <p:menuitem ajax="false" title="Aceptar y Confirmar" value="#{bundle.AceptarBoton}" icon="fa fa-check-circle" action="#{TramitacionController.doAceptarTramite(item.idTramitacion)}"/>
-                                <p:menuitem ajax="false" title="Rechazar y Devolver" value="#{bundle.RechazarBoton}" icon="fa fa-minus-circle"/>
+                                <p:menuitem ajax="false" title="Aceptar y Confirmar" value="#{bundle.AceptarBoton}" icon="fa fa-check-circle" action="#{TramitacionController.doAceptarTramite(item.idTramitacion)}" onclick="if (!confirm('#{bundle.ConfirmacionMensaje}')) {
+                                            return false;
+                                        }"/>
+                                <p:menuitem ajax="false" title="Rechazar y Devolver" value="#{bundle.RechazarBoton}" icon="fa fa-minus-circle" action="#{TramitacionController.doTramitarForm(item.idTramitacion)}"/>
                             </p:menuButton>
                             <p:menuButton rendered="#{item.idEstadoTramite.idSubTipo==7}" value="Opciones">
                                 <p:menuitem ajax="false" value="#{bundle.DerivarBoton}" icon="fa fa-mail-forward" action="#{TramitacionController.doTramitarForm(item.idTramitacion)}"/>
@@ -77,6 +57,40 @@
                             <i class="fa fa-random"/>&nbsp;
                             <p:commandLink target="_new"  ajax="false" value="#{bundle.VerBoton} Flujo" action="#{ExpedienteController.doVerForm(item.idExpediente.idExpediente)}"/>
                         </p:column>
+                        <p:rowExpansion>
+                            <p:panel>
+                                <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-10">
+                                    <h:outputText value="Nro Exp."/>
+                                    <h:outputText value="#{item.idExpediente.nroExpediente}"/>
+                                    <h:outputText value="F. Expediente:"/>
+                                    <h:outputText value="#{item.idExpediente.fechaExpediente}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                    <h:outputText value="Tipo:"/>
+                                    <h:outputText styleClass="Brown fontBold" value="#{item.idExpediente.idTipoExpediente.descripcionSubTipo}"/>
+                                    <h:outputText value="F. Entrada:"/>
+                                    <h:outputText value="#{item.idExpediente.fechaEntrada}">
+                                        <f:convertDateTime timeZone="#{CommonController.myTimeZone}" pattern="dd/MM/yyyy HH:mm" />
+                                    </h:outputText>
+                                    <h:outputText value="Remitente"/>
+                                    <h:outputText value="#{item.idExpediente.remitente}"/>
+                                </p:panelGrid>
+                                <f:facet name="footer">
+                                    <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-10">
+                                        <h:outputText value="Estado"/>
+                                        <h:outputText value="#{item.idEstadoTramite.descripcionSubTipo}"/>
+                                        <h:outputText value="F. Tramite"/>
+                                        <h:outputText value="#{item.fechaTramite}">
+                                            <f:convertDateTime timeZone="#{CommonController.myTimeZone}" pattern="dd/MM/yyyy hh:mm" />
+                                        </h:outputText>
+                                        <h:outputText value="Usuario"/>
+                                        <h:outputText value="#{item.idTramitacionAnterior.idUsuario.toString()}"/>
+                                        <h:outputText value="Dependencia"/>
+                                        <h:outputText value="#{item.idTramitacionAnterior.idDependencia.descripcionDependencia}"/>
+                                    </p:panelGrid>
+                                </f:facet>
+                            </p:panel>
+                        </p:rowExpansion>
                     </p:dataTable>
                 </p:panel>
             </p:panelGrid>

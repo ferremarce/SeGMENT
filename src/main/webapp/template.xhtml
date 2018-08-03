@@ -39,12 +39,12 @@
                         <p:menuitem ajax="false" icon="fa fa-cubes" value="Dependencias" action="#{DependenciaController.doListarForm()}"/>
                         <p:menuitem ajax="false" icon="fa fa-users" value="Usuarios" action="#{UsuarioController.doListarForm()}"/>
                     </p:submenu>
-                    <p:submenu label="&nbsp;Procesos" icon="fa fa-cogs">
+                    <p:submenu rendered="false" label="&nbsp;Procesos" icon="fa fa-cogs">
                         <p:menuitem ajax="false" value="Seguimiento de Expediente" url="#"/>
                         <p:menuitem ajax="false" value="Bloqueo de Expedientes" url="#"/>
                     </p:submenu>
                     <p:submenu label="&nbsp;Reportes" icon="fa fa-cogs">
-                        <p:menuitem disabled="false" ajax="false" value="Expedientes" action="#{DetalleCapillaController.doCrearForm()}"/>
+                        <p:menuitem rendered="false" disabled="false" ajax="false" value="Expedientes" action="#{DetalleCapillaController.doCrearForm()}"/>
                     </p:submenu>
                     <p:submenu label="&nbsp;Configuración" icon="ui-icon-document">
                         <p:menuitem ajax="false" value="SubTipos" action="#{SubTipoController.doListarForm()}"/>

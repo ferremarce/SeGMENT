@@ -25,7 +25,7 @@
                 <p:commandButton immediate="true" value="#{bundle.NuevoBoton}" icon="fa fa-plus" ajax="false" action="#{UsuarioController.doCrearForm()}"/>
                 <p:commandButton immediate="true" value="#{bundle.ListarBoton}" icon="fa fa-th-list" ajax="false" action="#{UsuarioController.doRefrescar()}"/>
             </p:panelGrid>
-            <p:dataTable value="#{UsuarioController.listaUsuario}" var="item" rowStyleClass="#{item.activo?null:'disabledRowStyle'}">
+            <p:dataTable value="#{UsuarioController.listaUsuario}" var="item" rowStyleClass="#{item.activo?null:'disabledRowStyle'}" emptyMessage="#{bundle.SinRegistrosMensaje}">
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="Descripción"/>
@@ -38,6 +38,19 @@
                     </f:facet>
                     <h:outputText value="#{item.activo?'Si':'No'}"/>
                 </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Rol"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idRol.descripcionRol}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Dependencia"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idDependencia.descripcionDependencia}"/>
+                </p:column>
+
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="Acción"/>

@@ -39,8 +39,17 @@ public class UsuarioController implements Serializable {
     private Usuario usuario;
     private List<Usuario> listaUsuario;
     private String criterio;
+    private String clave;
 
     public UsuarioController() {
+    }
+
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
     }
 
     public UsuarioFacade getUsuarioFacade() {
@@ -84,11 +93,13 @@ public class UsuarioController implements Serializable {
 
     public String doCrearForm() {
         this.usuario = new Usuario();
+        this.clave="";
         return "/usuario/CrearUsuario";
     }
 
     public String doEditarForm(Integer id) {
         this.usuario = usuarioFacade.find(id);
+        this.clave="";
         return "/usuario/CrearUsuario";
     }
 
@@ -134,8 +145,8 @@ public class UsuarioController implements Serializable {
 
     private void persist(PersistAction persistAction) {
         try {
-            if (!usuario.getContrasenha().isEmpty()) {
-                usuario.setContrasenha(JSFutil.getSecurePassword(usuario.getContrasenha()));
+            if (!this.clave.isEmpty()) {
+                usuario.setContrasenha(JSFutil.getSecurePassword(this.clave));
             }
             if (persistAction.compareTo(PersistAction.CREATE) == 0) {
                 usuarioFacade.create(usuario);

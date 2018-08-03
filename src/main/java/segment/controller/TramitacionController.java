@@ -35,15 +35,15 @@ import util.JSFutil;
 @Named(value = "TramitacionController")
 @SessionScoped
 public class TramitacionController implements Serializable {
-    
+
     private static final Logger LOG = Logger.getLogger(TramitacionController.class.getName());
     ResourceBundle bundle = ResourceBundle.getBundle("propiedades.bundle", JSFutil.getmyLocale());
-    
+
     @Inject
     TramitacionFacade tramitacionFacade;
     @Inject
     TramitacionAdjuntoFacade tramitacionAdjuntoFacade;
-    
+
     private Tramitacion tramitacion;
     private List<Tramitacion> listaTramitacion;
     private Dependencia[] arrayDependencias;
@@ -54,76 +54,87 @@ public class TramitacionController implements Serializable {
      */
     public TramitacionController() {
     }
-    
+
     public Dependencia[] getArrayDependencias() {
         return arrayDependencias;
     }
-    
+
     public void setArrayDependencias(Dependencia[] arrayDependencias) {
         this.arrayDependencias = arrayDependencias;
     }
-    
+
     public List<UploadedFile> getAdjuntoTramitacion() {
         return adjuntoTramitacion;
     }
-    
+
     public void setAdjuntoTramitacion(List<UploadedFile> adjuntoTramitacion) {
         this.adjuntoTramitacion = adjuntoTramitacion;
     }
-    
+
     public Tramitacion getTramitacion() {
         return tramitacion;
     }
-    
+
     public void setTramitacion(Tramitacion tramitacion) {
         this.tramitacion = tramitacion;
     }
-    
+
     public List<Tramitacion> getListaTramitacion() {
         return listaTramitacion;
     }
-    
+
     public void setListaTramitacion(List<Tramitacion> listaTramitacion) {
         this.listaTramitacion = listaTramitacion;
     }
-    
+
     public void doListarTramitacionEntrada() {
         //Pendiente
         this.listaTramitacion = tramitacionFacade.findAllTramitacion(6, JSFutil.getUsuarioConectado().getIdDependencia().getIdDependencia());
+        if(this.listaTramitacion.isEmpty()){
+            JSFutil.addMessage("No hay expedientes en la bandeja de entrada", JSFutil.StatusMessage.WARNING);
+        }
     }
-    
+
     public void doListarTramitacionSalida() {
         //Confirmado
         this.listaTramitacion = tramitacionFacade.findAllTramitacion(7, JSFutil.getUsuarioConectado().getIdDependencia().getIdDependencia());
+                if(this.listaTramitacion.isEmpty()){
+            JSFutil.addMessage("No hay expedientes en la bandeja de salida", JSFutil.StatusMessage.WARNING);
+        }
+
     }
-    
+
     public void doListarTramitacionProcesado() {
         //Derivado
         this.listaTramitacion = tramitacionFacade.findAllTramitacionProcesados(JSFutil.getUsuarioConectado().getIdDependencia().getIdDependencia());
+                if(this.listaTramitacion.isEmpty()){
+            JSFutil.addMessage("No hay expedientes en la bandeja de procesados", JSFutil.StatusMessage.WARNING);
+        }
+
     }
-    
+
     public Integer doCantidadEntrada() {
         return tramitacionFacade.findAllTramitacion(6, JSFutil.getUsuarioConectado().getIdDependencia().getIdDependencia()).size();
     }
-    
+
     public Integer doCantidadSalida() {
         return tramitacionFacade.findAllTramitacion(7, JSFutil.getUsuarioConectado().getIdDependencia().getIdDependencia()).size();
     }
-    
+
     public Integer doCantidadProcesado() {
         return tramitacionFacade.findAllTramitacionProcesados(JSFutil.getUsuarioConectado().getIdDependencia().getIdDependencia()).size();
     }
-    
+
     public String doMisTareasForm() {
         this.listaTramitacion = new ArrayList<>();
         return "/pages/MisTareas";
     }
-    
+
     public void handleFileUpload(FileUploadEvent event) {
         //LOG.log(Level.INFO, "Agregado el archivo {0}", event.getFile().getFileName());
         this.adjuntoTramitacion.add(event.getFile());
     }
-    
+
     public void doAceptarTramite(Integer idTramitacion) {
         try {
             Tramitacion tram = tramitacionFacade.find(idTramitacion);
@@ -150,11 +161,11 @@ public class TramitacionController implements Serializable {
             LOG.log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void doSacarAdjunto(int indice) {
         this.adjuntoTramitacion.remove(indice);
     }
-    
+
     public void doArchivarTramite(Integer idTramitacion) {
         try {
             Tramitacion tram = tramitacionFacade.find(idTramitacion);
@@ -179,17 +190,27 @@ public class TramitacionController implements Serializable {
             LOG.log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public String doTramitarForm(Integer idTramitacion) {
         Tramitacion tramActual = tramitacionFacade.find(idTramitacion);
         this.tramitacion = new Tramitacion();
         this.tramitacion.setIdTramitacionAnterior(tramActual);
         this.tramitacion.setIdDependencia(JSFutil.getUsuarioConectado().getIdDependencia());
         this.tramitacion.setIdExpediente(tramActual.getIdExpediente());
+        this.tramitacion.setFechaTramite(JSFutil.getFechaHoraActual());
+        this.tramitacion.setDescripcionTramite("A consideración");
         this.adjuntoTramitacion = new ArrayList<>();
         return "/pages/TramitarExpediente";
     }
-    
+
+    public String doDerivar() {
+        return "/pages/MisTareas";
+    }
+
+    public String doRechazar() {
+        return "/pages/MisTareas";
+    }
+
     public String doTramitar() {
         try {
             Tramitacion tramAnterior = tramitacion.getIdTramitacionAnterior();
@@ -218,7 +239,7 @@ public class TramitacionController implements Serializable {
                 this.tramitacion.setIdEstadoTramite(new SubTipo(6));
                 this.tramitacion.setIdDependencia(dep);
                 this.tramitacionFacade.create(tramitacion);
-                
+
             }
             this.doListarTramitacionSalida();
             JSFutil.addMessage(this.bundle.getString("UpdateSuccess"), JSFutil.StatusMessage.INFORMATION);
@@ -240,6 +261,5 @@ public class TramitacionController implements Serializable {
         }
         return "/pages/MisTareas";
     }
-    
-  
+
 }
