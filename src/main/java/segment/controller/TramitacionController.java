@@ -48,11 +48,20 @@ public class TramitacionController implements Serializable {
     private List<Tramitacion> listaTramitacion;
     private Dependencia[] arrayDependencias;
     private List<UploadedFile> adjuntoTramitacion;
+    private Integer estadoTramite;
 
     /**
      * Creates a new instance of TramitacionFacade
      */
     public TramitacionController() {
+    }
+
+    public Integer getEstadoTramite() {
+        return estadoTramite;
+    }
+
+    public void setEstadoTramite(Integer estadoTramite) {
+        this.estadoTramite = estadoTramite;
     }
 
     public Dependencia[] getArrayDependencias() {
@@ -194,6 +203,7 @@ public class TramitacionController implements Serializable {
     }
 
     public String doTramitarForm(Integer idTramitacion) {
+        this.estadoTramite = JSFutil.estadoTramite.DERIVADO;
         Tramitacion tramActual = tramitacionFacade.find(idTramitacion);
         this.tramitacion = new Tramitacion();
         this.tramitacion.setIdTramitacionAnterior(tramActual);
@@ -206,6 +216,7 @@ public class TramitacionController implements Serializable {
     }
 
     public String doRechazarForm(Integer idTramitacion) {
+        this.estadoTramite = JSFutil.estadoTramite.DEVUELTO;
         Tramitacion tramActual = tramitacionFacade.find(idTramitacion);
         this.tramitacion = new Tramitacion();
         this.tramitacion.setIdTramitacionAnterior(tramActual);
@@ -230,7 +241,7 @@ public class TramitacionController implements Serializable {
     public String doTramitar() {
         try {
             Tramitacion tramAnterior = tramitacion.getIdTramitacionAnterior();
-            tramAnterior.setIdEstadoTramite(new SubTipo(JSFutil.estadoTramite.DERIVADO));
+            tramAnterior.setIdEstadoTramite(new SubTipo(this.estadoTramite));
             this.tramitacionFacade.edit(tramAnterior);
             TramitacionAdjunto ap;
             for (UploadedFile uf : this.adjuntoTramitacion) {

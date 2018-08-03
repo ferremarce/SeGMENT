@@ -86,7 +86,7 @@
                     </p:outputPanel>
                     <p:outputPanel>
                         <p:outputLabel value="Destino:" for="idDestino" />
-                        <p:selectManyCheckbox id="idDestino" layout="grid" columns="1" value="#{TramitacionController.arrayDependencias}" required="true" requiredMessage="#{bundle.Requerido}" >
+                        <p:selectManyCheckbox disabled="#{TramitacionController.estadoTramite!=9}" id="idDestino" layout="grid" columns="1" value="#{TramitacionController.arrayDependencias}" required="true" requiredMessage="#{bundle.Requerido}" >
                             <f:selectItems value="#{DependenciaController.dependenciaSet}"/>
                         </p:selectManyCheckbox>
                     </p:outputPanel>
