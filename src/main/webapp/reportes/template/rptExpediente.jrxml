@@ -11,6 +11,87 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="DataSetTramitacion" uuid="121ad573-89ab-4352-a337-57158568789e">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="jpaSegmentAdapter.xml"/>
+		<queryString language="EJBQL">
+			<![CDATA[]]>
+		</queryString>
+		<field name="idTramitacion" class="java.lang.Integer">
+			<fieldDescription><![CDATA[idTramitacion]]></fieldDescription>
+		</field>
+		<field name="idExpediente" class="segment.modelo.Expediente">
+			<fieldDescription><![CDATA[idExpediente]]></fieldDescription>
+		</field>
+		<field name="fechaArchivado" class="java.util.Date">
+			<fieldDescription><![CDATA[fechaArchivado]]></fieldDescription>
+		</field>
+		<field name="remitidoA" class="java.lang.String">
+			<fieldDescription><![CDATA[remitidoA]]></fieldDescription>
+		</field>
+		<field name="idUsuarioRecibido" class="segment.modelo.Usuario">
+			<fieldDescription><![CDATA[idUsuarioRecibido]]></fieldDescription>
+		</field>
+		<field name="idUsuarioArchivado" class="segment.modelo.Usuario">
+			<fieldDescription><![CDATA[idUsuarioArchivado]]></fieldDescription>
+		</field>
+		<field name="idTramitacionAnterior" class="segment.modelo.Tramitacion">
+			<fieldDescription><![CDATA[idTramitacionAnterior]]></fieldDescription>
+		</field>
+		<field name="fechaRecibido" class="java.util.Date">
+			<fieldDescription><![CDATA[fechaRecibido]]></fieldDescription>
+		</field>
+		<field name="descripcionTramite" class="java.lang.String">
+			<fieldDescription><![CDATA[descripcionTramite]]></fieldDescription>
+		</field>
+		<field name="fechaTramite" class="java.util.Date">
+			<fieldDescription><![CDATA[fechaTramite]]></fieldDescription>
+		</field>
+		<field name="idUsuarioTramite" class="segment.modelo.Usuario">
+			<fieldDescription><![CDATA[idUsuarioTramite]]></fieldDescription>
+		</field>
+		<field name="tramitacionList" class="java.util.List">
+			<fieldDescription><![CDATA[tramitacionList]]></fieldDescription>
+		</field>
+		<field name="tramitacionAdjuntoList" class="java.util.List">
+			<fieldDescription><![CDATA[tramitacionAdjuntoList]]></fieldDescription>
+		</field>
+		<field name="idDependencia" class="segment.modelo.Dependencia">
+			<fieldDescription><![CDATA[idDependencia]]></fieldDescription>
+		</field>
+		<field name="observacion" class="java.lang.String">
+			<fieldDescription><![CDATA[observacion]]></fieldDescription>
+		</field>
+		<field name="idEstadoTramite" class="segment.modelo.SubTipo">
+			<fieldDescription><![CDATA[idEstadoTramite]]></fieldDescription>
+		</field>
+	</subDataset>
 	<parameter name="tituloReporte" class="java.lang.String"/>
 	<parameter name="subTituloReporte" class="java.lang.String"/>
 	<parameter name="imagenPath" class="java.lang.String"/>
@@ -93,27 +174,27 @@
 				</textField>
 				<image>
 					<reportElement x="56" y="11" width="60" height="60" uuid="4f8e1123-34ad-4e89-983c-aca5d841c26c"/>
-					<imageExpression><![CDATA[$P{imagenPath}]]></imageExpression>
+					<imageExpression><![CDATA["file:/home/jmferreira/JaspersoftWorkspace/catequesis/template/logo.jpg"]]></imageExpression>
 				</image>
 			</frame>
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="31" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement x="8" y="0" width="100" height="30" uuid="25684bf6-0fe6-4fd4-9bbb-ea435adc65cb">
+				<reportElement x="8" y="0" width="100" height="20" uuid="25684bf6-0fe6-4fd4-9bbb-ea435adc65cb">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7d8d4e48-f08b-4f23-9d3b-bbbe5fea7117"/>
 				</reportElement>
 				<text><![CDATA[idExpediente]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="111" y="0" width="100" height="30" uuid="bd8b1d89-8820-4bc3-86c4-336380688781">
+				<reportElement x="111" y="0" width="100" height="20" uuid="bd8b1d89-8820-4bc3-86c4-336380688781">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="53f11662-dbf3-4cf7-8bb3-0a80e5f4bf91"/>
 				</reportElement>
 				<text><![CDATA[acapite]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="480" y="1" width="100" height="30" uuid="456a0915-3d21-45d8-a897-01cb91d9efb2">
+				<reportElement x="480" y="0" width="100" height="20" uuid="456a0915-3d21-45d8-a897-01cb91d9efb2">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a1d7451c-73c9-41b0-b9c5-3cb029be489f"/>
 				</reportElement>
 				<text><![CDATA[idTipoExpediente]]></text>
@@ -121,25 +202,114 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
+		<band height="110" splitType="Stretch">
 			<textField>
-				<reportElement x="8" y="4" width="100" height="30" uuid="b0dce9a4-5871-408e-bd5c-fd039cf944f4">
+				<reportElement x="8" y="0" width="100" height="25" uuid="b0dce9a4-5871-408e-bd5c-fd039cf944f4">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7d8d4e48-f08b-4f23-9d3b-bbbe5fea7117"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{idExpediente}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="111" y="4" width="369" height="30" uuid="0361b4a4-5918-4bbb-ad83-461e6e1011b7">
+				<reportElement x="111" y="0" width="369" height="25" uuid="0361b4a4-5918-4bbb-ad83-461e6e1011b7">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="53f11662-dbf3-4cf7-8bb3-0a80e5f4bf91"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{acapite}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="480" y="1" width="100" height="30" uuid="9a4fbdbd-e43c-489b-af4f-e393865a424f">
+				<reportElement x="480" y="0" width="100" height="25" uuid="9a4fbdbd-e43c-489b-af4f-e393865a424f">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a1d7451c-73c9-41b0-b9c5-3cb029be489f"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{idTipoExpediente}.getDescripcionSubTipo()]]></textFieldExpression>
 			</textField>
+			<componentElement>
+				<reportElement x="0" y="50" width="572" height="60" uuid="af8f064e-d667-44e8-b6de-9b7771b401b9">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					<property name="net.sf.jasperreports.export.headertoolbar.table.name" value=""/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="DataSetTramitacion" uuid="2774b02c-6d10-4353-a6b7-7a9ded972dda">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{tramitacionList})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="114" uuid="351a984a-fbbf-4677-b64b-46801e9099dc">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="114" height="30" uuid="03bc231c-b58e-4907-ab74-4fd86df702ee"/>
+								<text><![CDATA[fechaTramite]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="114" height="30" uuid="eafd7d6d-2b31-4894-9b1b-8e5aa4125239"/>
+								<textFieldExpression><![CDATA[$F{fechaTramite}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="115" uuid="af073e4e-3907-4c72-a613-73e50f62236d">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="115" height="30" uuid="3f62b135-4db6-494c-a00c-5bc9ded5d89f"/>
+								<text><![CDATA[descripcionTramite]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="115" height="30" uuid="30d4e6dc-4940-408e-9b94-1a86fb8bbd46"/>
+								<textFieldExpression><![CDATA[$F{descripcionTramite}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="115" uuid="a4839269-60e4-4484-a3bc-f9b2d9add140">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="115" height="30" uuid="ef98fef9-3e18-4158-bf7c-9041598c5516"/>
+								<text><![CDATA[idUsuarioTramite]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="115" height="30" uuid="9c95145d-47e8-4438-9a57-a5f3808c0a80"/>
+								<textFieldExpression><![CDATA[$F{idUsuarioTramite}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="114" uuid="2b7b0296-7e92-4668-b425-48ca8c3bfb07">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="114" height="30" uuid="7671b563-e9f3-40a5-87cb-c1157e91a3e6"/>
+								<text><![CDATA[idDependencia]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="114" height="30" uuid="f9b98a8e-b89c-42f0-91be-1dae0ad36935"/>
+								<textFieldExpression><![CDATA[$F{idDependencia}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="114" uuid="cfed77a6-1d45-4693-8238-f75ed077cc2d">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="114" height="30" uuid="9249421f-b4c1-4889-9626-a15f1c31900a"/>
+								<text><![CDATA[idEstadoTramite]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="114" height="30" uuid="08287d67-0278-443d-9806-9666614aec67"/>
+								<textFieldExpression><![CDATA[$F{idEstadoTramite}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
 		</band>
 	</detail>
 	<columnFooter>
