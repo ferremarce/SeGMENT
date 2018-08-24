@@ -10,6 +10,33 @@
         <h1>Ver Expediente</h1>
     </ui:define>
     <ui:define name="content">
+        <style type="text/css">
+            .ui-diagram-element {
+                padding: 5px;
+                width:200px; 
+                text-align: center;
+                box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.8);
+                border-radius: 4px;
+                border: 1px solid transparent;
+            }
+
+            .ui-diagram-success {
+                background-color: #9CB071;
+                color: #ffffff;
+                border-color: #7ab02c;
+            }
+
+            .ui-diagram-fail {
+                background-color: #C34A2C;
+                color: #ffffff;
+            }
+
+            .flow-label {
+                font-size: 24px;
+                font-weight: bold;
+                color: #816A51;
+            }
+        </style>
         <h:form id="formMain">
             <p:panel header="Datos del Expediente">
                 <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" layout="grid" columnClasses="ui-grid-col-7,ui-grid-col-5">
@@ -52,6 +79,7 @@
                     <h:outputText styleClass="Blue fontBold" value="#{node.idEstadoTramite.descripcionSubTipo}"/>
                 </p:treeNode>
             </p:tree>
+            <p:diagram rendered="false" value="#{ExpedienteController.model}" style="height:400px" styleClass="ui-widget-content" />
             <p:panel header="Flujo de Trabajo">
                 <p:dataTable id="dtTramitacionPendiente" value="#{ExpedienteController.expediente.tramitacionList}" var="item" emptyMessage="#{bundle.SinRegistrosMensaje}"
                              reflow="true"

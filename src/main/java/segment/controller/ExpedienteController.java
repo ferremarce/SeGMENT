@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.inject.Inject;
 import org.eclipse.persistence.exceptions.DatabaseException;
@@ -23,6 +24,16 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.TreeNode;
 import org.primefaces.model.UploadedFile;
+import org.primefaces.model.diagram.Connection;
+import org.primefaces.model.diagram.DefaultDiagramModel;
+import org.primefaces.model.diagram.DiagramModel;
+import org.primefaces.model.diagram.Element;
+import org.primefaces.model.diagram.connector.FlowChartConnector;
+import org.primefaces.model.diagram.endpoint.BlankEndPoint;
+import org.primefaces.model.diagram.endpoint.EndPoint;
+import org.primefaces.model.diagram.endpoint.EndPointAnchor;
+import org.primefaces.model.diagram.overlay.ArrowOverlay;
+import org.primefaces.model.diagram.overlay.LabelOverlay;
 import segment.clases.TreeTramitacion;
 import segment.fachada.ExpedienteAdjuntoFacade;
 import segment.fachada.ExpedienteFacade;
@@ -127,7 +138,29 @@ public class ExpedienteController implements Serializable {
         if (this.rootTramitacion != null) {
             tt.expandedAll(this.rootTramitacion, true);
         }
+        this.doCrearGraph();
         return "/pages/VerExpediente";
+    }
+
+    private void doCrearGraph() {
+        model = new DefaultDiagramModel();
+        model.setMaxConnections(-1);
+
+        FlowChartConnector connector = new FlowChartConnector();
+        connector.setPaintStyle("{strokeStyle:'#C7B097',lineWidth:3}");
+        model.setDefaultConnector(connector);
+
+        Tramitacion firstTramitacion=tramitacionFacade.findFirstTramitacion(this.expediente.getIdExpediente());
+        Element oneElemento = new Element(firstTramitacion.getIdDependencia().getDescripcionDependencia());
+//        start.addEndPoint(new BlankEndPoint(EndPointAnchor.BOTTOM));
+//        start.addEndPoint(new BlankEndPoint(EndPointAnchor.LEFT));
+        Integer posicionX=0;
+        model.addElement(oneElemento);
+        for(Tramitacion tra: firstTramitacion.getTramitacionList()){
+            posicionX+=15;
+            oneElemento = new Element(tra.getIdDependencia().getDescripcionDependencia(), posicionX+"em","0");
+            model.addElement(oneElemento);
+        }
     }
 
     public String doCrearForm() {
@@ -292,6 +325,7 @@ public class ExpedienteController implements Serializable {
                 expedienteFacade.remove(expediente);
             }
             JSFutil.addMessage(this.bundle.getString("UpdateSuccess"), JSFutil.StatusMessage.INFORMATION);
+            JSFutil.addMessage("El preces", JSFutil.StatusMessage.INFORMATION);
         } catch (EJBException ex) {
             String msg = "";
             Throwable t = ex.getCause();
@@ -334,4 +368,64 @@ public class ExpedienteController implements Serializable {
         return null;
     }
 
+    private DefaultDiagramModel model;
+
+    //@PostConstruct
+    public void init() {
+        model = new DefaultDiagramModel();
+        model.setMaxConnections(-1);
+
+        FlowChartConnector connector = new FlowChartConnector();
+        connector.setPaintStyle("{strokeStyle:'#C7B097',lineWidth:3}");
+        model.setDefaultConnector(connector);
+
+        Element start = new Element("Fight for your dream");
+        start.addEndPoint(new BlankEndPoint(EndPointAnchor.BOTTOM));
+        start.addEndPoint(new BlankEndPoint(EndPointAnchor.LEFT));
+
+        Element trouble = new Element("Do you meet some trouble?", "10px", "10px");
+        trouble.addEndPoint(new BlankEndPoint(EndPointAnchor.TOP));
+        trouble.addEndPoint(new BlankEndPoint(EndPointAnchor.BOTTOM));
+        trouble.addEndPoint(new BlankEndPoint(EndPointAnchor.RIGHT));
+
+        Element giveup = new Element("Do you give up?", "20em", "30em");
+        giveup.addEndPoint(new BlankEndPoint(EndPointAnchor.TOP));
+        giveup.addEndPoint(new BlankEndPoint(EndPointAnchor.LEFT));
+        giveup.addEndPoint(new BlankEndPoint(EndPointAnchor.RIGHT));
+
+        Element succeed = new Element("Succeed", "50em", "18em");
+        succeed.addEndPoint(new BlankEndPoint(EndPointAnchor.LEFT));
+        succeed.setStyleClass("ui-diagram-success");
+
+        Element fail = new Element("Fail", "50em", "30em");
+        fail.addEndPoint(new BlankEndPoint(EndPointAnchor.LEFT));
+        fail.setStyleClass("ui-diagram-fail");
+
+        model.addElement(start);
+        model.addElement(trouble);
+        model.addElement(giveup);
+        model.addElement(succeed);
+        model.addElement(fail);
+
+        model.connect(createConnection(start.getEndPoints().get(0), trouble.getEndPoints().get(0), null));
+        model.connect(createConnection(trouble.getEndPoints().get(1), giveup.getEndPoints().get(0), "Yes"));
+        model.connect(createConnection(giveup.getEndPoints().get(1), start.getEndPoints().get(1), "No"));
+        model.connect(createConnection(trouble.getEndPoints().get(2), succeed.getEndPoints().get(0), "No"));
+        model.connect(createConnection(giveup.getEndPoints().get(2), fail.getEndPoints().get(0), "Yes"));
+    }
+
+    private Connection createConnection(EndPoint from, EndPoint to, String label) {
+        Connection conn = new Connection(from, to);
+        conn.getOverlays().add(new ArrowOverlay(20, 20, 1, 1));
+
+        if (label != null) {
+            conn.getOverlays().add(new LabelOverlay(label, "flow-label", 0.5));
+        }
+
+        return conn;
+    }
+
+    public DiagramModel getModel() {
+        return model;
+    }
 }

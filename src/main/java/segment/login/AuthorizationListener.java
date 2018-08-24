@@ -30,7 +30,7 @@ public class AuthorizationListener implements PhaseListener {
         try {
             directorio = currentPage.split("/")[1];
         } catch (Exception e) {
-            directorio = "faces";
+            directorio = "pages";
         }
         System.out.println("Vista: "+directorio);
         if (directorio.compareTo("publico") != 0) {

@@ -12,6 +12,6 @@
     </url-mapping>
     <url-mapping id="DESCARGAR">
         <pattern value="/descarga/#{file}" />
-        <view-id value="/pages/Descarga.xhtml" />
+        <view-id value="/publico/Descarga.xhtml" />
     </url-mapping>
 </pretty-config>

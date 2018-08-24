@@ -63,7 +63,12 @@
                         <p:menuitem ajax="false" onclick="if (!confirm('#{bundle.ConfirmacionMensaje}')) {
                                     return false;
                                 }" value="#{bundle.EliminarBoton}" action="#{ExpedienteController.doBorrar(item.idExpediente)}" icon="fa fa-minus-square"/>
+
                     </p:menuButton>
+                    <p:separator/>
+                    <i class="fa fa-random"/>&nbsp;
+                    <p:commandLink target="_new"  ajax="false" value="#{bundle.VerBoton} Flujo" action="#{ExpedienteController.doVerForm(item.idExpediente)}"/>
+
                 </p:column>
             </p:dataTable>
         </h:form>
