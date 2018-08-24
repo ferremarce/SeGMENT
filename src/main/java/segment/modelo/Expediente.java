@@ -44,7 +44,7 @@ public class Expediente implements Serializable {
     @Column(name = "id_expediente")
     private Integer idExpediente;
     @Size(max = 3000)
-    @Column(name = "acapite")
+    @Column(name = "acapite", length = 3000)
     private String acapite;
     @Column(name = "cerrado")
     private Boolean cerrado;

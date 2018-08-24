@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptExpediente" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="20" uuid="3dec8292-95b4-4cbb-af89-c91445410eb9">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="jpaSegmentAdapter.xml"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="tituloReporte" class="java.lang.String"/>
+	<parameter name="subTituloReporte" class="java.lang.String"/>
+	<parameter name="imagenPath" class="java.lang.String"/>
+	<queryString language="EJBQL">
+		<![CDATA[select a from Expediente a]]>
+	</queryString>
+	<field name="expedienteAdjuntoList" class="java.util.List">
+		<fieldDescription><![CDATA[expedienteAdjuntoList]]></fieldDescription>
+	</field>
+	<field name="idClasificador" class="segment.modelo.Clasificador">
+		<fieldDescription><![CDATA[idClasificador]]></fieldDescription>
+	</field>
+	<field name="idExpediente" class="java.lang.Integer">
+		<fieldDescription><![CDATA[idExpediente]]></fieldDescription>
+	</field>
+	<field name="fechaRegistro" class="java.util.Date">
+		<fieldDescription><![CDATA[fechaRegistro]]></fieldDescription>
+	</field>
+	<field name="idUsuario" class="segment.modelo.Usuario">
+		<fieldDescription><![CDATA[idUsuario]]></fieldDescription>
+	</field>
+	<field name="remitente" class="java.lang.String">
+		<fieldDescription><![CDATA[remitente]]></fieldDescription>
+	</field>
+	<field name="idEstadoExpediente" class="segment.modelo.SubTipo">
+		<fieldDescription><![CDATA[idEstadoExpediente]]></fieldDescription>
+	</field>
+	<field name="cerrado" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[cerrado]]></fieldDescription>
+	</field>
+	<field name="nroExpediente" class="java.lang.String">
+		<fieldDescription><![CDATA[nroExpediente]]></fieldDescription>
+	</field>
+	<field name="idTipoExpediente" class="segment.modelo.SubTipo">
+		<fieldDescription><![CDATA[idTipoExpediente]]></fieldDescription>
+	</field>
+	<field name="tramitacionList" class="java.util.List">
+		<fieldDescription><![CDATA[tramitacionList]]></fieldDescription>
+	</field>
+	<field name="fechaEntrada" class="java.util.Date">
+		<fieldDescription><![CDATA[fechaEntrada]]></fieldDescription>
+	</field>
+	<field name="fechaExpediente" class="java.util.Date">
+		<fieldDescription><![CDATA[fechaExpediente]]></fieldDescription>
+	</field>
+	<field name="acapite" class="java.lang.String">
+		<fieldDescription><![CDATA[acapite]]></fieldDescription>
+	</field>
+	<field name="observacion" class="java.lang.String">
+		<fieldDescription><![CDATA[observacion]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="81" splitType="Stretch">
+			<frame>
+				<reportElement positionType="FixRelativeToBottom" mode="Opaque" x="-20" y="-1" width="612" height="82" backcolor="#85AB8C" uuid="e2e87fc7-574c-42ea-9e5d-742a28878547">
+					<property name="com.jaspersoft.studio.layout"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textField>
+					<reportElement x="130" y="11" width="460" height="30" forecolor="#FFFFFF" uuid="84c1d2de-afe0-46e7-8f21-d58b8f7acf75"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="DejaVu Sans" size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{tituloReporte}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="130" y="41" width="460" height="30" forecolor="#FFFFFF" uuid="8d9f076a-d5b3-4738-a3b1-6cd78354e6a0"/>
+					<textElement verticalAlignment="Top">
+						<font fontName="DejaVu Sans" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{subTituloReporte}]]></textFieldExpression>
+				</textField>
+				<image>
+					<reportElement x="56" y="11" width="60" height="60" uuid="4f8e1123-34ad-4e89-983c-aca5d841c26c"/>
+					<imageExpression><![CDATA[$P{imagenPath}]]></imageExpression>
+				</image>
+			</frame>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="31" splitType="Stretch">
+			<staticText>
+				<reportElement x="8" y="0" width="100" height="30" uuid="25684bf6-0fe6-4fd4-9bbb-ea435adc65cb">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7d8d4e48-f08b-4f23-9d3b-bbbe5fea7117"/>
+				</reportElement>
+				<text><![CDATA[idExpediente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="111" y="0" width="100" height="30" uuid="bd8b1d89-8820-4bc3-86c4-336380688781">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="53f11662-dbf3-4cf7-8bb3-0a80e5f4bf91"/>
+				</reportElement>
+				<text><![CDATA[acapite]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="1" width="100" height="30" uuid="456a0915-3d21-45d8-a897-01cb91d9efb2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a1d7451c-73c9-41b0-b9c5-3cb029be489f"/>
+				</reportElement>
+				<text><![CDATA[idTipoExpediente]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="8" y="4" width="100" height="30" uuid="b0dce9a4-5871-408e-bd5c-fd039cf944f4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7d8d4e48-f08b-4f23-9d3b-bbbe5fea7117"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{idExpediente}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="111" y="4" width="369" height="30" uuid="0361b4a4-5918-4bbb-ad83-461e6e1011b7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="53f11662-dbf3-4cf7-8bb3-0a80e5f4bf91"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{acapite}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="480" y="1" width="100" height="30" uuid="9a4fbdbd-e43c-489b-af4f-e393865a424f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a1d7451c-73c9-41b0-b9c5-3cb029be489f"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{idTipoExpediente}.getDescripcionSubTipo()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
