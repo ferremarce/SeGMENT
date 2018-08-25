@@ -8,10 +8,11 @@ package segment.controller;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-import javax.inject.Inject;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import javax.inject.Inject;
+import segment.fachada.ExpedienteFacade;
+import segment.modelo.Expediente;
 import segment.reportes.FuenteReporte;
 import segment.reportes.JasperManager;
 import util.JSFutil;
@@ -24,31 +25,37 @@ import util.JSFutil;
 @SessionScoped
 public class ReporteController implements Serializable {
 
+    @Inject
+    ExpedienteFacade expedienteFacade;
+    private Date fechaDesde;
+    private Date fechaHasta;
+    private String tipoReporte = "PDF";
+    private String idFuenteReporte = "1";
+
     /**
      * Creates a new instance of ReporteController
      */
     public ReporteController() {
     }
 
-//    public void generarReporte(Integer id) throws IOException {
-//        JasperManager jm = new JasperManager();
-//        List<Ficha> lista = new ArrayList<>();
-//        if (id == 0) {
-//            lista = fichaFacade.findAll();
-//        } else {
-//            lista.add(fichaFacade.find(id));
-//        }
-//        
-//        String tipoReporte = "PDF";
-//        String idFuenteReporte = "1";
-//        FuenteReporte fr = new FuenteReporte(Integer.valueOf(idFuenteReporte));
-//        String reportSource = jm.getPathweb() + "reportes/template/" + fr.getNombreReporte();
-//        jm.generarReporte(reportSource, tipoReporte, lista);
-//    }
-    public void generarReporteFicha(List<?> dataList) {
+    public Date getFechaDesde() {
+        return fechaDesde;
+    }
+
+    public void setFechaDesde(Date fechaDesde) {
+        this.fechaDesde = fechaDesde;
+    }
+
+    public Date getFechaHasta() {
+        return fechaHasta;
+    }
+
+    public void setFechaHasta(Date fechaHasta) {
+        this.fechaHasta = fechaHasta;
+    }
+
+    public void generarReporte(List<?> dataList) {
         JasperManager jm = new JasperManager();
-        String tipoReporte = "PDF";
-        String idFuenteReporte = "1";
         FuenteReporte fr = new FuenteReporte(Integer.valueOf(idFuenteReporte));
         String reportSource = jm.getPathweb() + "reportes/template/" + fr.getNombreReporte();
         if (dataList.size() > 0) {
@@ -58,4 +65,15 @@ public class ReporteController implements Serializable {
         }
 
     }
-}
+
+    public String doExpedienteReportForm() {
+        return "/reportes/rptExpediente";
+    }
+
+    public void doExpedienteReport() {
+        this.tipoReporte = "PDF";
+        this.idFuenteReporte = "1";
+        List<Expediente> lista = expedienteFacade.findAll();
+        this.generarReporte(lista);
+    }
+    }

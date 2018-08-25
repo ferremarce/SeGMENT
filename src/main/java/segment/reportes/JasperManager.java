@@ -23,6 +23,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 import util.JSFutil;
 
@@ -89,6 +90,7 @@ public class JasperManager {
 
             switch (tipoReporte) {
                 case "VPREVIA":
+                    JasperViewer.viewReport (print);
                     break;
                 case "PDF":
                     JasperExportManager.exportReportToPdfStream(print, baos);

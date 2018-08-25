@@ -11,10 +11,7 @@
         <h1>Expedientes</h1>
     </ui:define>
 
-    <ui:define name="content">
-        <p:panel header="Mensaje">
-            <h:outputText value="#{ExceptionController.doStackTrace()}"/>
-        </p:panel>
+    <ui:define name="content">      
         <h:form>
             <p:panelGrid columns="4" styleClass="ui-panelgrid-blank">
                 <p:inputText id="criterio" value="#{ExpedienteController.criterio}" placeholder="Buscar..." />
@@ -29,15 +26,6 @@
                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="5,10,25,50,100"
                          >
-                <f:facet name="header">
-                    <p:commandLink target="_blank" ajax="false"
-                                   rendered="#{ExpedienteController.listaExpediente.size()>0}"
-                                   style="padding: .3em 1em;"
-                                   styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only ui-button-text ui-c"
-                                   action="#{ReporteController.generarReporteFicha(ExpedienteController.listaExpediente)}">
-                        <i class="fa fa-download"></i> #{bundle.DescargarBoton}
-                    </p:commandLink>
-                </f:facet>
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="Expediente"/>
